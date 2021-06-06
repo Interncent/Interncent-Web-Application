@@ -2,8 +2,10 @@ import React from 'react'
 import './chat.css'
 import Navbar from '../Global/Navbar'
 import socketClient from "socket.io-client";
+import { apiCall } from '../../services/api'
 const SERVER = "http://localhost:3001";
 var socketstore = null;
+
 
 class ChatApp extends React.Component {
   constructor(props) {
@@ -42,29 +44,31 @@ class ChatApp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.configureSocket = async () => {
       var socket = socketClient(SERVER, { transport: ['websocket'] });
-      console.log("started socket");
       socket.on("yo", () => {
         console.log("connected to server");
       });
+
       socket.on('new-messr', m => {
         console.log(m)
         let tilln = this.state.messages
         tilln.push(m)
         this.setState({ messages: tilln })
       })
+
       socket.on('get-rmess', m => {
         this.setState({ messages: m.messages, contacts: [m.counsellor, m.advisee] })
         console.log(m)
       })
+      
       socket.emit("join-room", this.props.match.params.id)
       socketstore = socket
-      //this.setState({ socket })
-      //socket.close()
+      this.setState({ socket })
+      socket.close()
     };
   }
   async componentDidMount() {
-    console.log('Hello World');
-    await this.configureSocket();
+    console.log('Hello World')
+    await this.configureSocket()
   }
 
 
