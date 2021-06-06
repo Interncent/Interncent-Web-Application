@@ -1,0 +1,1303 @@
+*{
+  margin:0;
+  box-sizing: border-box;
+  padding:0;
+}
+body{
+  background-color: white;
+  padding: 0 !important;
+  overflow-y: scroll !important;
+}
+
+/* Color Pallete
+
+
+style 2--
+#ffca3d
+#020c53
+*/
+
+.modal-open body{
+  overflow: hidden;
+}
+
+/********************** Navbar***************** */
+.navbar .container{
+  max-width: 1320px;
+}
+.navbar{
+  padding:0;
+  background-color:#020C53;
+  user-select: none;
+  z-index: 5;
+}
+.navbar .nav-item{
+  margin: 10px 10px;
+}
+.navbar .nav-link,.navbar-brand{
+  color:#fff7f7
+}
+
+.navbar .navbar-brand,.nav-link:hover{
+  color:#dadada;
+}
+
+.navbar .navbar-brand{
+  margin-right: 40px;
+  font-size: 22px;
+}
+.navbar input:focus{
+  /* border:none; */
+  box-shadow: none;
+}
+.navbar .navbar-brand .logo{
+  height: 40px;
+  width: 130px;
+}
+.btn:focus{
+  outline:none !important;
+  box-shadow: none !important;
+}
+.navbar .userProfile{
+  display: flex;
+  align-items: center;
+}
+.navbar .userProfile i {
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.navbar .userProfile .profile-dropdown{
+  position: absolute;
+  background-color: white;
+  top:55px;
+  border-radius: 10px;
+  border: rgba(0, 0, 0, 0.212) 1px solid;
+  right: 5%;
+}
+/* .navbar .userProfile .dropdown-item:hover{
+  border-radius: 10px;
+} */
+.navbar .userProfile .profile-dropdown{
+  transform: translateX(20%);
+}
+.navbar .userProfile .dropdown-item:focus, .dropdown-item:hover{
+  background-color: #020C53;
+  color: #FFCA3D;
+}
+/* ************Not Found SVG *************/
+#notFound {
+   display:flex;
+   justify-content: center;
+   padding-top:100px;
+   /* mar */
+}
+#notFound svg{
+   max-width:1100px;
+   width:95%;
+   max-height:600px;
+   height:90%;
+}
+
+/* *************No results SVG************ */
+#noResults{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+#noResults svg{
+  padding: 0;
+  margin: 0;
+  max-width:900px;
+   width:95%;
+   max-height:500px;
+   height:90%;
+}
+/* *************Landing Page***************/
+.sections{
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+.sections .leftSection{
+  width: 50%;
+  flex: 50%;
+  background-color: #020C53;
+  min-height: 100vh !important;
+  display: flex;
+  align-items: center;
+}
+.sections .leftSection .bigLogo{
+  margin: auto;
+  max-width: 450px;
+  width: 85%;
+  max-height: 175px;
+  height:85%;
+}
+.sections .rightSection{
+  width: 50%;
+  flex: 50%;
+  background-color: #FFCA3D;
+  /* height: 100% !important; */
+}
+.sections .rightSection .nav{
+  padding: 20px;
+}
+.sections .rightSection .nav .nav-link{
+  color: black;
+  margin: 0 20px;
+}
+.sections .rightSection .carousel-control-prev-icon{
+  color: #020C53;
+  left: 0;
+  margin-left: 0;
+}
+
+@media screen and (max-width:1000px){
+  .sections{
+    flex-direction: column;
+    align-items: stretch;
+    justify-items: stretch;
+  }
+  .sections .leftSection{
+    flex:100%;
+    width: 100%;
+  }
+  .sections .rightSection{
+    flex:100%;
+    width: 100%;
+  }
+  .sections .rightSection .nav{
+    padding: 0;
+    padding-top: 7px;
+  }
+  .sections .rightSection .nav .nav-link{
+    margin: 5px 7px;
+    padding: 9px;
+  }
+}
+
+        
+            /* *******************************Auth From ********************* */
+/* .sections .rightSection .content {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  justify-items: stretch;
+} */
+.sections .rightSection .content .authForm{
+  top:50%;
+  border: #020C53 8px solid;  
+  padding: 20px;
+  box-shadow: #020C53 1px 2px 2px ;
+  animation: appear 0.6s forwards;
+  margin: 0;
+  margin: 30px 50px;
+}
+@keyframes appear{
+  from{
+    opacity: 0;
+  }to{
+    opacity: 1;
+  }
+}
+.sections .rightSection .content .heading{
+  font-size: 32px;
+  display: inline-block;
+  padding:10px;
+  border-bottom: 3px solid black;
+  margin-bottom: 30px;
+  position: relative;
+  left: 50% !important;
+  transform: translateX(-50%);
+  font-weight: 700;
+}
+.sections .rightSection .content .authForm select option{
+  background: #020C53;
+  color: #FFCA3D;
+}
+.sections .rightSection .content .authForm .button{
+  background-color: #020C53;
+  color: #FFCA3D;
+  margin: 0 auto !important;
+}
+.sections .rightSection .content .authForm .submit{
+  text-align: center;
+}
+#internshipForm .submit{
+  text-align: center;
+}
+#internshipForm .button{
+  padding:10px;
+  margin:5px;
+}
+.sections .rightSection .content .authForm .login{
+  color: #020C53;
+  position: relative;
+} 
+.sections .rightSection .content .authForm .button:hover{
+  color: #ffcb3dda;
+}
+.sections .rightSection .content .verification{
+  padding: 20px;
+  text-align: center;
+}
+
+/* *******************Login ************** */
+.sections .rightSection .content .loginForm{
+  padding: 20px 45px;
+  border: #020C53 8px solid;  
+  box-shadow: #020C53 1px 2px 2px ;
+  animation: appear 0.6s forwards;
+  margin: 30px 50px;
+}
+.sections .rightSection .content .loginForm .button{
+  background-color: #020C53;
+  color: #FFCA3D;
+  margin: 0 auto !important;
+}
+/* ******************Features************** */
+.sections .rightSection .content .features .featuresList {
+  padding: 20px 45px;
+  list-style: none;
+}
+.sections .rightSection .content .features .featuresList .featuresItem:nth-child(odd){
+  animation: rightShift 0.4s forwards;
+}
+@keyframes rightShift{
+  from{
+    opacity: 0;
+    transform: translateX(-60px);
+  }to{
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+.sections .rightSection .content .features .featuresList .featuresItem:nth-child(even){
+  animation: leftShift 0.4s forwards;
+}
+
+@keyframes leftShift{
+  from{
+    opacity: 0;
+    transform: translateX(60px);
+  }to{
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+.sections .rightSection .content .features .featuresList .featuresItem{
+  font-size: 19px;
+  display: flex;
+  padding: 14px 0;
+  align-items: center;
+}
+.sections .rightSection .content .features .featuresList .featuresItem .leftIcon{
+  font-size: 45px;
+  margin-right: 10px;
+}
+.sections .rightSection .content .features .featuresList .featuresItem .rightIcon{
+  font-size: 45px;
+}
+
+/* ************About Us **************** */
+.sections .rightSection .content .aboutus{
+  padding: 20px 45px;
+}
+.sections .rightSection .content .aboutus p{
+  font-size: 20px;
+  animation: downShift 0.4s forwards;
+}
+@keyframes downShift{
+  from{
+    transform:translateY(-50px);
+    opacity: 0;
+  }to{
+    transform:translateY(0px);
+    opacity: 1;
+  }
+}
+/* *************Contact us */
+.sections .rightSection .content .contact{
+  padding: 20px 45px;
+}
+
+.sections .rightSection .content .contact p{
+  font-size: 25px;
+  text-align: center;
+}
+.sections .rightSection .content .contact p:nth-child(odd){
+  animation: rightShift 0.4s forwards;
+}
+.sections .rightSection .content .contact p:nth-child(even){
+  animation: leftShift 0.4s forwards;
+}
+/* ***************************-Home page******************* */
+
+/* .homePage .carousel-home .carousel .carousel-item img{
+  max-height: 500px !important;
+} */
+.homePage{
+  margin-top: 48.75px;
+  
+}
+
+.homePage .d-block{
+  height: 400px;
+  width: 100%;
+  margin:auto;
+}
+/* */
+.homePage .carousel{
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  animation: fadeIn forwards 1s;
+}
+
+.float-bx{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right: 40px;
+	background-color: #020C53;
+	color:#FFF;
+  border-radius:50px;
+  border: 2px solid #FFCA3D;
+  outline:0px;
+	text-align:center;
+  box-shadow: 2px 2px 3px rgb(75, 75, 75);
+  z-index: 2;
+}
+.float-bx:focus{
+  outline:0px;
+}
+.float-bx .fa-plus{
+  color:#FFCA3D;
+}
+
+/* **************** Internship List ***************/
+.homeSection #intershiplist{
+  max-width: 1400px;
+  padding: 0 20px;
+  margin: 0 auto;
+  animation: fadeIn;
+  min-height: 400px;
+}
+
+
+#top-bar.btn-circle.btn-lg {
+  width: 40px;
+  height: 40px;
+  border-radius: 35px;
+  font-size: 25px;
+  line-height: 1.33;
+  display: inline-block;
+}
+#top-bar.btn-circle.btn-lg .fa-filter{
+  font-size: 20px;
+}
+#top-bar .btn-circle {
+  width: 40px;
+  height: 40px;
+  padding: 6px 0px;
+  border-radius: 30px;
+  text-align: center;
+  font-size: 12px;
+  background-color: #020C53;
+  color: #FFCA3D;
+  display: inline-block;
+
+}
+.btn-circle:hover{
+  color: #e4bc4ec5;
+}
+#top-bar{
+  padding: 10px;
+  padding-top: 20px;
+  padding-right: 25px;
+  text-align:right;
+}
+sub{
+  margin-left: 15px;
+  color: rgb(80, 80, 80);
+}
+
+.homePage .loading-anime{
+  min-height: 700px;
+  text-align: center;
+  margin:auto;
+  padding-top: 0% !important;
+}
+/* **************** End Internship List ***************/
+
+/* **************Filter Form (homePage) */
+.filterForm .intType .checkbox{
+  margin: 10px 10px;
+  display: inline-block;
+}
+.filterForm .intType .checkbox label{
+  margin-left: 4px;
+}
+.filterForm
+.filterForm .toggle-wrap input:checked~label>.toggle .round {
+  left: 45%;
+  background: #FFCA3D;
+}
+.filterForm ._7ahQImyV4dj0EpcNOjnwA{
+  background-color: #FFCA3D;
+  color:#020C53;
+}
+.filterForm .button-holder{
+  text-align: center;
+}
+.filterForm .btn{
+  color: #020C53;
+  background-color: #FFCA3D;
+  position: relative;
+  margin:5px;
+}
+.filterForm .form {
+  margin: 0 auto;
+}
+
+@media (min-width: 800px) {
+	.filterForm  .form {
+		max-width: 60%;
+	}
+}
+
+.filterForm  .input-range {
+  margin:30px 0;
+  max-width: 500px !important;
+}
+.filterForm .input-range__track--active {
+  background-color: #020C53;
+}
+.filterForm .input-range__slider{
+  background-color: #FFCA3D;
+}
+.filterForm .input-range{
+  left:50%;
+  width: 300px;
+  transform: translateX(-50%);
+}
+.filterForm .labelFilter{
+  font-weight: 700;
+}
+/* **************** card ***************/
+
+.template {
+  animation-name: fadeIn;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 20px;
+  margin-right: 10px;
+  margin-top: 10px;
+  transition: all 1s;
+  margin-bottom: 15px;
+  /* border: 2px solid #020C53; */
+  box-sizing: content-box;
+  animation-name: fadeIn;
+  animation-duration: 1s;
+
+}
+.template .top{
+  text-align: start;
+  /* padding: 5px; */
+  display: flex;
+  align-items: center;
+  justify-items: start;
+  background-color: #FFCA3D;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-sizing: content-box;
+
+}
+.template .topHr{
+  padding: 0;
+  margin: 0 !important;
+  margin-bottom: 15px !important;
+}
+.template .top img{
+  margin:6px 5px;
+  padding: 0;
+}
+.template .top .author{
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  /* margin-left: ; */
+}
+.avatar-pro{
+  height: 40px;
+  width:40px;
+  border-radius: 50px;
+  padding: 0px;
+  margin:0px;
+  float: left;
+  margin-left: 5px;
+  object-fit: cover;
+}
+.template .container .title{
+  background-color: #020C53;
+  color: white;
+  padding: 5px 10px;
+  display: inline-block;
+  border-radius: 10px;
+}
+.card{
+  border:none;
+}
+.template:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.template .badge{
+  color: #020C53;
+  background-color: #D3D3D3;
+}
+.template #tags-skill{
+  margin-left:10px;
+  padding: 0 7px;
+}
+
+.template .bottom .btn-circle{
+  font-size: 24px !important;
+  margin-left: 10px;
+}
+.template .bottom .btn-circle:hover{
+  color: #FFCA3D;
+}
+
+.template .bottom .moreInfo{
+  font-size: 14px;
+  margin-left: 4px;
+  padding: 2px 5px;
+  background-color: #020C53;
+  color: #FFCA3D;
+}
+/* **************** End card ***************/
+
+/* **************Page Footer************** */
+footer{
+  background-color: #020C53;
+  margin-top: 50px;
+  padding: 10px;
+}
+footer h4{
+  color: #FFCA3D ;
+}
+footer a{
+  color: #FFCA3D;
+}
+footer .icon-lg{
+  float: right;
+  font-size: 80px;
+  padding: 10px;
+}
+@media (max-width: 768px){
+  .icon-lg {
+      font-size: 50px;
+  }
+}
+footer .btn{
+  background-color: #FFCA3D;
+  color: #020C53;
+}
+
+.homePage .modal-dialog{
+  overflow: hidden;
+}
+/* *********Internship Form ************ */
+body{
+  padding-right: 0px !important;
+}
+.control-pane #multisection.control-section, .control-section #custom-filtering {
+  width: 80%;
+  margin: 0 auto;
+  min-width: 185px;
+}
+.e-bigger .control-pane #multisection.control-section,
+.e-bigger .control-section #custom-filtering {
+  width: 100%;
+}
+#internshipForm .skillsRequired{
+  display: block;
+  margin: 0 0 .28571429rem 0;
+  color: rgba(0,0,0,.87);
+  font-size: .92857143em;
+  font-weight: 700;
+  text-transform: none;
+}
+#internshipForm .e-multiselect{
+  margin-bottom: 12px !important;
+}
+
+
+
+
+
+/* *********Internship Details ************ */
+
+#internshipdetail{
+  padding: 2%;
+  padding-right: 7%;
+  padding-left: 7%;
+  margin-top: 53px;
+  min-height: 800px;
+}
+#internshipdetail .card{
+  border:1px solid rgba(0,0,0,.125);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+@media only screen and (max-width:959px){
+  #internshipdetail .recommendations .card{
+    margin-top: 15px;
+  }
+  #internshipdetail .col-12{
+    padding:0;
+  }
+}
+#internshipdetail .applynow{
+  text-align: center;
+}
+
+#internshipdetail .flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#internshipdetail .flex-item {
+  flex: 33%;
+}
+
+#internshipdetail .provider{
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+#internshipdetail .internshipTitle h1{
+  display: inline-block;
+}
+#internshipdetail .internshipTitle .deleteproj{
+  display: inline;
+  margin-left: 12px;
+}
+#internshipdetail .internshipTitle .floatingclass{
+  float:right;
+}
+#internshipdetail .internshipTitle .category{
+  color:  #020C53;
+  background-color: #FFCA3D;
+  font-weight: 500;
+  padding: 5px 7px;
+  border-radius: 5px;
+  display:inline
+}
+#internshipdetail .author{
+  margin-left: 10px;
+  color:rgb(99, 99, 99);
+  font-size: 20px;
+}
+#internshipdetail .tagsskill{
+  background-color: rgb(242, 242, 242);
+  border-radius: 10px;
+  display: inline;
+  padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 5px;
+}
+#internshipdetail .recomm{
+  padding:30px;
+}
+#internshipdetail .closedpack p{
+  margin:0px;
+}
+#internshipdetail .recomm{
+   min-height: 100px;
+  max-height: 600px;
+}
+#internshipdetail .recommendations .template{
+   margin: 10px;
+}
+#internshipdetail .recommendations .template .top{
+   display: flex !important;
+   align-items: center !important;
+   padding: 0 !important;
+}
+#internshipdetail .recommendations .template .top .author{
+   font-size: 16px;
+   padding: 0px;
+   margin:0px;
+}
+#internshipdetail .recommendations .template .title{
+   margin: 0px;
+   margin-bottom: 4px;
+   padding: 2px 6px;
+   font-size: 14px;
+}
+#internshipdetail .recommendations .template .closedpack{
+   font-size: 14px;
+   padding-bottom: 5px;
+}
+#internshipdetail .recommendations .template{
+  color: rgba(0, 0, 0, 0.788);
+}
+#internshipdetail .recommendations .scroll{
+  overflow-y: auto;
+}
+#internshipdetail .applynow .btn{
+   background-color: #FFCA3D;
+   border: 2px solid #020C53;
+   margin-top: 30px;
+
+}
+#internshipdetail .applynow .btn:hover{
+   background-color: #ffcb3dad;
+}
+#internshipdetail .appliList{
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 40px;
+}
+.applicant {
+  background-color: rgb(242, 242, 242);
+  border-radius: 30px;
+  padding: 0px;
+  margin: 5px;
+  padding-right: 10px;
+  display: inline-block;
+
+  
+}
+.applicant img{
+  width: 40px;
+  height: 40px;
+  border-radius: 30px;
+  display: inline;
+  margin-right: 4px;
+}
+.applicant.name {
+  line-height: 40px;
+}
+#internshipdetail .mailAppl{
+  color: #FFCA3D;
+  background-color: #020C53;
+  float: right;
+}
+
+
+.toField{
+  margin-bottom: 10px;
+}
+
+.toField label{
+  display: block;
+  margin: 0 0 .28571429rem 0;
+  color: rgba(0,0,0,.87);
+  font-size: .92857143em;
+  font-weight: 700;
+  text-transform: none;
+}
+ .loading-anime{
+   min-height: 700px;
+   text-align: center;
+   margin:auto;
+   padding-top: 15%;
+}
+ .loading-wheel{
+   vertical-align: center;
+}
+/* *********End Internship Details ************ */
+
+/* *****************COmmunity ******************** */
+
+body {
+   /* background: #e2e5ee; */
+   font-family: "Segoe UI";
+   margin: 0;
+   padding: 0;
+}
+
+
+.content-wrapper {
+   width: 850px;
+   margin: 0 auto;
+}
+
+.feed-wrapper {
+  margin-top: 50px;
+   display: flex;
+   justify-content: space-between;
+}
+
+#scrollTopButton {
+   position: fixed;
+   animation-name: fadeIn;
+   animation-duration: 0.4s;
+   width: 50px;
+   height: 50px;
+   line-height: 50px;
+   text-align: center;
+   font-size: 40px;
+}
+
+#scrollTopButton div {
+   display: block;
+   line-height: inherit;
+   text-decoration: none;
+   color: #b9b9b9;
+}
+
+
+
+.scroll-indicator {
+   border-bottom: 5px solid #8075a4;
+}
+
+.right-side {
+   position: relative;
+   width: 240px;
+   margin-top: 15px;
+   margin-bottom: 70px;
+}
+
+.right-side .controls {
+   position: sticky;
+   top:65px;
+   padding: 10px 20px;
+   background: #fff;
+   box-sizing: border-box;
+  border:1.5px solid rgba(0,0,0,.125);
+  border-radius: 10px;
+   /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2); */
+   font-size: 0.9rem;
+}
+.right-side .controls .notblue{
+  color:black;
+}
+.right-side .controls p{
+  display: inline;
+}
+.right-side .controls h5{
+  margin:0px;
+}
+.right-side .controls p{
+  color: #2f2f2f;
+}
+.post-wall {
+   overflow: hidden;
+   min-height: 800px;
+}
+
+.post-wall .post ,#postalone .post{
+  box-sizing: border-box;
+  border:1.5px solid rgba(0,0,0,.125);
+   max-width: 620px;
+   width: 97%;
+   height: auto;
+   margin: 15px auto;
+   background: #fff;
+   position: relative;
+   animation-name: fadeIn;
+   animation-duration: 1s;
+   border-radius: 10px;
+}
+
+@keyframes fadeIn {
+   from {
+      opacity: 0;
+   }
+   to {
+      opacity: 100;
+   }
+}
+
+
+.message {
+   width: 600px;
+   height: auto;
+}
+
+.text-message {
+   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+   margin: 15px auto;
+   padding: 20px 0px;
+   text-align: center;
+   background: #fff;
+   animation-name: fadeIn;
+   animation-duration: 0.5s;
+}
+
+
+.user-info {
+   padding: 20px;
+   display: flex;
+   justify-content: flex-start;
+}
+
+.user-avatar {
+   width: 50px;
+   height: 50px;
+   border-radius: 100px;
+   overflow: hidden;
+}
+
+.user-avatar img {
+   width: inherit;
+   height: inherit;
+}
+
+.user-data {
+   margin-left: 10px;
+}
+
+.post-date {
+   color: #616770;
+   font-size: 0.9rem;
+}
+
+.post-content {
+   width: 100%;
+   max-height: 700px;
+   overflow: hidden;
+}
+.post-content p{
+  padding: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.post-content img {
+   width: inherit;
+}
+.post-info {
+   padding: 20px;
+   display: flex;
+   justify-content: space-around;
+   text-align: center;
+}
+
+
+.post-info .views {
+   display: flex;
+   justify-content: center;
+   text-decoration: none;
+   color: grey;
+   padding: 5px 0;
+   text-align: center;
+   padding: 5px 0;
+   width: 140px;
+}
+
+.post-info .views .icon {
+   margin-right: 10px;
+}
+
+.post-info span {
+   display: flex;
+   width: 140px;
+   justify-content: center;
+   text-decoration: none;
+   color: #604d92;
+   padding: 5px 0;
+}
+
+.post-info span .icon {
+   margin-right: 10px;
+}
+
+.post-info span:hover {
+   background: rgba(182, 167, 222, 0.4);
+}
+
+.loading-post .post-content .image{
+  width: 100%;
+  height: 100%;
+}
+
+.post .post-content .content .ui.placeholder .square.image{
+  padding-top:400px;
+  padding-left: 600px;
+  width: 100%;
+}
+
+.hide-comments-button {
+   background: #f0f0f0;
+   text-align: center;
+   font-size: 0.9rem;
+   animation-name: fadeIn;
+   animation-duration: 0.4s;
+   border: 1px solid #e7e7e7;
+}
+
+.hide-comments-button div {
+   display: block;
+   text-decoration: none;
+   color: black;
+   padding: 5px;
+}
+
+.comments-wrapper {
+   padding: 20px;
+   max-height: 300px;
+   overflow-y: auto;
+}
+
+.comments-wrapper :last-child {
+   border: 0;
+}
+
+.comment {
+   animation-duration: 0.3s;
+   animation-name: fadeIn;
+   display: flex;
+   align-items: flex-start;
+   border-bottom: 1px solid #e6e6e6;
+   padding: 10px 5px;
+}
+
+.comment img{
+  margin-right: 10px;
+}
+
+.comment .user-data {
+   max-width: 90%;
+   overflow: hidden;
+}
+
+.comment-text {
+   color: #2f2f2f;
+   font-size: 0.9rem;
+   word-break: break-all;
+}
+
+.comment-input {
+   padding: 10px 20px;
+   border-top: 1px solid #e7e7e7;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.comment-input .user-avatar,
+.comment .user-avatar {
+   width: 35px;
+   height: 35px;
+}
+
+.comment-input form {
+   width: 93%;
+   display: inherit;
+   justify-content: inherit;
+}
+
+.comment-input form .submit-button {
+   width: auto;
+   cursor: pointer;
+   padding: 0 15px;
+   border: 0;
+   background: transparent;
+}
+
+.comment-input form .submit-button::before {
+   font-family: "Font Awesome 5 Free";
+   font-weight: 900;
+   content: "\f3be";
+   color: #9a85d2;
+   font-size: 18px;
+}
+
+.comment-input form .submit-button:hover {
+   background: rgba(182, 167, 222, 0.4);
+}
+
+.comment-input input {
+   padding: 10px;
+   width: 85%;
+   border: 0;
+   outline: none;
+}
+
+
+/*mobile fix*/
+
+.side-menu-button {
+   margin-right: 5px;
+}
+
+.side-menu-button a {
+   text-decoration: none;
+   color: #bcb2de;
+   font-size: 2rem;
+   display: block;
+   padding: 0px 5px;
+}
+
+.side-open {
+   left: 0px !important;
+}
+
+.overlay {
+   width: 100vw;
+   height: 100vh;
+   background: rgba(0, 0, 0, 0.35);
+   position: fixed;
+   top: 0px;
+   left: 0px;
+   z-index: 101;
+}
+
+@media only screen and (max-width: 900px) {
+   .header-content {
+      justify-content: space-around;
+   }
+   /*side-menu*/
+   .right-side {
+      position: fixed;
+      left: -250px;
+      z-index: 102;
+      transition: left 0.3s cubic-bezier(.17, .84, .44, 1);
+   }
+   .controls {
+      height: 102vh;
+      top: 0;
+   }
+   .content-wrapper {
+      width: auto;
+   }
+   .feed-wrapper {
+      justify-content: center;
+   }
+}
+
+@media only screen and (max-width: 625px) {
+   .post {
+      width: auto;
+   }
+   .post-content {
+      min-height: 0;
+   }
+   /*mobile message and buttons*/
+   .post-wall {
+      width: 100%;
+   }
+   .message {
+      width: auto;
+   }
+}
+
+@media only screen and (max-width: 500px) {
+   .post-info a {
+      width: 65px;
+   }
+   .post-info .views {
+      width: 65px;
+   }
+}
+
+.posting-area{
+  margin-top: 20px;
+  box-sizing: border-box;
+  border:1.5px solid rgba(0,0,0,.125);
+  border-radius: 10px;
+  padding:10px;
+  text-align: center;
+  max-width: 620px;
+  width: 97%;
+  margin: 15px auto;
+}
+
+
+
+.posting-area .posting-but1{
+  display: inline-flex;
+  padding: 0 7px;
+}
+.posting-area  .posting-text{
+  border-radius: 1rem;
+  margin: 10px;
+  box-sizing: border-box;
+  border:1.5px solid rgba(0,0,0,.125);
+  height: 32px;
+  padding: 5px;
+  width:550px;
+  cursor: pointer;
+}
+@media only screen and (max-width:700px){
+  .posting-area  .posting-text{
+    max-width: 550px;
+    width: 95%;
+  }
+}
+
+.posting-area .posting-but2{
+  display: inline-flex;
+  padding: 0 7px;
+}
+/* Search Users INput */
+#userSuggestion .autocomplete {
+   position: relative;
+   display: inline-block;
+ }
+ 
+ #userSuggestion input {
+   border: 1px solid transparent;
+   background-color: #f1f1f1;
+   padding: 10px;
+   font-size: 16px;
+ }
+ 
+ #userSuggestion input[type=text] {
+   background-color: #f1f1f1;
+   width: 100%;
+ }
+ 
+ #userSuggestion input[type=submit] {
+   background-color: DodgerBlue;
+   color: #fff;
+   cursor: pointer;
+ }
+ 
+ #userSuggestion .autocomplete-items {
+   position: absolute;
+   border: 1px solid #d4d4d4;
+   border-bottom: none;
+   border-top: none;
+   z-index: 99;
+   /*position the autocomplete items to be the same width as the container:*/
+   top: 100%;
+   left: 0;
+   right: 0;
+ }
+ 
+ #userSuggestion .autocomplete-items div {
+   padding: 10px;
+   cursor: pointer;
+   background-color: #fff; 
+   border-bottom: 1px solid #d4d4d4; 
+ }
+ 
+ /*when hovering an item:*/
+ #userSuggestion .autocomplete-items div:hover {
+   background-color: #e9e9e9; 
+ }
+ 
+ /*when navigating through the items using the arrow keys:*/
+ #userSuggestion .autocomplete-active {
+   background-color: DodgerBlue !important; 
+   color: #ffffff; 
+ }
+
+#postalone{
+  margin-top: 65px;
+}
+#heightforfooter{
+  min-height: 400px;
+}
+ /* **********Internship Details************* */
+
