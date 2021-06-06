@@ -2,7 +2,6 @@ import React from 'react'
 import './chat.css'
 import Navbar from '../Global/Navbar'
 import socketClient from "socket.io-client";
-import { apiCall } from '../../services/api'
 const SERVER = "http://localhost:3001";
 var socketstore = null;
 
@@ -44,6 +43,7 @@ class ChatApp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.configureSocket = async () => {
       var socket = socketClient(SERVER, { transport: ['websocket'] });
+      
       socket.on("yo", () => {
         console.log("connected to server");
       });
@@ -59,7 +59,7 @@ class ChatApp extends React.Component {
         this.setState({ messages: m.messages, contacts: [m.counsellor, m.advisee] })
         console.log(m)
       })
-      
+
       socket.emit("join-room", this.props.match.params.id)
       socketstore = socket
       this.setState({ socket })
@@ -81,9 +81,9 @@ class ChatApp extends React.Component {
           <div className="contact-list">
             <h1 className="title" style={{ margin: '8px 12px' }}>Conversations</h1>
             <div className="searchPeople">
-              <div class="ui icon input" style={{ margin: '8px 12px', width: '90%' }}>
+              <div className="ui icon input" style={{ margin: '8px 12px', width: '90%' }}>
                 <input type="text" placeholder="Search People" onChange={this.handleQueryChange} />
-                <i class="search icon"></i>
+                <i className="search icon"></i>
               </div>
             </div>
             <div>
@@ -141,8 +141,6 @@ class MessagesHistory extends React.Component {
 class ContactList extends React.Component {
   render() {
     var filterdInteractions = this.props.searchQuery === "" ? this.props.interactions : this.props.interactions.filter(i => (i.otherUser.fname + ' ' + i.otherUser.lname).toLowerCase().includes(this.props.searchQuery.toLowerCase()))
-    console.log(filterdInteractions)
-    console.log(this.props.searchQuery)
     return (
       <ul>
         {filterdInteractions.map(interaction => (
