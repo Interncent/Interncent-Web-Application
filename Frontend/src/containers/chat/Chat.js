@@ -141,7 +141,7 @@ class ChatApp extends React.Component {
       text: this.state.message,
       author: this.props.currentUser.user._id
     };
-    socketstore.emit('room-message', { message: newItem, rid: this.props.match.params.id, otherUser: this.state.otherUser._id })
+    socketstore.emit('room-message', { message: newItem, rid: this.props.match.params.id, otherUser: this.state.otherUser._id, uid: this.props.currentUser.user._id })
     this.setState({ message: '' });
   }
 }

@@ -2,8 +2,6 @@ const db = require('./models');
 
 function chat(io) {
     console.log('socket started')
-    var conversation = null
-    var userId = null
     io.on('connection', (socket) => {
         console.log('new client connected');
         socket.emit('yo', null);
@@ -18,10 +16,8 @@ function chat(io) {
                             .then(async a => {
                                 try {
                                     let otherUserPopulated = await db.User.findById(otherUser.otherUser, 'fname lname email _id photo')
-                                    userId = uid
-                                    conversation = a._id
-                                    console.log("ROom Join: " + conversation)
-                                    await db.Message.updateMany({ conversationId: conversation, isRead: false }, { isRead: true })
+                                    console.log("ROom Join: " + a._id)
+                                    await db.Message.updateMany({ conversationId: a._id, isRead: false }, { isRead: true })
                                     return socket.emit('get-rmess', { conv: a, interactions: result.interactions, otherUser: otherUserPopulated })
                                 } catch (error) {
                                     console.log(error)
@@ -46,7 +42,7 @@ function chat(io) {
             socket.leave(rid)
         })
         socket.on('room-message', data => {
-            data.message.conversationId = conversation
+            data.message.conversationId = data.rid
             // console.log(data)
             db.Message.create(data.message).then(async m => {
                 db.Conversation.findById(data.rid)
@@ -54,7 +50,7 @@ function chat(io) {
                         if (a.messages.length == 0) {
                             try {
                                 let otherUser = await db.User.findById(data.otherUser, 'interactions')
-                                let interaction = await db.Interaction.create({ otherUser: userId, conversation })
+                                let interaction = await db.Interaction.create({ otherUser: data.uid, conversation: data.rid })
                                 otherUser.interactions.push(interaction)
                                 await otherUser.save()
                             } catch (error) {
@@ -91,22 +87,23 @@ function chat(io) {
 
         socket.on('disconnect', () => {
             console.log('disconnected')
-            db.Conversation.findById(conversation).then(async a => {
-                if (a.messages.length == 0) {
-                    await db.User.findById(userId, 'interactions').populate('interactions')
-                        .then(async (result) => {
-                            let index = result.interactions.findIndex(i => a._id.equals(i.conversation))
-                            await result.interactions.splice(index, 1)
-                            await result.save()
-                            await a.remove()
-                        }).catch((err) => {
-                            console.log(err)
-                        });
-                }
-            })
-                .catch(err => {
-                    console.log(err)
-                })
+            // db.Conversation.findById(conversation)
+            //     .then(async a => {
+            //         if (a.messages.length == 0) {
+            //             await db.User.findById(userId, 'interactions').populate('interactions')
+            //                 .then(async (result) => {
+            //                     let index = result.interactions.findIndex(i => a._id.equals(i.conversation))
+            //                     await result.interactions.splice(index, 1)
+            //                     await result.save()
+            //                     await a.remove()
+            //                 }).catch((err) => {
+            //                     console.log(err)
+            //                 });
+            //         }
+            //     })
+            //     .catch(err => {
+            //         console.log(err)
+            //     })
         });
 
     });

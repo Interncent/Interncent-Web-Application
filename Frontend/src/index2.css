@@ -661,3 +661,26 @@ margin-right: 9px;
 	color:blue;
 	display:inline;
 }
+
+/* *****Applications Page************ */
+#applications .applications{
+	max-width: 900px;
+	margin: 0 auto;
+	margin-top: 30px;
+	width: 90%;
+}
+
+#applications .applications .singleApplication{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	margin: 10px auto;
+}
+
+#applications .applications .singleApplication img{
+	width: 50px;
+	height: 50px;
+	object-fit: cover;
+	margin-right: 10px;
+}

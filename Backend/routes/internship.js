@@ -133,6 +133,7 @@ router.get('/skillSuggestion/:skill', (req, res, next) => {
     });
     res.send(skillArray);
 });
+
 // Get Internship Details
 router.get('/details/:id', (req, res, next) => {
     db.InternshipDetails.findById(req.params.id).populate('faculty', 'fname lname email _id photo').populate('applicants', 'fname lname email _id photo')
@@ -152,7 +153,7 @@ router.get('/details/:id', (req, res, next) => {
 });
 
 router.get('/applications/:id', (req, res, next) => {
-    db.InternshipDetails.findById(req.params.id).populate({path:'applications',populate:{path:'applicantId',select:'email fname lname dept year rollNo'}})
+    db.InternshipDetails.findById(req.params.id).populate({ path: 'applications', populate: { path: 'applicantId', select: 'email fname lname dept year rollNo' } })
         .exec((err, internship) => {
             if (!internship) {
                 return res.status(404).send({});
@@ -304,6 +305,24 @@ router.post('/apply', (req, res, next) => {
             next(err);
         });
 });
+
+
+// View Applications for an Internship
+router.get('/applications/:id', (req, res) => {
+    db.InternshipDetails.find(req.params.id, 'applications').populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email _id photo' } })
+        .then((internship) => {
+            if (!internship) {
+                return next({
+                    status: 404,
+                    message: 'Internship Not Found'
+                })
+            }
+            res.send(internship.applications)
+        }).catch((err) => {
+            next(err)
+        });
+
+})
 
 // mail Applicants
 router.post('/mailapplicants', (req, res, next) => {
