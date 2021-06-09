@@ -84,7 +84,7 @@ class ChatApp extends React.Component {
     console.log(this.state.otherUser)
     return (
       <div id="chat">
-        <Navbar history={this.props.history}></Navbar>
+        <Navbar history={this.props.history} onPage='messaging'></Navbar>
 
         <div className="app">
           <div className="contact-list">

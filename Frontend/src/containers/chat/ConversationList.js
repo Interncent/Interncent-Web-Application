@@ -35,8 +35,8 @@ class ChatApp extends React.Component {
         console.log(this.state.otherUser)
         return (
             <div id="chat">
-                <Navbar history={this.props.history}></Navbar>
-
+                <Navbar history={this.props.history} onPage='messaging'></Navbar>
+                
                 <div className="app">
                     <div className="contact-list">
                         <h1 className="title" style={{ margin: '8px 12px' }}>Conversations</h1>
@@ -53,10 +53,7 @@ class ChatApp extends React.Component {
                     <div className="messages">
 
                         <MessagesSVG></MessagesSVG>
-                        <form className="messages-inputs" onSubmit={this.handleSubmit}>
-                            <input type="text" placeholder="Send a message" disabled />
-                            <button><i className="material-icons">send</i></button>
-                        </form>
+
                     </div>
                 </div>
             </div>

@@ -26,9 +26,17 @@ class UserSearch extends Component {
                     console.log(err);
                 });
         };
+
+        this.linkFunc = (id, email) => {
+            if (this.props.onPage === 'messaging')
+                return `/createchat/${id}`
+            else
+                return `/profile/${email.split('@')[0]}`
+        }
     }
 
     render() {
+
         return (
             <div id="userSearch">
                 <div className="dropdown">
@@ -42,7 +50,7 @@ class UserSearch extends Component {
                         />
                         <div className="suggestedResults">
                             {this.state.suggested.map((user) => (
-                                <Link to={'/profile/'+ user.email.split('@')[0]}
+                                <Link to={this.linkFunc(user._id, user.email)}
                                     className="suggested"
                                 >
                                     <img src={user.photo} alt="user"></img>
