@@ -30,7 +30,7 @@ router.get('/user/:id', (req, res, next) => {
     db.User.findOne({ email: req.params.id + '@somaiya.edu' }, '-password').populate('events').populate('applications', 'title duration _id description category recruited').populate('certificates').populate('experiences').populate('projects').populate('achievements').populate({ path: "internshipsOffered", select: 'title duration _id category  description applicants', populate: { path: 'applicants', select: 'fname lname email photo' } }).populate({ path: "internshipsOffered", populate: { path: 'recruited', select: 'fname lname email photo' } }).populate({ path: 'members', populate: { path: 'member', select: 'fname lname email photo' } }).populate({ path: 'commented', populate: { path: 'post', select: '_id image author', populate: { path: 'author', select: ' fname lname email' } } }).populate({ path: 'liked', populate: { path: 'post', select: '_id image author', populate: { path: 'author', select: 'email fname lname photo -_id' } } }).exec()
         .then((user) => {
             if (user) {
-                res.status(200).send(user);
+                return res.status(200).send(user);
             } else {
                 next({
                     status: 404,
@@ -72,7 +72,6 @@ router.get('/profile/search', (req, res, next) => {
 
 // Profile Picture Upload
 router.put('/profile/update/photo', upload.single('file'), (req, res, next) => {
-    console.log(req.body);
     db.User.findById(req.body.id)
         .then(async (user) => {
             try {
@@ -378,7 +377,6 @@ router.delete('/council/deleteMember/:userId/:memberId', (req, res, next) => {
 })
 
 router.post('/council/addEvent/:userId', (req, res, nex) => {
-    console.log(req.body);
     db.User.findById(req.params.userId)
         .then(async (user) => {
             if (!user) {
@@ -547,8 +545,7 @@ router.put('/getConversations', (req, res, next) => {
 })
 
 router.get('/getUsersPosts/:userId', async (req, res, next) => {
-    console.log("aya")
-    db.User.findById(req.params.userId).populate("posts").populate({path:"posts",populate:{ path: 'comments', populate: { path: 'author' } }})
+    db.User.findById(req.params.userId).populate("posts").populate({ path: "posts", populate: { path: 'comments', populate: { path: 'author' } } })
         .then(async (user) => {
             if (!user) {
                 return next({
@@ -557,8 +554,7 @@ router.get('/getUsersPosts/:userId', async (req, res, next) => {
                 })
             }
             try {
-                console.log("ayah")
-                res.status(200).send({posts:user.posts})
+                res.status(200).send({ posts: user.posts })
             } catch (err) {
                 next(err);
             }

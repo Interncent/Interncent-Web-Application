@@ -36,6 +36,7 @@
 	color: white;
 	background-color: #bdd4e7;
 	background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+	overflow-y: auto;
 }
 
 .app .contact-list .title {
@@ -69,11 +70,14 @@
 	box-sizing: border-box;
 	margin: 12px;
 	background-color: white;
-	border-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+
 	overflow: hidden;
 	flex: 1 1 auto;
 	display: flex;
 	flex-direction: column;
+	overflow-x: hidden;
 }
 
 .app .messages .messages-history {
@@ -83,6 +87,8 @@
 	display: flex;
 	flex-direction: column-reverse;
 	align-items: end;
+	overflow-x: hidden;
+
 }
 
 .app .messages .messages-history .message {
@@ -103,6 +109,7 @@
 .app .messages .messages-history .message.me .message-body {
 	color: white;
 	background-color: #3498db;
+	
 }
 
 .app .messages .messages-history .message .message-body {
@@ -116,6 +123,7 @@
 	min-width: 75px;
 	line-height: 20px;
 	text-align: initial;
+	word-break: break-all;
 }
 
 
@@ -173,4 +181,23 @@
 	width: 40px;
 	height: 40px;
 	object-fit: cover;
+}
+.app .otherUserDetails{
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	background-color: #ffffff;
+	background-image: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+	color: white;
+}
+.app .otherUserDetails div{
+	font-weight: 600;
+	font-size: 22px;
+}
+.app .otherUserDetails img{
+	margin-right: 10px !important;
+	height: 50px;
+	width: 50px;
+	object-fit: cover;
+	border-radius: 50%;
 }

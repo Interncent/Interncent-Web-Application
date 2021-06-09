@@ -14,6 +14,10 @@ const messageSchema = new mongoose.Schema({
     isRead: {
         type: Boolean,
         default: false
-    }
+    },
+    conversationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Conversation'
+    },
 });
 module.exports = mongoose.model('Message', messageSchema);

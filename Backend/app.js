@@ -14,9 +14,12 @@ const io = socket(server, {
         origin: '*',
     }
 });
-server.listen(process.env.PORT || 3001, process.env.IP, () => {
-    console.log('Server Listening on Port 3001')
+
+server.listen(process.env.PORT || 3002, process.env.IP, () => {
+    console.log('Server Listening on Port 3002')
 })
+
+
 
 const errorHandler = require('./handlers/errorHandler');
 require('dotenv').config();
@@ -32,6 +35,7 @@ app.use(cors());
 // Database
 require('./models/index');
 require('./Chat')(io);
+
 // require('./seedDB')();
 
 

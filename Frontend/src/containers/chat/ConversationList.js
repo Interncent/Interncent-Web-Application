@@ -1,23 +1,91 @@
-import React from 'react';
+import React from 'react'
+import './chat.css'
+import Navbar from '../Global/Navbar'
+import { Link } from 'react-router-dom';
+import { apiCall } from '../../services/api'
+import MessagesSVG from '../../images/MessagesSVG'
 
-function ConversationList(props){
-    let list = <div className="no-content-message">no conversations</div>;
-    if (props.conversations && props.conversations.length!==0) {
-        list = props.conversations.map(c => {
-            let userchatingwith=c.users[0]._id===props.myId?c.users[1]:c.users[0]
-            return <div className='channel-item' onClick={() => {
-                props.onSelectChannel(c._id);
-            }}>
-                <img src={userchatingwith.photo} alt=""></img>
-                <span>{userchatingwith.fname+userchatingwith.lname}</span>
-            </div>
-        });
+
+class ChatApp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            interactions: [],
+            searchQuery: '',
+        };
+
+        this.handleQueryChange = (e) => {
+            this.setState({ searchQuery: e.target.value });
+        }
+
+
     }
-    return (
-        <div className='channel-list'>
-            {list}
-        </div>);
+    async componentDidMount() {
+        apiCall('put', '/message/interactions', { uid: this.props.currentUser.user._id })
+            .then((result) => {
+                this.setState({ interactions: result })
+            }).catch((err) => {
+                console.log(err)
+            });
+    }
+
+
+
+    render() {
+        console.log(this.state.otherUser)
+        return (
+            <div id="chat">
+                <Navbar history={this.props.history}></Navbar>
+
+                <div className="app">
+                    <div className="contact-list">
+                        <h1 className="title" style={{ margin: '8px 12px' }}>Conversations</h1>
+                        <div className="searchPeople">
+                            <div className="ui icon input" style={{ margin: '8px 12px', width: '90%' }}>
+                                <input type="text" placeholder="Search People" onChange={this.handleQueryChange} />
+                                <i className="search icon"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <ContactList interactions={this.state.interactions} searchQuery={this.state.searchQuery} />
+                        </div>
+                    </div>
+                    <div className="messages">
+
+                        <MessagesSVG></MessagesSVG>
+                        <form className="messages-inputs" onSubmit={this.handleSubmit}>
+                            <input type="text" placeholder="Send a message" disabled />
+                            <button><i className="material-icons">send</i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
 
 }
 
-export default ConversationList
+
+class ContactList extends React.Component {
+    render() {
+        var filterdInteractions = this.props.searchQuery === "" ? this.props.interactions : this.props.interactions.filter(i => (i.otherUser.fname + ' ' + i.otherUser.lname).toLowerCase().includes(this.props.searchQuery.toLowerCase()))
+        return (
+            <ul>
+                {filterdInteractions.map(interaction => (
+                    <Link to={'/messaging/' + interaction.conversation} style={{ color: 'white' }} >
+                        <li style={{ display: 'flex', alignItems: 'center' }}>
+                            <img className="otherUserPhoto" src={interaction.otherUser.photo} alt='user'></img>
+                            <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}</div>
+                        </li>
+                    </Link>
+                ))}
+            </ul>
+        )
+    }
+}
+export default ChatApp;
+
+
+
+

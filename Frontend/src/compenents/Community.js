@@ -150,26 +150,7 @@ class PostCreate extends React.Component {
       selectedFile: null,
       status: ''
     };
-    // this.changed = (e) => {
-    //   let text=this.removeTags(this.textarea.current.innerHTML)
-    //   // console.log(text)
-    //   // let arr=text.split(' ')
-    //   // console.log(arr)
-    //   // arr.forEach((e,i)=>{
-    //   //   if (e[0]=='#') arr[i]='<p>'+e+'</p>'
-    //   // })
-    //   // console.log(arr)
-    //   this.textarea.current.innerHTML=text
-    //   var child =this.textarea.current.childNodes;
-    //   var range = document.createRange();
-    //   var sel = window.getSelection();
-    //   range.setStart(child[child.length-1], 1);
-    //   range.collapse(true);
-    //   sel.removeAllRanges();
-    //   sel.addRange(range);
-    //   this.textarea.current.focus();
-    //   //this.setState({text:arr.join(' ')})
-    // }
+
     this.handleSubmit = (e) => {
       e.preventDefault();
       this.setState({ status: 'uploading' })
@@ -432,7 +413,6 @@ export class Post extends React.Component {
         id: this.props.loggedin.user._id,
       })
         .then((data) => {
-          console.log(data);
           button.classList.toggle("liked");
           lik--;
           this.setState({
@@ -440,7 +420,6 @@ export class Post extends React.Component {
             isLiked: !this.state.isLiked,
             likes: lik,
           });
-          // console.log(this.props.options._id);
           this.props.updateUnLikeActivity(this.props.options._id);
         })
         .catch((e) => console.log(e));

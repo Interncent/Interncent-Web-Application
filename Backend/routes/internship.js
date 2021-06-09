@@ -81,7 +81,6 @@ router.get('/search/skills', async (req, res, next) => {
     skills = skills.map(skill => {
         return new RegExp(escapeRegex(skill), 'gi');
     })
-    console.log(skills);
     try {
         let suggested = await db.InternshipDetails.find({ skillsRequired: { $all: skills } }).populate('faculty', 'fname lname photo _id').exec();
         res.send(suggested.filter((m) => String(m._id) !== String(req.query.id)));
@@ -94,7 +93,6 @@ router.get('/search/skills', async (req, res, next) => {
 
 // Create Internship
 router.post('/details', async (req, res, next) => {
-    console.log(req.body);
     req.body.duration = parseInt(req.body.duration);
     req.body.numberOpenings = parseInt(req.body.numberOpenings);
     let user = await db.User.findById(req.body.faculty);
@@ -256,10 +254,8 @@ router.put('/bookmark/delete/:id', (req, res, next) => {
                 })
             }
             try {
-                console.log(req.body);
                 let user = await db.User.findById(req.body.userId);
                 let to_remove = user.bookmarks.findIndex((u) => JSON.stringify(u) == JSON.stringify(internship._id));
-                console.log(to_remove);
                 if (to_remove !== -1) {
                     await user.bookmarks.splice(to_remove, 1)
                     await user.save();
@@ -282,7 +278,6 @@ router.put('/bookmark/delete/:id', (req, res, next) => {
 
 // Apply in a Internship
 router.post('/apply', (req, res, next) => {
-    console.log(req.body);
     db.InternshipDetails.findById(req.body.internshipId)
         .then(async (internship) => {
             try {
@@ -318,7 +313,6 @@ router.post('/mailapplicants', (req, res, next) => {
                 return next({ status: 404, message: 'User Not Found' })
             }
             if (!(["Faculty", "Council", "Alumni"].includes(user.role))) {
-                console.log(user.role);
                 return next({ status: 405, message: 'You are not allowed to send Mails' })
             }
             try {
@@ -337,7 +331,6 @@ router.post('/mailapplicants', (req, res, next) => {
 })
 
 router.put('/recruited/:id', async (req, res, next) => {
-    console.log(req.body)
     try {
         var user = await db.User.findById(req.body.userId);
         var internship = await db.InternshipDetails.findById(req.params.id);
@@ -354,9 +347,7 @@ router.put('/recruited/:id', async (req, res, next) => {
                 db.User.findById(userit._id)
                     .then(async (userrec) => {
                         if (userrec) {
-                            console.log('aya');
                             recruited.push(userrec);
-                            console.log("hua");
                         }
                         else {
                             return next({
@@ -366,7 +357,6 @@ router.put('/recruited/:id', async (req, res, next) => {
                         }
 
                         if (times === req.body.selecteduser.length) {
-                            console.log('Hello')
                             internship.recruited = recruited;
                             await internship.save();
                             res.send('changed recruited');

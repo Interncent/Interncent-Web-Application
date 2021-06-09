@@ -32,11 +32,8 @@ export class MyProvider extends Component {
       skills: skillArray,
       query: this.state.query,
     };
-    console.log("aya boi", obj);
     apiCall("post", "/internship/search/filter", obj)
       .then((internships) => {
-        console.log("sahi hua");
-        console.log(internships);
         return this.setState({ ...this.state, list: internships });
       })
       .catch((e) => console.log(e));

@@ -2,7 +2,8 @@ import React from 'react'
 import './chat.css'
 import Navbar from '../Global/Navbar'
 import socketClient from "socket.io-client";
-const SERVER = "http://localhost:3001";
+import { Link } from 'react-router-dom';
+const SERVER = "http://localhost:3002";
 var socketstore = null;
 
 
@@ -13,24 +14,15 @@ class ChatApp extends React.Component {
       contacts: [],
       messages: [],
       message: '',
-      interactions: [
-        {
-          otherUser: {
-            fname: 'Ujjwal',
-            lname: 'Mathur',
-            photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80'
-          }
-        },
-        {
-          otherUser: {
-            fname: 'Vedant',
-            lname: 'Nagani',
-            photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80'
-          }
-        }
-      ],
+      interactions: [],
       socket: null,
-      searchQuery: ''
+      searchQuery: '',
+      otherUser: {
+        fname: 'Loading....',
+        lname: '',
+        photo: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'
+      },
+      typing: false
     };
     this.escapeRegex = (text) => {
       return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -41,9 +33,12 @@ class ChatApp extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleStartTyping = this.handleStartTyping.bind(this)
+    this.handleStopTyping = this.handleStopTyping.bind(this)
+
     this.configureSocket = async () => {
       var socket = socketClient(SERVER, { transport: ['websocket'] });
-      
+
       socket.on("yo", () => {
         console.log("connected to server");
       });
@@ -55,27 +50,41 @@ class ChatApp extends React.Component {
         this.setState({ messages: tilln })
       })
 
-      socket.on('get-rmess', m => {
-        this.setState({ messages: m.messages, contacts: [m.counsellor, m.advisee] })
-        console.log(m)
+      socket.on('get-rmess', ({ conv, interactions, otherUser }) => {
+        this.setState({ messages: conv.messages, interactions, otherUser })
       })
 
-      socket.emit("join-room", this.props.match.params.id)
+      socket.on('wrong-user', () => {
+        console.log('Wrong User')
+        return this.props.history.push('/messaging/')
+      })
+
+      socket.on('show-typing', () => {
+        this.setState({ typing: true })
+      })
+
+      socket.on('show-not-typing', () => {
+        setTimeout(() => {
+          this.setState({ typing: false })
+        }, 2500)
+      })
+
+      socket.emit("join-room", { rid: this.props.match.params.id, uid: this.props.currentUser.user._id })
       socketstore = socket
       this.setState({ socket })
-      socket.close()
     };
   }
   async componentDidMount() {
-    console.log('Hello World')
     await this.configureSocket()
   }
 
 
+
   render() {
+    console.log(this.state.otherUser)
     return (
       <div id="chat">
-        <Navbar user={this.props.user} logout={this.props.logout}></Navbar>
+        <Navbar history={this.props.history}></Navbar>
 
         <div className="app">
           <div className="contact-list">
@@ -91,11 +100,20 @@ class ChatApp extends React.Component {
             </div>
           </div>
           <div className="messages">
+            <div className="otherUserDetails">
+              <img src={this.state.otherUser.photo} alt='otheruser'></img>
+              <div>{this.state.otherUser.fname + " " + this.state.otherUser.lname}
+                <br />
+                {
+                  this.state.typing && <small>Typing...</small>
+                }
+              </div>
+            </div>
             <div className="messages-history">
-              <MessagesHistory uid={this.props.uid} items={this.state.messages} />
+              <MessagesHistory uid={this.props.currentUser.user._id} messages={this.state.messages} />
             </div>
             <form className="messages-inputs" onSubmit={this.handleSubmit}>
-              <input type="text" placeholder="Send a message" onChange={this.handleQueryChange} value={this.state.searchQuery} />
+              <input type="text" placeholder="Send a message" onChange={this.handleChange} value={this.state.message} onKeyDown={this.handleStartTyping} onKeyUp={this.handleStopTyping} />
               <button><i className="material-icons">send</i></button>
             </form>
           </div>
@@ -108,6 +126,12 @@ class ChatApp extends React.Component {
     this.setState({ message: e.target.value });
   }
 
+  handleStartTyping(e) {
+    socketstore.emit('typing', this.props.match.params.id)
+  }
+  handleStopTyping(e) {
+    socketstore.emit('not-typing', this.props.match.params.id)
+  }
   handleSubmit(e) {
     e.preventDefault();
     if (!this.state.message.length) {
@@ -115,9 +139,9 @@ class ChatApp extends React.Component {
     }
     const newItem = {
       text: this.state.message,
-      author: this.props.uid
+      author: this.props.currentUser.user._id
     };
-    socketstore.emit('room-message', { message: newItem, rid: this.props.match.params.id })
+    socketstore.emit('room-message', { message: newItem, rid: this.props.match.params.id, otherUser: this.state.otherUser._id })
     this.setState({ message: '' });
   }
 }
@@ -125,11 +149,11 @@ class ChatApp extends React.Component {
 class MessagesHistory extends React.Component {
 
   render() {
-    return [].concat(this.props.items).reverse().map(item => {
+    return [].concat(this.props.messages).reverse().map(item => {
       return (
         <div className={"message " + (item.author._id === this.props.uid ? "me" : "")} key={item.id}>
           <div className="message-body">
-            <h5 style={{ margin: "0px" }}>{item.author.name}</h5>
+            <h5 style={{ margin: "0px" }}>{item.author.fname + " " + item.author.lname}</h5>
             {item.text}
           </div>
         </div>
@@ -144,10 +168,12 @@ class ContactList extends React.Component {
     return (
       <ul>
         {filterdInteractions.map(interaction => (
-          <li style={{ display: 'flex', alignItems: 'center' }}>
-            <img className="otherUserPhoto" src={interaction.otherUser.photo} alt='user'></img>
-            <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}</div>
-          </li>
+          <Link to={'/messaging/' + interaction.conversation} style={{ color: 'white' }} >
+            <li style={{ display: 'flex', alignItems: 'center' }}>
+              <img className="otherUserPhoto" src={interaction.otherUser.photo} alt='user'></img>
+              <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}</div>
+            </li>
+          </Link>
         ))}
       </ul>
     )
