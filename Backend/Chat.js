@@ -21,7 +21,7 @@ function chat(io) {
                                     userId = uid
                                     conversation = a._id
                                     console.log("ROom Join: " + conversation)
-                                    await db.Message.updateMany({ conversationId: conversation,  isRead: false }, { isRead: true })
+                                    await db.Message.updateMany({ conversationId: conversation, isRead: false }, { isRead: true })
                                     return socket.emit('get-rmess', { conv: a, interactions: result.interactions, otherUser: otherUserPopulated })
                                 } catch (error) {
                                     console.log(error)
@@ -54,7 +54,8 @@ function chat(io) {
                         if (a.messages.length == 0) {
                             try {
                                 let otherUser = await db.User.findById(data.otherUser, 'interactions')
-                                otherUser.interactions.push({ otherUser: userId, conversation })
+                                let interaction = await db.Interaction.create({ otherUser: userId, conversation })
+                                otherUser.interactions.push(interaction)
                                 await otherUser.save()
                             } catch (error) {
                                 console.log(error)
