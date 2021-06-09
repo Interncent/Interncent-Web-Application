@@ -23,10 +23,16 @@ router.put('/new/:id', async (req, res, next) => {
                     }
                     db.Conversation.create({})
                         .then(async (conversation) => {
-                            await user.interactions.push({ conversation: conversation._id, otherUser })
-                            await user.save()
-                            console.log("Conversation ID: " + conversation._id)
-                            return res.status(200).send({ convId: conversation._id })
+                            try {
+                                let interaction = await db.Interaction.create({ conversation: conversation._id, otherUser })
+                                conversation.interactionId = interaction._id
+                                await user.interactions.push(interaction)
+                                await user.save()
+                                await conversation.save()
+                                return res.status(200).send({ convId: conversation._id })
+                            } catch (error) {
+                                next(error)
+                            }
                         }).catch((err) => {
                             next(err)
                         });

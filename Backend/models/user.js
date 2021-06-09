@@ -51,15 +51,8 @@ const userScehma = new mongoose.Schema({
 	],
 	interactions: [
 		{
-			conversation:
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Conversation'
-			},
-			otherUser: {
-				type: mongoose.Schema.Types.ObjectId,
-				ref: 'User'
-			}
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Interaction'
 		}
 	],
 	resume: {
