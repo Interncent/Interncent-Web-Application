@@ -152,19 +152,6 @@ router.get('/details/:id', (req, res, next) => {
         })
 });
 
-router.get('/applications/:id', (req, res, next) => {
-    db.InternshipDetails.findById(req.params.id).populate({ path: 'applications', populate: { path: 'applicantId', select: 'email fname lname dept year rollNo' } })
-        .exec((err, internship) => {
-            if (!internship) {
-                return res.status(404).send({});
-            }
-            if (err) {
-                return next(err);
-            }
-            return res.status(200).send(internship.applications)
-        })
-});
-
 router.put('/details/', async (req, res, next) => {
     try {
         let user = await db.User.findById(req.body.id);
@@ -308,8 +295,8 @@ router.post('/apply', (req, res, next) => {
 
 
 // View Applications for an Internship
-router.get('/applications/:id', (req, res) => {
-    db.InternshipDetails.find(req.params.id, 'applications').populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email _id photo' } })
+router.get('/applications/:id', (req, res, next) => {
+    db.InternshipDetails.findById(req.params.id).populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email photo _id' } }).exec()
         .then((internship) => {
             if (!internship) {
                 return next({
@@ -317,11 +304,22 @@ router.get('/applications/:id', (req, res) => {
                     message: 'Internship Not Found'
                 })
             }
-            res.send(internship.applications)
+            console.log(internship.$isDefaultapplications)
+            return res.send(internship.applications)
         }).catch((err) => {
             next(err)
         });
 
+})
+
+// View Particular Application
+router.get('/viewapplication/:id', (req, res, next) => {
+    db.Application.findById(req.params.id).populate({ path: 'applicantId', select: 'fname lname email photo _id' }).populate({ path: 'internshipId', select: 'faculty duration title _id', populate: { path: 'faculty', select: 'fname lname email photo _id' } }).exec()
+        .then((application) => {
+            res.send(application)
+        }).catch((err) => {
+            console.log(err)
+        });
 })
 
 // mail Applicants
