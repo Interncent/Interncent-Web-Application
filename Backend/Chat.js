@@ -35,7 +35,7 @@ function chat(io) {
                                     var i          // updating unreadmessages of interactions
                                     for (i=0;i<result.interactions.length;i++){
                                         if (result.interactions[i].conversation==rid) continue // coz will read all messages
-                                        result.interactions[i].unreadmessages=await db.Message.find({conversationId:result.interactions[i].conversation,author:otherUser.otherUser,isRead: false}).count()
+                                        result.interactions[i].unreadmessages=await db.Message.find({conversationId:result.interactions[i].conversation,author:result.interactions[i].otherUser._id,isRead: false}).count()
                                     }
                                     await db.Message.updateMany({ conversationId: a._id, isRead: false ,author:otherUserPopulated._id}, { isRead: true })
                                     return socket.emit('get-rmess', { conv: a, interactions: result.interactions, otherUser: otherUserPopulated })
