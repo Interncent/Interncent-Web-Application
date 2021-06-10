@@ -85,25 +85,25 @@ function chat(io) {
             socket.broadcast.to(rid).emit('show-not-typing', null)
         })
 
-        socket.on('disconnect', () => {
-            console.log('disconnected')
-            // db.Conversation.findById(conversation)
-            //     .then(async a => {
-            //         if (a.messages.length == 0) {
-            //             await db.User.findById(userId, 'interactions').populate('interactions')
-            //                 .then(async (result) => {
-            //                     let index = result.interactions.findIndex(i => a._id.equals(i.conversation))
-            //                     await result.interactions.splice(index, 1)
-            //                     await result.save()
-            //                     await a.remove()
-            //                 }).catch((err) => {
-            //                     console.log(err)
-            //                 });
-            //         }
-            //     })
-            //     .catch(err => {
-            //         console.log(err)
-            //     })
+        socket.on('disconnectchat', (rid,uid) => {
+            console.log('disconnected',rid,uid)
+            db.Conversation.findById(rid)
+                .then(async a => {
+                    if (a.messages.length == 0) {
+                        await db.User.findById(uid, 'interactions').populate('interactions')
+                            .then(async (result) => {
+                                let index = result.interactions.findIndex(i => a._id.equals(i.conversation))
+                                await result.interactions.splice(index, 1)
+                                await result.save()
+                                await a.remove()
+                            }).catch((err) => {
+                                console.log(err)
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         });
 
     });

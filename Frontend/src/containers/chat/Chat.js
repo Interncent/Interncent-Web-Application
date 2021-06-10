@@ -44,10 +44,15 @@ class ChatApp extends React.Component {
       });
 
       socket.on('new-messr', m => {
+        if (m.conversationId==this.props.match.params.id){
         console.log(m)
         let tilln = this.state.messages
         tilln.push(m)
         this.setState({ messages: tilln })
+        }
+        else{
+          // add unread messages
+        }
       })
 
       socket.on('get-rmess', ({ conv, interactions, otherUser }) => {
@@ -78,7 +83,9 @@ class ChatApp extends React.Component {
     await this.configureSocket()
   }
 
-
+  componentWillUnmount() {
+    this.state.socket.emit("disconnectchat",this.props.match.params.id,this.props.currentUser.user._id)
+  }
 
   render() {
     console.log(this.state.otherUser)
@@ -171,7 +178,7 @@ class ContactList extends React.Component {
           <Link to={'/messaging/' + interaction.conversation} style={{ color: 'white' }} >
             <li style={{ display: 'flex', alignItems: 'center' }}>
               <img className="otherUserPhoto" src={interaction.otherUser.photo} alt='user'></img>
-              <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}</div>
+              <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}{interaction.unreadmessages>0 && <span class="badge badge-danger">{interaction.unreadmessages}</span>}</div>
             </li>
           </Link>
         ))}
