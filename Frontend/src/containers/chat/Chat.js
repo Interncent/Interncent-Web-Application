@@ -51,7 +51,14 @@ class ChatApp extends React.Component {
         this.setState({ messages: tilln })
         }
         else{
-          // add unread messages
+          var i
+          for(i=0;i<this.state.interactions.length;i++){
+            if (this.state.interactions[i].conversation==m.conversationId){
+              this.state.interactions[i].unreadmessages+=1
+              break
+            }
+          }
+          this.setState({...this.state})
         }
       })
 
@@ -103,7 +110,7 @@ class ChatApp extends React.Component {
               </div>
             </div>
             <div>
-              <ContactList interactions={this.state.interactions} searchQuery={this.state.searchQuery} />
+              <ContactList already={this.props.match.params.id} socket={this.state.socket} user={this.props.currentUser.user._id} interactions={this.state.interactions} searchQuery={this.state.searchQuery} />
             </div>
           </div>
           <div className="messages">
@@ -172,6 +179,11 @@ class MessagesHistory extends React.Component {
 class ContactList extends React.Component {
   render() {
     var filterdInteractions = this.props.searchQuery === "" ? this.props.interactions : this.props.interactions.filter(i => (i.otherUser.fname + ' ' + i.otherUser.lname).toLowerCase().includes(this.props.searchQuery.toLowerCase()))
+    var i 
+    for (i=0;i<filterdInteractions.length;i++){
+      if (filterdInteractions[i].conversation==this.props.already)continue
+      this.props.socket.emit("join-room-justsocket", { rid: filterdInteractions[i].conversation, uid: this.props.user })
+    }
     return (
       <ul>
         {filterdInteractions.map(interaction => (
