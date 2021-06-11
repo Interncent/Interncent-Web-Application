@@ -40,7 +40,6 @@ class Navbar extends Component {
 
     }
     showDropdown() {
-        console.log(this.state.showDropdown);
         this.setState({ showDropdown: !this.state.showDropdown })
     }
 
@@ -119,6 +118,10 @@ class Navbar extends Component {
                                 {
                                     this.props.onPage === "messaging" &&
                                     <UserSearch onPage="messaging" />
+                                }
+                                {
+                                    this.props.onPage === "applications" &&
+                                    <input onChange={(e) => (this.props.getQuery(e.target.value))} type="search" placeholder="Search Applicants" className="form-control mr-sm-2"></input>
                                 }
                             </div>
                             <ul className="navbar-nav mr-auto">

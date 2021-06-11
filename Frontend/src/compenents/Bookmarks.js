@@ -17,15 +17,11 @@ class Bookmarks extends Component {
         this.getQueryandFilter = async (query) => {
             if (query === "") {
                 this.setState({ searchedBookmarks: [] });
-                console.log('hey');
             }
             const temp = this.state.bookmarks.filter(b => b.title.toUpperCase().includes(query.toUpperCase()));
-            console.log(temp);
             await this.setState({ searchedBookmarks: temp });
         }
-        this.escapeRegex = (text) => {
-            return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-        }
+       
     }
     componentDidMount() {
         document.documentElement.scrollTop = 0;

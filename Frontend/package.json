@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@progress/kendo-drawing": "^1.10.1",
+    "@progress/kendo-licensing": "^1.1.4",
+    "@progress/kendo-react-pdf": "^4.6.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -25,9 +28,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^3.1.0",
-    "tempa-xlsx": "^0.8.20",
-    "web-vitals": "^0.2.4",
-    "xlsx-style": "^0.8.13"
+    "web-vitals": "^0.2.4"
   },
   "porxy": "http://localhost:3001",
   "scripts": {

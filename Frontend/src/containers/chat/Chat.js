@@ -14,6 +14,7 @@ class ChatApp extends React.Component {
       contacts: [],
       messages: [],
       message: '',
+      image: null,
       interactions: [],
       socket: null,
       searchQuery: '',
@@ -44,21 +45,23 @@ class ChatApp extends React.Component {
       });
 
       socket.on('new-messr', m => {
-        if (m.conversationId==this.props.match.params.id){
-        console.log(m)
-        let tilln = this.state.messages
-        tilln.push(m)
-        this.setState({ messages: tilln })
+
+        if (m.conversationId == this.props.match.params.id) {
+          m.author = this.state.otherUser
+          console.log(m)
+          let tilln = this.state.messages
+          tilln.push(m)
+          this.setState({ messages: tilln })
         }
-        else{
+        else {
           var i
-          for(i=0;i<this.state.interactions.length;i++){
-            if (this.state.interactions[i].conversation==m.conversationId){
-              this.state.interactions[i].unreadmessages+=1
+          for (i = 0; i < this.state.interactions.length; i++) {
+            if (this.state.interactions[i].conversation == m.conversationId) {
+              this.state.interactions[i].unreadmessages += 1
               break
             }
           }
-          this.setState({...this.state})
+          this.setState({ ...this.state })
         }
       })
 
@@ -91,7 +94,7 @@ class ChatApp extends React.Component {
   }
 
   componentWillUnmount() {
-    this.state.socket.emit("disconnectchat",this.props.match.params.id,this.props.currentUser.user._id)
+    this.state.socket.emit("disconnectchat", this.props.match.params.id, this.props.currentUser.user._id)
   }
 
   render() {
@@ -128,6 +131,7 @@ class ChatApp extends React.Component {
             </div>
             <form className="messages-inputs" onSubmit={this.handleSubmit}>
               <input type="text" placeholder="Send a message" onChange={this.handleChange} value={this.state.message} onKeyDown={this.handleStartTyping} onKeyUp={this.handleStopTyping} />
+
               <button><i className="material-icons">send</i></button>
             </form>
           </div>
@@ -153,7 +157,22 @@ class ChatApp extends React.Component {
     }
     const newItem = {
       text: this.state.message,
-      author: this.props.currentUser.user._id
+      author: this.props.currentUser.user._id,
+      type: 'text'
+    };
+    socketstore.emit('room-message', { message: newItem, rid: this.props.match.params.id, otherUser: this.state.otherUser._id, uid: this.props.currentUser.user._id })
+    this.setState({ message: '' });
+  }
+
+  handleSubmitImage(e) {
+    e.preventDefault();
+    if (!this.state.image) {
+      return;
+    }
+    const newItem = {
+      text: this.state.message,
+      author: this.props.currentUser.user._id,
+      type: 'text'
     };
     socketstore.emit('room-message', { message: newItem, rid: this.props.match.params.id, otherUser: this.state.otherUser._id, uid: this.props.currentUser.user._id })
     this.setState({ message: '' });
@@ -179,9 +198,9 @@ class MessagesHistory extends React.Component {
 class ContactList extends React.Component {
   render() {
     var filterdInteractions = this.props.searchQuery === "" ? this.props.interactions : this.props.interactions.filter(i => (i.otherUser.fname + ' ' + i.otherUser.lname).toLowerCase().includes(this.props.searchQuery.toLowerCase()))
-    var i 
-    for (i=0;i<filterdInteractions.length;i++){
-      if (filterdInteractions[i].conversation==this.props.already)continue
+    var i
+    for (i = 0; i < filterdInteractions.length; i++) {
+      if (filterdInteractions[i].conversation == this.props.already) continue
       this.props.socket.emit("join-room-justsocket", { rid: filterdInteractions[i].conversation, uid: this.props.user })
     }
     return (
@@ -190,7 +209,7 @@ class ContactList extends React.Component {
           <Link to={'/messaging/' + interaction.conversation} style={{ color: 'white' }} >
             <li style={{ display: 'flex', alignItems: 'center' }}>
               <img className="otherUserPhoto" src={interaction.otherUser.photo} alt='user'></img>
-              <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}{interaction.unreadmessages>0 && <span class="badge badge-danger">{interaction.unreadmessages}</span>}</div>
+              <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}{interaction.unreadmessages > 0 && <span class="badge badge-danger">{interaction.unreadmessages}</span>}</div>
             </li>
           </Link>
         ))}
