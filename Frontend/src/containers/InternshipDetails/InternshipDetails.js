@@ -8,12 +8,6 @@ import Loading from "../../images/Loading"
 import Modal from "react-bootstrap/Modal";
 import Internshipform from '../Homepage/Internshipform'
 import { Link } from 'react-router-dom';
-import ReactExport from "react-export-excel";
-import SendEmail from './SendEmail'
-
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 
 
@@ -29,48 +23,23 @@ class InternshipDetail extends Component {
       user: this.props.currentUser.user,
       applied: false,
       owner: false,
-      show1: false,
-      downloaddata: [],
       show2: false,
       show3: false,
-      emails: [{ text: "Hello" }, { text: "Vedant" }],
       role: "Student",
-      subject: '',
-      text: '',
-      ques1: "Why should you be hired for this role?",
-      ques2: "",
-      ans1: '',
-      ans2: '',
       error: '',
       passed: false
     };
     this.contentDisplay = this.contentDisplay.bind(this);
-    this.handleClose1 = () => this.setState({ show1: false });
-    this.handleShow1 = () => this.setState({ show1: true });
     this.handleClose2 = () => this.setState({ show2: false });
     this.handleShow2 = () => this.setState({ show2: true });
     this.handleClose3 = () => this.setState({ show3: false });
     this.handleShow3 = () => this.setState({ show3: true });
-    // this.onSendMail = this.onSendMail.bind(this);
     this.handleApply = this.handleApply.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.multiselectRef = React.createRef();
     this.edited = (i) => {
       this.setState({ details: i, show3: false })
     }
   }
 
-
-  // For Mailing Applicants
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
-  getApplicantsEmail() {
-    var emails = [];
-    this.state.details.applicants.map(app => emails.push({ text: app['email'] }));
-    return emails;
-  }
 
 
   componentWillMount() {
@@ -89,24 +58,11 @@ class InternshipDetail extends Component {
                   if (new Date(data.applyBy) < new Date()) {
                     await this.setState({ passed: true });
                   }
-                  await this.setState({ details: data, recommlist: recomm, exists: true, start: false, ques2: `Are you avaiable for ${data.duration} months, starting immediately? If not, what is the time period you are avaiable for and the earliest date you can start this internhsip on?` });
-
                   if (this.state.user._id === data.faculty._id) {
-                    apiCall('get', '/internship/applications/' + this.props.match.params.id, '')
-                      .then((data) => {
-                        console.log(data)
-                        let arr = []
-                        data.forEach((e) => {
-                          let thing = { ...e.applicantId }
-                          thing.a1 = e.answers[0]
-                          thing.a2 = e.answers[1]
-                          thing.name = thing.fname + ' ' + thing.lname
-                          arr.push(thing)
-                        })
-                        this.setState({ downloaddata: arr })
-                      }).catch(e => console.log(e))
-                    await this.setState({ emails: this.getApplicantsEmail(), owner: true });
+                    this.setState({ owner: true })
                   }
+                  await this.setState({ details: data, recommlist: recomm, exists: true, start: false });
+
                   console.log(this.state);
                 }).catch(
                   (e) => this.setState({ exist: false, start: false })
@@ -161,7 +117,7 @@ class InternshipDetail extends Component {
                       <h1>{this.state.details.title}</h1>
                       <div className="floatingclass"><div>
                         <div className="category">{this.state.details.category}</div>
-                        {this.state.details.faculty.email === this.props.currentUser.user.email && (
+                        {this.owner && (
                           <span
                             className="deleteproj"
                             onClick={this.handleShow3}
@@ -222,22 +178,7 @@ class InternshipDetail extends Component {
                       Applicants
                       {this.state.owner &&
                         <div>
-                          <button onClick={this.handleShow1} className="mailAppl ui small button">Mail Applicants</button>
-                          <ExcelFile element={<button className="mailAppl ui small button">Download Application data</button>}>
-                            <ExcelSheet data={this.state.downloaddata} name="Applications">
-                              <ExcelColumn label="Name" value="name" />
-                              <ExcelColumn label="Roll no." value="rollNo" />
-                              <ExcelColumn label="Department" value="dept" />
-                              <ExcelColumn label="Year" value="year" />
-                              <ExcelColumn label="Email" value="email" />
-                              <ExcelColumn label={this.state.ques1} value="a1" />
-                              <ExcelColumn label={this.state.ques2} value="a2" />
-                              <ExcelColumn label="Profile link" value={(c) => 'https://kjsce-connect-frontend.herokuapp.com/profile/' + c.email.split('@')[0]} />
-                            </ExcelSheet>
-                          </ExcelFile>
-
-                          <SendEmail show={this.state.show1} onHide={this.handleClose1} emails={this.state.emails} userId={this.state.user._id} internshipId={this.state.details._id}></SendEmail>
-
+                          <Link className="mailAppl ui small button" to={'/internship/applications/' + this.state.details._id}>View Applications</Link>
                         </div>
                       }
                     </h3>

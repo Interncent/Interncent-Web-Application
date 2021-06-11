@@ -6,46 +6,42 @@ import Modal from "react-bootstrap/Modal";
 
 
 
-class SendEmail extends Component {
+class SendMessage extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            subject: '',
             text: '',
             error: ''
         }
         this.multiselectRef = React.createRef()
 
-        this.onSendMail = async (e) => {
+        this.onSendMessage = async (e) => {
             e.preventDefault();
             var emails = this.multiselectRef.current.getSelectedItems();
             if (emails.length === 0) {
-                return await this.setState({ error: 'Select Atleast One Recepient' });
+                return await this.setState({ error: 'Atleast select one Recepient' });
             }
             if (this.state.text === '') {
-                return await this.setState({ error: 'Mail Body Not Provided' });
+                return await this.setState({ error: 'Message Body Not Provided' });
             }
-            var emailArray = [];
+            var userIdArray = [];
             emails.forEach((email) => {
-                emailArray.push(email.text);
+                userIdArray.push(this.props.emailObj[email.text]);
             });
-            var mailBody = {
-                subject: this.state.subject,
+            var message = {
                 text: this.state.text,
-                to: emailArray,
+                author: this.props.userId
             };
-            apiCall('post', "/internship/mailapplicants", { mailBody, userId: this.props.userId, internshipId: this.props.internshipId })
+            console.log({ message, uid: this.props.userId, otherUserIds: userIdArray })
+            apiCall('post', "/message/applicants", { message, uid: this.props.userId, otherUserIds: userIdArray })
                 .then(() => {
-                    console.log('Sent Mail');
+                    console.log('Sent Messages');
                     this.props.onHide()
                 })
                 .catch(err => {
                     console.log(err)
                     this.setState({ error: err.message });
                 })
-        }
-        this.handleChange = (e) => {
-            this.setState({ [e.target.name]: e.target.value })
         }
         this.onEditorChange = (evt) => {
             this.setState({
@@ -58,7 +54,7 @@ class SendEmail extends Component {
         return (
             <Modal show={this.props.show} onHide={this.props.onHide} centered>
                 <Modal.Header closeButton backdrop="static">
-                    <Modal.Title>Send Mail</Modal.Title>
+                    <Modal.Title>Send Message</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="toField">
@@ -70,18 +66,13 @@ class SendEmail extends Component {
                             ref={this.multiselectRef}
                         />
                     </div>
-                    <form className="ui form" onSubmit={this.onSendMail}>
-                        <div className="ui field">
-                            <label>Subject</label>
-                            <input type="text" required name="subject" onChange={this.handleChange}></input>
-                        </div>
+                    <form className="ui form" onSubmit={this.onSendMessage}>
                         <div className="ui field">
                             <label>Text</label>
 
                             <CKEditor
                                 data={this.state.text}
                                 onChange={this.onEditorChange} />
-
                         </div>
 
                         <div style={{ textAlign: 'center' }}>
@@ -99,4 +90,4 @@ class SendEmail extends Component {
     }
 
 }
-export default SendEmail
+export default SendMessage

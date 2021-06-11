@@ -3,8 +3,11 @@ import './chat.css'
 import Navbar from '../Global/Navbar'
 import socketClient from "socket.io-client";
 import { Link } from 'react-router-dom';
+import parse from 'html-react-parser'
+
 const SERVER = "http://localhost:3002";
 var socketstore = null;
+
 
 
 class ChatApp extends React.Component {
@@ -25,6 +28,7 @@ class ChatApp extends React.Component {
       },
       typing: false
     };
+
     this.escapeRegex = (text) => {
       return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     }
@@ -46,7 +50,7 @@ class ChatApp extends React.Component {
 
       socket.on('new-messr', m => {
 
-        if (m.conversationId == this.props.match.params.id) {
+        if (m.conversationId === this.props.match.params.id) {
           m.author = this.state.otherUser
           console.log(m)
           let tilln = this.state.messages
@@ -56,7 +60,7 @@ class ChatApp extends React.Component {
         else {
           var i
           for (i = 0; i < this.state.interactions.length; i++) {
-            if (this.state.interactions[i].conversation == m.conversationId) {
+            if (this.state.interactions[i].conversation === m.conversationId) {
               this.state.interactions[i].unreadmessages += 1
               break
             }
@@ -179,20 +183,20 @@ class ChatApp extends React.Component {
   }
 }
 
-class MessagesHistory extends React.Component {
+function MessagesHistory(props) {
+  const parser = parse
 
-  render() {
-    return [].concat(this.props.messages).reverse().map(item => {
-      return (
-        <div className={"message " + (item.author._id === this.props.uid ? "me" : "")} key={item.id}>
-          <div className="message-body">
-            <h5 style={{ margin: "0px" }}>{item.author.fname + " " + item.author.lname}</h5>
-            {item.text}
-          </div>
+  return [].concat(props.messages).reverse().map(item => {
+    return (
+      <div className={"message " + (item.author._id === props.uid ? "me" : "")} key={item.id}>
+        <div className="message-body">
+          <h5 style={{ margin: "0px" }}>{item.author.fname + " " + item.author.lname}</h5>
+          <div>{parser(item.text)}</div>
         </div>
-      )
-    });
-  }
+      </div>
+    )
+  });
+
 }
 
 class ContactList extends React.Component {
@@ -200,7 +204,7 @@ class ContactList extends React.Component {
     var filterdInteractions = this.props.searchQuery === "" ? this.props.interactions : this.props.interactions.filter(i => (i.otherUser.fname + ' ' + i.otherUser.lname).toLowerCase().includes(this.props.searchQuery.toLowerCase()))
     var i
     for (i = 0; i < filterdInteractions.length; i++) {
-      if (filterdInteractions[i].conversation == this.props.already) continue
+      if (filterdInteractions[i].conversation === this.props.already) continue
       this.props.socket.emit("join-room-justsocket", { rid: filterdInteractions[i].conversation, uid: this.props.user })
     }
     return (

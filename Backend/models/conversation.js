@@ -6,11 +6,7 @@ const convSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Message'
         }
-    ],
-    interactionId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Interaction'
-    }
+    ]
 });
 
 convSchema.pre('save', async (next) => {

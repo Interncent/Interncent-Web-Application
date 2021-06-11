@@ -679,6 +679,14 @@ margin-right: 9px;
 	align-items: center;
 	margin: 10px auto;
 }
+#applications .mailAppl{
+	margin: 0 5px;
+	color: #FFCA3D;
+	background-color: #020C53;
+}
+#applications .impButtons{
+	margin-top: 20px !important;
+}
 
 .singleApplication img{
 	width: 50px;

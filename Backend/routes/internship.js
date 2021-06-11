@@ -296,7 +296,7 @@ router.post('/apply', (req, res, next) => {
 
 // View Applications for an Internship
 router.get('/applications/:id', (req, res, next) => {
-    db.InternshipDetails.findById(req.params.id, 'applications').populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email photo _id' } }).exec()
+    db.InternshipDetails.findById(req.params.id, 'applications duration').populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email photo _id dept year rollNo' } }).exec()
         .then((internship) => {
             if (!internship) {
                 return next({
@@ -304,7 +304,7 @@ router.get('/applications/:id', (req, res, next) => {
                     message: 'Internship Not Found'
                 })
             }
-            return res.send(internship.applications)
+            return res.send({ applications: internship.applications, duration: internship.duration })
         }).catch((err) => {
             next(err)
         });
