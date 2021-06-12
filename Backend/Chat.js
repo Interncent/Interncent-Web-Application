@@ -83,7 +83,7 @@ function chat(io) {
         })
         socket.on('room-message', data => {
             data.message.conversationId = data.rid
-            // console.log(data)
+            // console.log(data) update date
             db.Message.create(data.message).then(async m => {
                 db.Conversation.findById(data.rid)
                     .then(async a => {
