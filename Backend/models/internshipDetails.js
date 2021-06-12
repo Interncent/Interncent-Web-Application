@@ -19,16 +19,6 @@ const internshipDetailsSchema = new mongoose.Schema({
   department: String,
   perks: String,
   whoCanApply: String,
-  applicants: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-  recruited: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    }
-  ],
   applications: [
     {
       type: mongoose.Schema.Types.ObjectId,

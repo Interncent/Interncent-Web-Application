@@ -276,9 +276,8 @@ router.post('/apply', (req, res, next) => {
                 let isApplied = user.applications.includes(internship._id);
                 if (user.role === "Student" && !isApplied && !(user._id.equals(internship.faculty))) {
                     let application = await db.Application.create(req.body);
-                    await user.applications.push(internship);
+                    await user.applications.push(application);
                     await internship.applications.push(application);
-                    await internship.applicants.push(user);
                     await user.save();
                     await internship.save();
                     res.send(internship)
@@ -311,6 +310,34 @@ router.get('/applications/:id', (req, res, next) => {
 
 })
 
+// Change State of Application
+router.put('/application/:id', (req, res, next) => {
+    db.Application.findByIdAndUpdate(req.params.id, { state: req.body.state })
+        .then((result) => {
+            res.send('Updated')
+        }).catch((err) => {
+            next(err)
+        });
+})
+
+router.get('/applications/:id', (req, res, next) => {
+    db.InternshipDetails.findById(req.params.id, 'applications duration').populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email photo _id dept year rollNo' } }).exec()
+        .then((internship) => {
+            if (!internship) {
+                return next({
+                    status: 404,
+                    message: 'Internship Not Found'
+                })
+            }
+            return res.send({ applications: internship.applications, duration: internship.duration })
+        }).catch((err) => {
+            next(err)
+        });
+
+})
+
+
+
 // View Particular Application
 router.get('/viewapplication/:id', (req, res, next) => {
     db.Application.findById(req.params.id).populate({ path: 'applicantId', select: 'fname lname email photo _id' }).populate({ path: 'internshipId', select: 'faculty duration title _id', populate: { path: 'faculty', select: 'fname lname email photo _id' } }).exec()
@@ -320,6 +347,7 @@ router.get('/viewapplication/:id', (req, res, next) => {
             console.log(err)
         });
 })
+
 
 // mail Applicants
 router.post('/mailapplicants', (req, res, next) => {

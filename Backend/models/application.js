@@ -10,6 +10,10 @@ const applicationScehma = new mongoose.Schema({
         ref: 'InternshipDetails'
     },
     answers: [{ type: String }],
+    state: {
+        type: String,
+        default: 'Applied'
+    },
     appliedOn: {
         type: Date,
         default: Date.now

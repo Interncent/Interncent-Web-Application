@@ -68,7 +68,7 @@ const userScehma = new mongoose.Schema({
 	applications: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'InternshipDetails'
+			ref: 'Application'
 		}
 	],
 
