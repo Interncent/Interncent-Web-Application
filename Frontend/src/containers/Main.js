@@ -5,6 +5,7 @@ import Landing from '../compenents/Landing';
 import { connect } from 'react-redux';
 import { updateRefresh, logout, setAuthorizationHeader, authUser, setCurrentUser } from '../store/actions/auth'
 import IntershipDetail from './InternshipDetails/InternshipDetails'
+import SingleApplication from './InternshipDetails/SingleApplication'
 import Applications from './InternshipDetails/Applications'
 import Community from '../compenents/Community'
 import NotFound from '../images/NotFound'
@@ -62,6 +63,8 @@ class Main extends React.Component {
                     <Route exact path="/createchat/:id" render={props => <Messaging {...props} currentUser={currentUser} key={props.match.params.id} />} />
                     <Route exact path="/internship/applications/:id" render={props => <Applications key={props.match.params.id} {...props} currentUser={currentUser} />} />
                     <Route exact path="/internship/:id" render={props => <IntershipDetail internshipApply={this.props.internshipApply} key={props.match.params.id} {...props} currentUser={currentUser} />} />
+                    <Route exact path="/viewapplication/:id" render={props => <SingleApplication key={props.match.params.id} {...props} currentUser={currentUser} />} />
+
                     <Route exact path="/community" render={props => <Community {...props} currentUser={currentUser} />} />
                     <Route exact path="/post/:id" render={props => <Post key={props.match.params.id} {...props} currentUser={currentUser} />} />
                     <Route exact path="/hashtag/:id" render={props => <Hashtag key={props.match.params.id} {...props} currentUser={currentUser} />} />

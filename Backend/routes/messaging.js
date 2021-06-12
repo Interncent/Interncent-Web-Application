@@ -57,5 +57,71 @@ router.put('/interactions', (req, res, next) => {
         });
 })
 
+// Messaging All the Applicants
+router.post('/applicants', async (req, res, next) => {
+    var user = await db.User.findById(req.body.uid).populate('interactions').exec()
+    req.body.otherUserIds.forEach(id => {
+        try {
+            var convId = ""
+            user.interactions.forEach(i => {
+                if (i.otherUser.equals(id)) {
+                    convId = i.conversation
+                    return;
+                }
+            });
+            if (convId !== "") {
+                db.Conversation.findById(convId)
+                    .then(async (result) => {
+                        req.body.message.conversationId = result._id
+                        try {
+                            let message = await db.Message.create(req.body.message)
+                            result.messages.push(message)
+                            await result.save()
+                            return res.status(200).send('Message Sent')
+                        } catch (error) {
+                            next(error)
+                        }
+
+                    }).catch((err) => {
+                        return next(err)
+                    });
+            } else {
+                db.User.findById(id)
+                    .then((otherUser) => {
+                        if (!otherUser) {
+                            return next({ status: 404, message: 'User Not Found' })
+                        }
+                        db.Conversation.create({})
+                            .then(async (conversation) => {
+                                req.body.message.conversationId = conversation._id
+                                try {
+                                    let interaction = await db.Interaction.create({ conversation: conversation._id, otherUser })
+                                    let interactionOtherUser = await db.Interaction.create({ conversation: conversation._id, otherUser: user._id })
+                                    let message = await db.Message.create(req.body.message)
+                                    conversation.messages.push(message)
+                                    await user.interactions.push(interaction)
+                                    await otherUser.interactions.push(interactionOtherUser)
+                                    await user.save()
+                                    await conversation.save()
+                                    await otherUser.save()
+                                    return res.status(200).send('Message Sent')
+                                } catch (error) {
+                                    next(error)
+                                }
+                            }).catch((err) => {
+                                next(err)
+                            });
+                    }).catch((err) => {
+
+                    });
+            }
+
+
+        } catch (error) {
+            next(error)
+        }
+    })
+})
+router.get
 
 module.exports = router

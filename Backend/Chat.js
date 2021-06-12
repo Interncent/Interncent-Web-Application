@@ -1,4 +1,24 @@
 const db = require('./models');
+const cloudinary = require('cloudinary');
+const multer = require('multer');
+cloudinary.config({
+    cloud_name: 'ved13',
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+var storage = multer.diskStorage({
+    filename: function (req, file, callback) {
+        callback(null, Date.now() + file.originalname);
+    }
+});
+var imageFilter = function (req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter });
+
 
 function chat(io) {
     console.log('socket started')
@@ -25,19 +45,19 @@ function chat(io) {
                     var otherUser = result.interactions.find(i => rid == i.conversation)
                     if (otherUser) {
                         socket.join(rid)
-               
-                        
+
+
                         db.Conversation.findById(rid).populate({ path: 'messages', populate: { path: "author" } })
                             .then(async a => {
                                 try {
                                     let otherUserPopulated = await db.User.findById(otherUser.otherUser, 'fname lname email _id photo')
                                     console.log("ROom Join: " + a._id)
                                     var i          // updating unreadmessages of interactions
-                                    for (i=0;i<result.interactions.length;i++){
-                                        if (result.interactions[i].conversation==rid) continue // coz will read all messages
-                                        result.interactions[i].unreadmessages=await db.Message.find({conversationId:result.interactions[i].conversation,author:otherUser.otherUser,isRead: false}).count()
+                                    for (i = 0; i < result.interactions.length; i++) {
+                                        if (result.interactions[i].conversation == rid) continue // coz will read all messages
+                                        result.interactions[i].unreadmessages = await db.Message.find({ conversationId: result.interactions[i].conversation, author: result.interactions[i].otherUser._id, isRead: false }).count()
                                     }
-                                    await db.Message.updateMany({ conversationId: a._id, isRead: false ,author:otherUserPopulated._id}, { isRead: true })
+                                    await db.Message.updateMany({ conversationId: a._id, isRead: false, author: otherUserPopulated._id }, { isRead: true })
                                     return socket.emit('get-rmess', { conv: a, interactions: result.interactions, otherUser: otherUserPopulated })
                                 } catch (error) {
                                     console.log(error)
@@ -85,13 +105,9 @@ function chat(io) {
                         console.log(err)
                     })
 
-                db.User.findById(m.author).then(k => {
-                    m.author = k
-                    io.to(data.rid).emit('new-messr', m)
-                })
-                    .catch(err => {
-                        console.log(err)
-                    })
+
+                io.to(data.rid).emit('new-messr', m)
+
 
             })
 
@@ -105,8 +121,8 @@ function chat(io) {
             socket.broadcast.to(rid).emit('show-not-typing', null)
         })
 
-        socket.on('disconnectchat', (rid,uid) => {
-            console.log('disconnected',rid,uid)
+        socket.on('disconnectchat', (rid, uid) => {
+            console.log('disconnected', rid, uid)
             db.Conversation.findById(rid)
                 .then(async a => {
                     if (a.messages.length == 0) {
