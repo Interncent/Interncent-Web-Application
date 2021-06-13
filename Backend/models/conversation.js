@@ -7,16 +7,18 @@ const convSchema = new mongoose.Schema({
             ref: 'Message'
         }
     ]
+},{
+    timestamps: true
 });
 
-convSchema.pre('save', async (next) => {
-    try {
-        var interaction = await db.Interaction.find(this.interactionId)
-        interaction.lastUpdated = Date.now()
-        await interaction.s
-        return next()
-    } catch (error) {
-        next(error)
-    }
-})
+// convSchema.pre('save', async (next) => {
+//     try {
+//         var interaction = await db.Interaction.find(this.interactionId)
+//         interaction.lastUpdated = Date.now()
+//         await interaction.s
+//         return next()
+//     } catch (error) {
+//         next(error)
+//     }
+// })
 module.exports = mongoose.model('Conversation', convSchema)
