@@ -40,7 +40,7 @@ function chat(io) {
         })
         socket.on('join-room', ({ rid, uid }) => {
             // console.log(rid,)
-            db.User.findById(uid, 'interactions').populate({ path: 'interactions', populate: [{ path: 'otherUser', select: 'fname lname photo _id email' },{ path: 'conversation', select: 'updatedAt' }] })
+            db.User.findById(uid, 'interactions').populate({ path: 'interactions', populate: { path: 'otherUser', select: 'fname lname photo _id email' } }) // [ ,{ path: 'conversation', select: 'updatedAt' }]]
             .then((result) => {
                     var otherUser = result.interactions.find(i => rid == i.conversation)
                     if (otherUser) {
