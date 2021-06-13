@@ -66,10 +66,13 @@ class ChatApp extends React.Component {
 class ContactList extends React.Component {
     render() {
         var filterdInteractions = this.props.searchQuery === "" ? this.props.interactions : this.props.interactions.filter(i => (i.otherUser.fname + ' ' + i.otherUser.lname).toLowerCase().includes(this.props.searchQuery.toLowerCase()))
+        filterdInteractions.sort(function (a, b) {
+            return new Date(b.conversation.updatedAt) - new Date(a.conversation.updatedAt);
+        });
         return (
             <ul>
                 {filterdInteractions.map(interaction => (
-                    <Link to={'/messaging/' + interaction.conversation} style={{ color: 'white' }} >
+                    <Link to={'/messaging/' + interaction.conversation._id} style={{ color: 'white' }} >
                         <li style={{ display: 'flex', alignItems: 'center' }}>
                             <img className="otherUserPhoto" src={interaction.otherUser.photo} alt='user'></img>
                             <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}{interaction.unreadmessages > 0 && <span class="badge badge-danger">{interaction.unreadmessages}</span>}</div>

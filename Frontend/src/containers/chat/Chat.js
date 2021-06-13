@@ -26,7 +26,8 @@ class ChatApp extends React.Component {
         lname: '',
         photo: 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'
       },
-      typing: false
+      typing: false,
+      start: true
     };
 
     this.escapeRegex = (text) => {
@@ -48,7 +49,25 @@ class ChatApp extends React.Component {
         console.log("connected to server");
       });
 
-      socket.on('new-messr', m => {
+      socket.on('new-messr', async m => {
+
+        // Online Ordering
+        if (m.conversationId !== this.state.interactions[0].conversation._id) {
+          console.log('True******')
+          var interaction = this.state.interactions.findIndex(i => i.conversation._id === m.conversationId)
+          console.log(interaction)
+          var interactionsCopy = this.state.interactions.slice()
+          // if (interaction === -1) {
+          //   // var interactionsCopy = this.state.interactions.slice()
+          //   // interactionsCopy.push()
+          // }
+          interaction = interactionsCopy.splice(interaction, 1)
+          await interactionsCopy.unshift(interaction)
+          console.log(interactionsCopy)
+
+
+          this.setState({ interactions: interactionsCopy })
+        }
 
         if (m.conversationId === this.props.match.params.id) {
           if (m.author == this.state.otherUser._id) {
@@ -57,7 +76,6 @@ class ChatApp extends React.Component {
           else {
             m.author = this.props.currentUser.user
           }
-          console.log(m)
           let tilln = this.state.messages
           tilln.push(m)
           this.setState({ messages: tilln })
@@ -75,6 +93,16 @@ class ChatApp extends React.Component {
       })
 
       socket.on('get-rmess', ({ conv, interactions, otherUser }) => {
+        console.log(interactions)
+        var i
+        for (i = 0; i < interactions.length; i++) {
+          if (interactions[i].conversation._id == this.props.match.params.id) continue
+          socket.emit("join-room-justsocket", { rid: interactions[i].conversation._id, uid: this.props.user })
+        }
+        interactions.sort(function (a, b) {
+          return new Date(b.conversation.updatedAt) - new Date(a.conversation.updatedAt);
+        });
+        console.log(interactions)
         this.setState({ messages: conv.messages, interactions, otherUser })
       })
 
@@ -107,7 +135,6 @@ class ChatApp extends React.Component {
   }
 
   render() {
-    console.log(this.state.otherUser)
     return (
       <div id="chat">
         <Navbar history={this.props.history} onPage='messaging'></Navbar>
@@ -122,7 +149,7 @@ class ChatApp extends React.Component {
               </div>
             </div>
             <div>
-              <ContactList already={this.props.match.params.id} socket={this.state.socket} user={this.props.currentUser.user._id} interactions={this.state.interactions} searchQuery={this.state.searchQuery} />
+              <ContactList start={this.state.start} user={this.props.currentUser.user._id} interactions={this.state.interactions} searchQuery={this.state.searchQuery} />
             </div>
           </div>
           <div className="messages">
@@ -204,19 +231,13 @@ function MessagesHistory(props) {
 
 }
 
+
+
 class ContactList extends React.Component {
   render() {
     var filterdInteractions = this.props.searchQuery === "" ? this.props.interactions : this.props.interactions.filter(i => (i.otherUser.fname + ' ' + i.otherUser.lname).toLowerCase().includes(this.props.searchQuery.toLowerCase()))
-    var i
-    for (i = 0; i < filterdInteractions.length; i++) {
-      if (filterdInteractions[i].conversation._id === this.props.already) continue
-      this.props.socket.emit("join-room-justsocket", { rid: filterdInteractions[i].conversation._id, uid: this.props.user })
-    }
-    filterdInteractions.sort(function (a, b) {
-      // Turn your strings into dates, and then subtract them
-      // to get a value that is either negative, positive, or zero.
-      return new Date(b.conversation.updatedAt) - new Date(a.conversation.updatedAt);
-    });
+
+    console.log(filterdInteractions)
     return (
       <ul>
         {filterdInteractions.map(interaction => (

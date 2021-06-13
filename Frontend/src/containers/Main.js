@@ -55,8 +55,6 @@ class Main extends React.Component {
         try {
             var id = await jwtDecode(localStorage.jwtToken)['_id']
             console.log(id, this.props.currentUser.user._id)
-            localStorage.setItem('tokenId', id)
-            localStorage.setItem('userId', this.props.currentUser.user._id)
 
             if (this.props.currentUser.user._id !== id) {
                 setAuthorizationHeader(false);
