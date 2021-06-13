@@ -200,7 +200,6 @@ class MoreInfoCouncil extends Component {
                     <button
                       type="submit"
                       className="medium ui button confirm"
-                      onClick={this.handleSubmit}
                     >
                       Add Member
                     </button>
@@ -215,4 +214,4 @@ class MoreInfoCouncil extends Component {
   }
 }
 
-export default connect(() => {return {}}, { addMember, deleteMember })(MoreInfoCouncil);
+export default connect(() => { return {} }, { addMember, deleteMember })(MoreInfoCouncil);
