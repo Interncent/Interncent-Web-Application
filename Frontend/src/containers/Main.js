@@ -22,6 +22,11 @@ import Messaging from '../containers/chat/Messaging'
 import ContactList from '../containers/chat/ConversationList'
 
 class Main extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {}
+        this.componentCleanup = this.componentCleanup.bind(this);
+    }
     async componentWillMount() {
         if ((localStorage.jwtToken)) {
             console.log('Token is there')
@@ -45,7 +50,7 @@ class Main extends React.Component {
         console.log("main mounted");
     }
 
-    async componentWillUnmount() {
+    async componentCleanup() {
         try {
             var id = await jwtDecode(localStorage.jwtToken)['_id']
             console.log(id, this.props.currentUser.user._id)
@@ -62,8 +67,11 @@ class Main extends React.Component {
             await this.props.logout();
             this.props.history.push('/');
         }
+    }
 
-
+    async componentWillUnmount() {
+        this.componentCleanup();
+        window.removeEventListener('beforeunload', this.componentCleanup); // remove the event handler for normal unmounting
     }
     render() {
         const currentUser = this.props.currentUser;
