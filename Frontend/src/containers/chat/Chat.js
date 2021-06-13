@@ -51,7 +51,12 @@ class ChatApp extends React.Component {
       socket.on('new-messr', m => {
 
         if (m.conversationId === this.props.match.params.id) {
-          m.author = this.state.otherUser
+          if (m.author == this.state.otherUser._id){
+            m.author=this.state.otherUser
+          }
+          else{
+            m.author=this.props.currentUser.user
+          }
           console.log(m)
           let tilln = this.state.messages
           tilln.push(m)
@@ -207,6 +212,11 @@ class ContactList extends React.Component {
       if (filterdInteractions[i].conversation === this.props.already) continue
       this.props.socket.emit("join-room-justsocket", { rid: filterdInteractions[i].conversation, uid: this.props.user })
     }
+    filterdInteractions.sort(function(a,b){
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return new Date(b.conversation.updatedAt) - new Date(a.conversation.updatedAt);
+    });
     return (
       <ul>
         {filterdInteractions.map(interaction => (

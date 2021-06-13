@@ -10,10 +10,7 @@ const interactionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    lastUpdated: {
-        default: Date.now,
-        type: Date
-    }
+    
 })
 
 module.exports = mongoose.model('Interaction', interactionSchema)
