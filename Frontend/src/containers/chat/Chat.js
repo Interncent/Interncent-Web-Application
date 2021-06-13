@@ -51,11 +51,11 @@ class ChatApp extends React.Component {
       socket.on('new-messr', m => {
 
         if (m.conversationId === this.props.match.params.id) {
-          if (m.author == this.state.otherUser._id){
-            m.author=this.state.otherUser
+          if (m.author == this.state.otherUser._id) {
+            m.author = this.state.otherUser
           }
-          else{
-            m.author=this.props.currentUser.user
+          else {
+            m.author = this.props.currentUser.user
           }
           console.log(m)
           let tilln = this.state.messages
@@ -65,7 +65,7 @@ class ChatApp extends React.Component {
         else {
           var i
           for (i = 0; i < this.state.interactions.length; i++) {
-            if (this.state.interactions[i].conversation === m.conversationId) {
+            if (this.state.interactions[i].conversation._id === m.conversationId) {
               this.state.interactions[i].unreadmessages += 1
               break
             }
@@ -209,10 +209,10 @@ class ContactList extends React.Component {
     var filterdInteractions = this.props.searchQuery === "" ? this.props.interactions : this.props.interactions.filter(i => (i.otherUser.fname + ' ' + i.otherUser.lname).toLowerCase().includes(this.props.searchQuery.toLowerCase()))
     var i
     for (i = 0; i < filterdInteractions.length; i++) {
-      if (filterdInteractions[i].conversation === this.props.already) continue
-      this.props.socket.emit("join-room-justsocket", { rid: filterdInteractions[i].conversation, uid: this.props.user })
+      if (filterdInteractions[i].conversation._id === this.props.already) continue
+      this.props.socket.emit("join-room-justsocket", { rid: filterdInteractions[i].conversation._id, uid: this.props.user })
     }
-    filterdInteractions.sort(function(a,b){
+    filterdInteractions.sort(function (a, b) {
       // Turn your strings into dates, and then subtract them
       // to get a value that is either negative, positive, or zero.
       return new Date(b.conversation.updatedAt) - new Date(a.conversation.updatedAt);
@@ -220,7 +220,7 @@ class ContactList extends React.Component {
     return (
       <ul>
         {filterdInteractions.map(interaction => (
-          <Link to={'/messaging/' + interaction.conversation} style={{ color: 'white' }} >
+          <Link to={'/messaging/' + interaction.conversation._id} style={{ color: 'white' }} >
             <li style={{ display: 'flex', alignItems: 'center' }}>
               <img className="otherUserPhoto" src={interaction.otherUser.photo} alt='user'></img>
               <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}{interaction.unreadmessages > 0 && <span class="badge badge-danger">{interaction.unreadmessages}</span>}</div>

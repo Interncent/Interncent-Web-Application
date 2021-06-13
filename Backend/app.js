@@ -36,7 +36,7 @@ app.use(cors());
 require('./models/index');
 require('./Chat')(io);
 
-require('./seedDB')();
+// require('./seedDB')();
 
 
 // Routes

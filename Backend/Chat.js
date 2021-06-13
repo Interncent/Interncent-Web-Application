@@ -39,23 +39,30 @@ function chat(io) {
                 });
         })
         socket.on('join-room', ({ rid, uid }) => {
-            // console.log(rid,)
-            db.User.findById(uid, 'interactions').populate({ path: 'interactions', populate: { path: 'otherUser', select: 'fname lname photo _id email' } }) // [ ,{ path: 'conversation', select: 'updatedAt' }]]
-            .then((result) => {
-                    var otherUser = result.interactions.find(i => rid == i.conversation)
+            // console.log(rid,uid)
+            db.User.findById(uid, 'interactions').populate({ path: 'interactions', populate: [{ path: 'otherUser', select: 'fname lname photo _id email' }, { path: 'conversation', select: 'updatedAt _id' }] })
+                .then(async (result) => {
+                    var otherUser = await result.interactions.find(i => i.conversation._id.equals(rid))
                     if (otherUser) {
                         socket.join(rid)
                         db.Conversation.findById(rid).populate({ path: 'messages', populate: { path: "author" } })
                             .then(async a => {
                                 try {
                                     let otherUserPopulated = await db.User.findById(otherUser.otherUser, 'fname lname email _id photo')
-                                    console.log("ROom Join: " + a._id)
                                     var i          // updating unreadmessages of interactions
                                     for (i = 0; i < result.interactions.length; i++) {
-                                        if (result.interactions[i].conversation == rid) continue // coz will read all messages
-                                        result.interactions[i].unreadmessages = await db.Message.find({ conversationId: result.interactions[i].conversation, author: result.interactions[i].otherUser._id, isRead: false }).count()
+                                        if (result.interactions[i].conversation._id.equals(rid)) {
+                                            console.log('Hello')
+                                            continue // coz will read all messages
+                                        }
+                                        result.interactions[i].unreadmessages = await db.Message.find({ conversationId: result.interactions[i].conversation._id, author: result.interactions[i].otherUser._id, isRead: false }).count()
                                     }
-                                    await db.Message.updateMany({ conversationId: a._id, isRead: false, author: otherUserPopulated._id }, { isRead: true })
+                                    try {
+                                        await db.Message.updateMany({ conversationId: a._id, isRead: false, author: otherUserPopulated._id }, { isRead: true })
+
+                                    } catch (error) {
+                                        console.log(error)
+                                    }
                                     return socket.emit('get-rmess', { conv: a, interactions: result.interactions, otherUser: otherUserPopulated })
                                 } catch (error) {
                                     console.log(error)
@@ -63,7 +70,7 @@ function chat(io) {
 
                             })
                             .catch(err => {
-                                console.log(err)
+                                return console.log(err)
                             })
                     } else {
                         return socket.emit('wrong-user', null)
