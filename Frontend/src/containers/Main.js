@@ -28,6 +28,7 @@ class Main extends React.Component {
         this.componentCleanup = this.componentCleanup.bind(this);
     }
     async componentWillMount() {
+        window.addEventListener('beforeunload', this.componentCleanup);
         if ((localStorage.jwtToken)) {
             console.log('Token is there')
             var id = '';
