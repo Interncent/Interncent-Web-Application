@@ -53,4 +53,15 @@ exports.ensureCorrectUser = function (req, res, next) {
     }
 }
 
+exports.correctAccess = function (req, res, next) {
+    if (req.params.secureId === req.params.id) {
+        next()
+    } else {
+        next({
+            status: 403,
+            message: 'Permission Denied'
+        })
+    }
+}
+
 

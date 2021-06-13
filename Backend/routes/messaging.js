@@ -50,7 +50,10 @@ router.put('/new/:id', async (req, res, next) => {
 
 router.put('/interactions', (req, res, next) => {
     db.User.findById(req.body.uid, 'interactions').populate({ path: 'interactions', populate: { path: 'otherUser', select: 'fname lname email photo' } }).exec()
-        .then((user) => {
+        .then(async (user) => {
+            for (let i = 0; i < user.interactions.length; i++) {
+                user.interactions[i].unreadmessages = await db.Message.find({ conversationId: user.interactions[i].conversation, author: user.interactions[i].otherUser._id, isRead: false }).count()
+            }
             res.send(user.interactions)
         }).catch((err) => {
             next(err)

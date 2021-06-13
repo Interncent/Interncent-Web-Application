@@ -25,18 +25,15 @@ class Main extends React.Component {
     async componentWillMount() {
         if ((localStorage.jwtToken)) {
             console.log('Token is there')
-            var email = '';
+            var id = '';
             try {
-                email = await jwtDecode(localStorage.jwtToken)['email'].split('@')[0];
-                console.log(email);
+                id = await jwtDecode(localStorage.jwtToken)['_id']
                 await setAuthorizationHeader(localStorage.jwtToken);
-                this.props.updateRefresh(email);
-
+                this.props.updateRefresh(id)
             } catch (err) {
                 console.log(err);
                 await this.props.logout();
                 this.props.history.push('/');
-
             }
         } else {
             this.props.history.push('/');
@@ -46,6 +43,27 @@ class Main extends React.Component {
             this.props.history.push('/');
         }
         console.log("main mounted");
+    }
+
+    async componentWillUnmount() {
+        try {
+            var id = await jwtDecode(localStorage.jwtToken)['_id']
+            console.log(id, this.props.currentUser.user._id)
+            localStorage.setItem('tokenId', id)
+            localStorage.setItem('userId', this.props.currentUser.user._id)
+
+            if (this.props.currentUser.user._id !== id) {
+                setAuthorizationHeader(false);
+                localStorage.clear()
+                this.props.history.push('/');
+            }
+        } catch (error) {
+            console.log(error);
+            await this.props.logout();
+            this.props.history.push('/');
+        }
+
+
     }
     render() {
         const currentUser = this.props.currentUser;

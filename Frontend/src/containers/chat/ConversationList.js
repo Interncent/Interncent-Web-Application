@@ -32,11 +32,10 @@ class ChatApp extends React.Component {
 
 
     render() {
-        console.log(this.state.otherUser)
         return (
             <div id="chat">
                 <Navbar history={this.props.history} onPage='messaging'></Navbar>
-                
+
                 <div className="app">
                     <div className="contact-list">
                         <h1 className="title" style={{ margin: '8px 12px' }}>Conversations</h1>
@@ -73,7 +72,7 @@ class ContactList extends React.Component {
                     <Link to={'/messaging/' + interaction.conversation} style={{ color: 'white' }} >
                         <li style={{ display: 'flex', alignItems: 'center' }}>
                             <img className="otherUserPhoto" src={interaction.otherUser.photo} alt='user'></img>
-                            <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}</div>
+                            <div className="otherUserName">{interaction.otherUser.fname + ' ' + interaction.otherUser.lname}{interaction.unreadmessages > 0 && <span class="badge badge-danger">{interaction.unreadmessages}</span>}</div>
                         </li>
                     </Link>
                 ))}

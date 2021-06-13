@@ -14,49 +14,49 @@ class InternshipOffered extends Component {
       selected_emails: [],
       selint: null
     };
-    this.multiselectRef = React.createRef();
-
-    this.handleshow2 = (i, inte) => {
-      let allmail = []
-      this.props.user.internshipsOffered[i].applicants.forEach((e) => {
-        console.log(e)
-        allmail.push({ ...e, text: e.email })
-      })
-      let selemail = []
-      this.props.user.internshipsOffered[i].recruited.forEach((e) => {
-        selemail.push({ text: e.email })
-      })
-      this.setState({ show: true, emails: allmail, selected_emails: selemail, selint: inte });
-    };
-
-    this.handleclose = () => {
-      this.setState({ show: false });
-    };
-
-    this.handlesub = () => {
-      var emails = this.multiselectRef.current.getSelectedItems();
-      var emailArray = [];
-      emails.forEach((email) => {
-        emailArray.push(email.text);
-      });
-      let selecteduserId = this.state.emails
-      selecteduserId = selecteduserId.filter((e) => emailArray.includes(e.email));
-      this.props.updateRecruited(this.props.user._id, selecteduserId,this.state.selint)
-        .then(() => {
-          console.log('users added Mail');
-          this.handleclose();
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }
   }
+  //   this.multiselectRef = React.createRef();
+
+  //   this.handleshow2 = (i, inte) => {
+  //     let allmail = []
+  //     this.props.user.internshipsOffered[i].applicants.forEach((e) => {
+  //       console.log(e)
+  //       allmail.push({ ...e, text: e.email })
+  //     })
+  //     let selemail = []
+  //     this.props.user.internshipsOffered[i].recruited.forEach((e) => {
+  //       selemail.push({ text: e.email })
+  //     })
+  //     this.setState({ show: true, emails: allmail, selected_emails: selemail, selint: inte });
+  //   };
+
+  //   this.handleclose = () => {
+  //     this.setState({ show: false });
+  //   };
+
+  //   this.handlesub = () => {
+  //     var emails = this.multiselectRef.current.getSelectedItems();
+  //     var emailArray = [];
+  //     emails.forEach((email) => {
+  //       emailArray.push(email.text);
+  //     });
+  //     let selecteduserId = this.state.emails
+  //     selecteduserId = selecteduserId.filter((e) => emailArray.includes(e.email));
+  //     this.props.updateRecruited(this.props.user._id, selecteduserId,this.state.selint)
+  //       .then(() => {
+  //         console.log('users added Mail');
+  //         this.handleclose();
+  //       })
+  //       .catch(err => {
+  //         console.log(err)
+  //       })
+  //   }
+  // }
   render() {
     return (
       <div id="experience">
         {this.props.owner && (
           <button
-            // onClick={this.handleshow1} can add internship through profile
             className="experience-add ui button "
           >
             Add +{" "}
@@ -73,8 +73,8 @@ class InternshipOffered extends Component {
                   <br></br>
                   <h6>{e.description}</h6>
                   <Link to={"/internship/" + e._id}>See Internship</Link>
-                  {this.props.owner && <button onClick={() => this.handleshow2(i, e._id)} className="ui button small" style={{ float: "right" }}>
-                    Select Recruited
+                  {this.props.owner && <button className="ui button small" style={{ float: "right" }}>
+                    <a target='_blank' rel='noreferrer' style={{ color: 'black' }} href={'/internship/applications/' + e._id}>View Applications</a>
                   </button>}
                 </p>
               </div>
@@ -84,7 +84,7 @@ class InternshipOffered extends Component {
             <NoApplication></NoApplication>
           )}
         </div>
-        <Modal
+        {/* <Modal
           size="md"
           show={this.state.show}
           onHide={this.handleclose}
@@ -104,7 +104,7 @@ class InternshipOffered extends Component {
               <button onClick={this.handlesub} className="ui button">CONFIRM</button>
             </div>
           </Modal.Body>
-        </Modal>
+        </Modal> */}
       </div>
     );
   }

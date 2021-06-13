@@ -18,7 +18,6 @@ router.get('/search/all', async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-
 });
 
 router.get('/search/title/:query', async (req, res, next) => {
@@ -136,7 +135,7 @@ router.get('/skillSuggestion/:skill', (req, res, next) => {
 
 // Get Internship Details
 router.get('/details/:id', (req, res, next) => {
-    db.InternshipDetails.findById(req.params.id).populate('faculty', 'fname lname email _id photo').populate('applicants', 'fname lname email _id photo')
+    db.InternshipDetails.findById(req.params.id).populate('faculty', 'fname lname email _id photo').populate({ path: 'applications', select: 'applicantId' })
         .exec((err, internship) => {
             if (!internship) {
                 return res.status(404).send({});
@@ -204,6 +203,7 @@ router.get('/bookmarks/:id', (req, res, next) => {
             next(err);
         });
 })
+
 router.put('/bookmark/add/:id', (req, res, next) => {
     db.InternshipDetails.findById(req.params.id)
         .then(async (internship) => {
@@ -280,7 +280,7 @@ router.post('/apply', (req, res, next) => {
                     await internship.applications.push(application);
                     await user.save();
                     await internship.save();
-                    res.send(internship)
+                    res.send(application)
                 } else {
                     return next({ status: 405, message: 'Action is Not Permitted' });
                 }
@@ -374,55 +374,72 @@ router.post('/mailapplicants', (req, res, next) => {
         .catch(err => { console.log(err.message); next(err) });
 })
 
+// router.put('/recruited/:id', async (req, res, next) => {
+//     try {
+//         var user = await db.User.findById(req.body.userId);
+//         var internship = await db.InternshipDetails.findById(req.params.id).populate('applications').exec()
+//         var times = 0
+//         if (user._id.equals(internship.faculty) && internship && user) {
+//             var recruited = [];
+//             if (req.body.selecteduser.length === 0) {
+//                 internship.recruited = [];
+//                 await internship.save();
+//                 return res.send('changed recruited');
+//             }
+//             req.body.selecteduser.forEach(async (userit) => {
+//                 db.User.findById(userit._id)
+//                     .then(async (userrec) => {
+//                         if (userrec) {
+//                             recruited.push(userrec);
+//                         }
+//                         else {
+//                             return next({
+//                                 status: 404,
+//                                 message: 'Applicant Not Found'
+//                             })
+//                         }
+
+//                         if (times === req.body.selecteduser.length) {
+//                             internship.recruited = recruited;
+//                             await internship.save();
+//                             res.send('changed recruited');
+//                         }
+//                     }).catch((err) => {
+//                         next(err);
+//                     });
+//                 times++;
+
+//             })
+
+//         } else {
+//             next({
+//                 status: 403,
+//                 message: 'Permission denied to perfrom the action.'
+//             })
+//         }
+
+//     } catch (error) {
+//         next(error);
+//     }
+
+// });
+
 router.put('/recruited/:id', async (req, res, next) => {
-    try {
-        var user = await db.User.findById(req.body.userId);
-        var internship = await db.InternshipDetails.findById(req.params.id);
-        var times = 0;
-        if (user._id.equals(internship.faculty) && internship && user) {
-            var recruited = [];
-            if (req.body.selecteduser.length === 0) {
-                internship.recruited = [];
-                await internship.save();
-                return res.send('changed recruited');
-
-            }
-            req.body.selecteduser.forEach(async (userit) => {
-                db.User.findById(userit._id)
-                    .then(async (userrec) => {
-                        if (userrec) {
-                            recruited.push(userrec);
-                        }
-                        else {
-                            return next({
-                                status: 404,
-                                message: 'Applicant Not Found'
-                            })
-                        }
-
-                        if (times === req.body.selecteduser.length) {
-                            internship.recruited = recruited;
-                            await internship.save();
-                            res.send('changed recruited');
-                        }
-                    }).catch((err) => {
-                        next(err);
-                    });
-                times++;
-
+    db.Application.findByIdAndUpdate({ internshipId: req.body.internshipId }, { state: 'Not Selected' })
+        .then(() => {
+            req.body.applications.forEach(async app => {
+                try {
+                    let application = await db.Application.findById(app)
+                    application.state = 'Selected'
+                    await application.save()
+                } catch (error) {
+                    next(err)
+                }
             })
-
-        } else {
-            next({
-                status: 403,
-                message: 'Permission denied to perfrom the action.'
-            })
-        }
-
-    } catch (error) {
-        next(error);
-    }
-
-});
+            res.send('Recruited')
+        }).catch((err) => {
+            next(err)
+        });
+})
 
 module.exports = router;

@@ -10,7 +10,7 @@ exports.signup = async function (req, res, next) {
       status: 403,
       message: 'Your mail is not authorized for this role'
     }
-    db.HiddenData.findById('600d38655a14e72e1cadc685')
+    db.HiddenData.findById('60c4bc83362d963f8c2786af')
       .then(async (data) => {
         switch (req.body.role) {
           case 'Faculty':
@@ -43,6 +43,8 @@ exports.signup = async function (req, res, next) {
               message: 'You are not allowed to login'
             })
         }
+
+
         req.body.emailToken = crypto.randomBytes(64).toString('hex');
         const newUser = await db.User.create(req.body);
         var mailOptions = mailOptionsImport(req, process);
@@ -81,7 +83,7 @@ exports.signin = async function (req, res, next) {
   try {
     let user = await db.User.findOne({
       email: req.body.email
-    }).populate('events').populate('applications').populate('certificates').populate('experiences').populate('projects').populate('achievements').populate({ path: "internshipsOffered", populate: { path: 'applicants', select: 'fname lname email _id photo' } }).populate({ path: "internshipsOffered", populate: { path: 'recruited', select: 'fname lname email _id photo' } }).populate({ path: 'members', populate: { path: 'member', select: 'fname lname _id email photo' } }).populate({ path: 'commented', populate: { path: 'post', select: '_id image author', populate: { path: 'author', select: ' fname lname email' } } }).populate({ path: 'liked', populate: { path: 'post', select: '_id image author', populate: { path: 'author', select: 'email fname lname photo' } } }).exec()
+    }).populate('events').populate({ path: 'applications', populate: { path: 'internshipId', select: 'title duration _id description category' }, select: 'internshipId state _id' }).populate('certificates').populate('experiences').populate('projects').populate('achievements').populate({ path: "internshipsOffered", select: "title category duration category description" }).populate({ path: 'members', populate: { path: 'member', select: 'fname lname _id email photo' } }).populate({ path: 'commented', populate: { path: 'post', select: '_id image author', populate: { path: 'author', select: ' fname lname email' } } }).populate({ path: 'liked', populate: { path: 'post', select: '_id image author', populate: { path: 'author', select: 'email fname lname photo' } } }).exec()
     if (user.emailToken !== null) {
       return next({
         status: 401,

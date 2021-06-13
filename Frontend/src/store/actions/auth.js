@@ -61,10 +61,10 @@ function userRefresh(user) {
 }
 
 
-export function updateRefresh(username) {
+export function updateRefresh(id) {
     return dispatch => {
         return new Promise((res, rej) => {
-            return apiCall('get', "/user/" + username, '')
+            return apiCall('get', "/user/" + id, '')
                 .then((data) => {
                     dispatch(userRefresh(data));
                     res();

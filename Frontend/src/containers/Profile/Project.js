@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
 import { connect } from "react-redux";
-import { updateProjects, deleteProjects,editProjects } from "../../store/actions/user";
+import { updateProjects, deleteProjects, editProjects } from "../../store/actions/user";
 import NoProject from '../../images/NoProject'
 
 class Project extends Component {
@@ -24,15 +24,15 @@ class Project extends Component {
     this.handleexpsub = (data) => {
       console.log("aya")
       if (this.state.editing) {
-        data._id=this.state.editingproj._id;
+        data._id = this.state.editingproj._id;
         this.props
-          .editProjects({project:data})
+          .editProjects({ project: data })
           .then(() => {
             console.log("Project edited");
             this.handleclose();
           })
           .catch((err) => err);
-        
+
       } else {
         this.props
           .updateProjects(data, this.props.user._id)
@@ -93,7 +93,7 @@ class Project extends Component {
                 </p>
               </div>
             );
-          })}{this.props.user.projects.length===0 && <NoProject></NoProject>}
+          })}{this.props.user.projects.length === 0 && <NoProject></NoProject>}
         </div>
         <Modal
           size="lg"
@@ -102,7 +102,7 @@ class Project extends Component {
           backdrop="static"
         >
           <Modal.Header closeButton>
-            <Modal.Title>{this.state.editing?'Edit Project Details':'Fill Project Details'}</Modal.Title>
+            <Modal.Title>{this.state.editing ? 'Edit Project Details' : 'Fill Project Details'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <ProjectForm
@@ -123,16 +123,16 @@ class ProjectForm extends Component {
   constructor(props) {
     super(props);
     if (props.editing) {
-      let getdate = (yourDate)=>{
-        yourDate=new Date(yourDate)
+      let getdate = (yourDate) => {
+        yourDate = new Date(yourDate)
         let offset = yourDate.getTimezoneOffset()
-        yourDate = new Date(yourDate.getTime() - (offset*60*1000))
+        yourDate = new Date(yourDate.getTime() - (offset * 60 * 1000))
         return yourDate.toISOString().split('T')[0]
       }
       this.state = {
         title: props.editingproj.title,
         startdate: getdate(props.editingproj.startdate),
-        enddate: props.editingproj.enddate?getdate(props.editingproj.enddate):null,
+        enddate: props.editingproj.enddate ? getdate(props.editingproj.enddate) : null,
         description: props.editingproj.description,
         link: props.editingproj.link,
       };
@@ -178,12 +178,9 @@ class ProjectForm extends Component {
             ></input>
           </div>
           <div className="field">
-            <input
-              type="checkbox"
-              defaultChecked={true}
-              onClick={this.handleenddate}
-            ></input>
-            currently working
+            <label for="checkid" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <input style={{ marginRight: '3px' }} id="checkid" type="checkbox" defaultChecked={true} onClick={this.handleenddate}></input>Currently Working
+            </label>
           </div>
           <div className="two fields">
             <div className="field">
@@ -210,7 +207,7 @@ class ProjectForm extends Component {
             )}
           </div>
           <div className="field">
-            <label>description</label>
+            <label>Description</label>
             <textarea
               maxlength="200"
               rows="2"
@@ -251,4 +248,4 @@ class ProjectForm extends Component {
   }
 }
 
-export default connect(() => {return {}}, { updateProjects, editProjects,deleteProjects })(Project);
+export default connect(() => { return {} }, { updateProjects, editProjects, deleteProjects })(Project);

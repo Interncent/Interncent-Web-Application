@@ -80,7 +80,7 @@ class Achievement extends Component {
                 {e.link &&
                   <div>
                     <a href={e.link} target="_blank" rel="noreferrer">
-                      see achievement
+                      See Achievement
                     </a>
                   </div>
                 }
@@ -187,7 +187,7 @@ class Achievementform extends Component {
             </div>
           </div>
           <div className="field">
-            <label>description</label>
+            <label>Description</label>
             <textarea
               maxlength="200"
               rows="2"

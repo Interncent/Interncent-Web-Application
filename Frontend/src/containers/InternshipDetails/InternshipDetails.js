@@ -27,6 +27,10 @@ class InternshipDetail extends Component {
       show3: false,
       role: "Student",
       error: '',
+      ques1: "Why should you be hired for this role?",
+      ques2: "",
+      ans1: "",
+      ans2: "",
       passed: false
     };
     this.contentDisplay = this.contentDisplay.bind(this);
@@ -52,7 +56,7 @@ class InternshipDetail extends Component {
             apiCall('get', '/internship/search/skills?skills=' + data["skillsRequired"].join(',') + '&id=' + this.props.match.params.id)
               .then(
                 async (recomm) => {
-                  if (data.applicants.findIndex(app => app._id === this.state.user._id) !== -1) {
+                  if (data.applications.findIndex(app => app.applicantId === this.state.user._id) !== -1) {
                     await this.setState({ applied: true })
                   }
                   if (new Date(data.applyBy) < new Date()) {
@@ -61,7 +65,7 @@ class InternshipDetail extends Component {
                   if (this.state.user._id === data.faculty._id) {
                     this.setState({ owner: true })
                   }
-                  await this.setState({ details: data, recommlist: recomm, exists: true, start: false });
+                  await this.setState({ details: data, recommlist: recomm, exists: true, start: false, ques2: `Are you avaiable for ${data.duration} month(s), starting immediately? If not, what is the time period you are avaiable for and the earliest date you can start this internhsip on?` });
 
                   console.log(this.state);
                 }).catch(
@@ -141,17 +145,17 @@ class InternshipDetail extends Component {
                       <div className="flex-item">
                         <h4>
                           <i className="fa fa-clock mr-1"></i>Duration
-                </h4><p>{this.state.details.duration} months</p>
+                        </h4><p>{this.state.details.duration} months</p>
                       </div>
                       <div className="flex-item">
                         <h4>
                           <i className="fa fa-home mr-1"></i>Type
-                </h4><p> {this.state.details.type}</p>
+                        </h4><p> {this.state.details.type}</p>
                       </div>
 
                       <div className="flex-item"><h4>
                         <i className="fa fa-hourglass mr-2"></i>Apply by
-                    </h4><p>{(new Date(this.state.details.applyBy)).toDateString()}</p></div>
+                      </h4><p>{(new Date(this.state.details.applyBy)).toDateString()}</p></div>
                     </div><hr></hr>
                     <h3>About Internship</h3>
                     <p>{this.state.details.description}</p>
@@ -175,22 +179,13 @@ class InternshipDetail extends Component {
                     <p>{this.state.details.numberOpenings}</p>
 
                     <h3>
-                      Applicants
                       {this.state.owner &&
                         <div>
                           <Link className="mailAppl ui small button" to={'/internship/applications/' + this.state.details._id}>View Applications</Link>
                         </div>
                       }
                     </h3>
-                    <span className="appliList">
-                      {
-                        this.state.details.applicants.map(app =>
-                          <span className="applicant">
-                            <img src={app.photo} alt=""></img>
-                            <span className="name">{app.fname} {app.lname}</span>
-                          </span>
-                        )}
-                    </span>
+
                     {this.state.user.role === "Student" && (this.state.details.faculty._id !== this.state.user._id) &&
                       <div>
                         {!this.state.applied && !this.state.passed &&
@@ -242,7 +237,7 @@ class InternshipDetail extends Component {
                           <div className="applynow">
                             <button type="button" className="btn btn-lg btn-default" disabled="true">
                               Applied
-                          </button>
+                            </button>
                           </div>
                         }
                         {

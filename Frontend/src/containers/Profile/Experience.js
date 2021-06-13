@@ -198,8 +198,10 @@ class ExperienceForm extends Component {
             ></input>
           </div>
           <div className="field">
+            <label for="checkid" style={{ display: 'inline-flex', alignItems: 'center' }}>
+              <input style={{marginRight:'3px'}} id="checkid" type="checkbox" defaultChecked={true} onClick={this.handleenddate}></input>Currently Working
+            </label>
 
-            <input type="checkbox" defaultChecked={true} onClick={this.handleenddate}></input>currently working
           </div>
           <div className="two fields">
             <div className="field">
@@ -225,7 +227,7 @@ class ExperienceForm extends Component {
               </div>}
           </div>
           <div className="field">
-            <label>description</label>
+            <label>Description</label>
             <textarea
               maxlength="200"
               rows="2"

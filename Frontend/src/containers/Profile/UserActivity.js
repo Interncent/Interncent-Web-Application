@@ -24,12 +24,13 @@ class Basic extends Component {
     super(props);
     this.state = {
       content: ["Faculty", "Student", "Alumni"].includes(this.props.user.role) ? "experiences" : "events",
-      activity: []
+      activity: [],
+      applications: []
     };
     this.handleSwitch = this.handleSwitch.bind(this);
   }
 
-  
+
 
   handleSwitch(e) {
     if (e.target.name === 'posts' && this.props.owner) this.props.updateposts();
@@ -55,15 +56,19 @@ class Basic extends Component {
             {this.props.user.applications.reverse().map((e, i) => {
               return (
                 <div className="experience-ele">
-                  <h4>{e.title}</h4>
-                  <sub>{e.category}</sub>
-                  <span className="deleteproj">{e.recruited.includes(this.props.user._id) ? (<span className="badge badge-success">Selected</span>) : (<span className="badge badge-secondary">Applied</span>)}</span>
+                  <h4>{e.internshipId.title}</h4>
+                  <sub>{e.internshipId.category}</sub>
+                  <span className="deleteproj"><span className="badge badge-success">{e.state}</span></span>
                   <p>
-                    <span>{'Duration : ' + e.duration + ' months'}</span><br></br>
-                    <h6>{e.description}</h6>
-                    <Link to={"/internship/" + e._id}>
-                      see internship
+                    <span>{'Duration : ' + e.internshipId.duration + ' months'}</span><br></br>
+                    <h6>{e.internshipId.description}</h6>
+                    <Link to={"/internship/" + e.internshipId._id}>
+                      See Internship
                     </Link>
+                    {this.props.owner && 
+                    <div style={{ float: "right", margin:'5px' }}>
+                      <a target='_blank' rel='noreferrer' href={'/viewapplication/' + e._id}>View Application</a>
+                    </div>}
                   </p>
                 </div>
               );
@@ -114,24 +119,24 @@ class Basic extends Component {
               {["Faculty", "Student", "Alumni"].includes(
                 this.props.user.role
               ) ? (
-                  <Nav.Link
-                    active={this.state.content === "experiences" ? true : false}
-                    name="experiences"
-                    to="#experiences"
-                    onClick={this.handleSwitch}
-                  >
-                    Experiences
-                  </Nav.Link>
-                ) : (
-                  <Nav.Link
-                    active={this.state.content === "events" ? true : false}
-                    name="events"
-                    to="#events"
-                    onClick={this.handleSwitch}
-                  >
-                    Events
-                  </Nav.Link>
-                )}
+                <Nav.Link
+                  active={this.state.content === "experiences" ? true : false}
+                  name="experiences"
+                  to="#experiences"
+                  onClick={this.handleSwitch}
+                >
+                  Experiences
+                </Nav.Link>
+              ) : (
+                <Nav.Link
+                  active={this.state.content === "events" ? true : false}
+                  name="events"
+                  to="#events"
+                  onClick={this.handleSwitch}
+                >
+                  Events
+                </Nav.Link>
+              )}
             </Nav.Item>
             <Nav.Item>
               <Nav.Link
@@ -164,15 +169,15 @@ class Basic extends Component {
                 Applications
               </Nav.Link>
             </Nav.Item> : <Nav.Item>
-                <Nav.Link
-                  active={this.state.content === "internshipoffered" ? true : false}
-                  name="internshipoffered"
-                  to="#internshipoffered"
-                  onClick={this.handleSwitch}
-                >
-                  Internship Offered
+              <Nav.Link
+                active={this.state.content === "internshipoffered" ? true : false}
+                name="internshipoffered"
+                to="#internshipoffered"
+                onClick={this.handleSwitch}
+              >
+                Internship Offered
               </Nav.Link>
-              </Nav.Item>}
+            </Nav.Item>}
             <Nav.Item>
               <Nav.Link name="posts" to="#posts" onClick={this.handleSwitch} active={this.state.content === "posts" ? true : false} >
                 Posts

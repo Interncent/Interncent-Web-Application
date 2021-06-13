@@ -486,10 +486,10 @@ export function updateUserPhoto(fd) {
     }
 }
 
-function updateApplications(internship) {
+function updateApplications(application) {
     return {
         type: INTERNSHIP_APPLY,
-        internship
+        application
     }
 }
 
@@ -497,9 +497,9 @@ export function internshipApply(internshipDetail, faculty) {
     return dispatch => {
         return new Promise((resolve, reject) => {
             return apiCall('post', '/internship/apply', internshipDetail)
-                .then((internship) => {
-                    internship.faculty = faculty;
-                    dispatch(updateApplications(internship));
+                .then((application) => {
+                    application.facultyId = faculty;
+                    dispatch(updateApplications(application));
                     resolve();
                 })
                 .catch(err => reject(err));

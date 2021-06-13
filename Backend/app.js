@@ -25,7 +25,7 @@ const errorHandler = require('./handlers/errorHandler');
 require('dotenv').config();
 
 // Middleware
-const { loginRequired, ensureCorrectUser } = require('./middleware');
+const { loginRequired, ensureCorrectUser, correctAccess } = require('./middleware');
 
 // Body Parser
 app.use(bodyParser.json());
@@ -45,13 +45,19 @@ const communityRoutes = require('./routes/community.js');
 const internshipRoutes = require('./routes/internship')
 const userRoutes = require('./routes/user');
 const messageRoutes = require('./routes/messaging')
+const refreshRoute = require('./routes/resfresh')
 
 // Incuding Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/:secureId/community', loginRequired, ensureCorrectUser, communityRoutes);
 app.use('/api/:secureId/internship', loginRequired, ensureCorrectUser, internshipRoutes);
 app.use('/api/:secureId', loginRequired, ensureCorrectUser, userRoutes)
-app.use('/api/:secureId/message', messageRoutes)
+app.use(refreshRoute)
+
+app.use('/api/:secureId/message', loginRequired, ensureCorrectUser, messageRoutes)
+
+
+
 
 
 
