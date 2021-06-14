@@ -50,23 +50,23 @@ class ChatApp extends React.Component {
       });
 
       socket.on('new-messr', async m => {
-
+        var interactionsCopy=this.state.interactions
         // Online Ordering
         if (m.conversationId !== this.state.interactions[0].conversation._id) {
           console.log('True******')
           var interaction = this.state.interactions.findIndex(i => i.conversation._id === m.conversationId)
           console.log(interaction)
-          var interactionsCopy = this.state.interactions.slice()
+          interactionsCopy = this.state.interactions.slice()
           // if (interaction === -1) {
           //   // var interactionsCopy = this.state.interactions.slice()
           //   // interactionsCopy.push()
           // }
           interaction = interactionsCopy.splice(interaction, 1)
-          await interactionsCopy.unshift(interaction)
+          await interactionsCopy.unshift(interaction[0])
           console.log(interactionsCopy)
 
 
-          this.setState({ interactions: interactionsCopy })
+          // this.setState({ interactions: interactionsCopy })
         }
 
         if (m.conversationId === this.props.match.params.id) {
@@ -78,7 +78,7 @@ class ChatApp extends React.Component {
           }
           let tilln = this.state.messages
           tilln.push(m)
-          this.setState({ messages: tilln })
+          this.setState({ messages: tilln ,interactions: interactionsCopy})
         }
         else {
           var i
@@ -88,7 +88,7 @@ class ChatApp extends React.Component {
               break
             }
           }
-          this.setState({ ...this.state })
+          this.setState({ ...this.state ,interactions: interactionsCopy})
         }
       })
 
@@ -97,7 +97,7 @@ class ChatApp extends React.Component {
         var i
         for (i = 0; i < interactions.length; i++) {
           if (interactions[i].conversation._id == this.props.match.params.id) continue
-          socket.emit("join-room-justsocket", { rid: interactions[i].conversation._id, uid: this.props.user })
+          socket.emit("join-room-justsocket", { rid: interactions[i].conversation._id, uid: this.props.currentUser.user._id })
         }
         interactions.sort(function (a, b) {
           return new Date(b.conversation.updatedAt) - new Date(a.conversation.updatedAt);
