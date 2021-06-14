@@ -26,17 +26,7 @@ function chat(io) {
         console.log('new client connected');
         socket.emit('yo', null);
         socket.on('join-room-justsocket', ({ rid, uid }) => {
-            db.User.findById(uid, 'interactions').populate({ path: 'interactions', populate: { path: 'otherUser', select: 'fname lname photo _id email' } })
-                .then((result) => {
-                    var otherUser = result.interactions.find(i => rid == i.conversation)
-                    if (otherUser) {
-                        socket.join(rid)
-                    } else {
-                        return socket.emit('wrong-user', null)
-                    }
-                }).catch((err) => {
-                    console.log(err)
-                });
+            socket.join(rid)
         })
         socket.on('join-room', ({ rid, uid }) => {
             // console.log(rid,uid)
