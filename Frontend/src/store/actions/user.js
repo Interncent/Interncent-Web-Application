@@ -1,6 +1,6 @@
 
 import { apiCall } from '../../services/api';
-import { EDIT_INTERNSHIP, DELETE_INTERNSHIP, CREATE_INTERNSHIP, DELETE_USER_PROJECT, DELETE_USER_CERTIFICATE, EDIT_EVENT, DELETE_EVENT, DELETE_USER_ACHIEVEMENT, EDIT_USER_ACHIEVEMENT, UPDATE_USER_ACHIEVEMENT, DELETE_USER_EXPERIENCE, EDIT_USER_EXPERIENCE, EDIT_USER_PROJECT, UPDATE_USER_SKILLS, UPDATE_USER_PROJECT, UPDATE_USER_EXPERIENCE, UPDATE_USER_CERTIFICATES, UPDATE_USER_BASIC_INFO, UPDATE_USER_INFO, ADD_BOOKMARK, DELETE_BOOKMARK, ADD_MEMBER, DELETE_MEMBER, UPDATE_EVENT, UPDATE_RECRUITED, LIKE_ACTIVITY, COMMENT_ACTIVITY, UNLIKE_ACTIVITY, UPDATE_USER_PHOTO, INTERNSHIP_APPLY } from '../actionTypes';
+import { EDIT_INTERNSHIP, DELETE_INTERNSHIP, CREATE_INTERNSHIP, DELETE_USER_PROJECT, DELETE_USER_CERTIFICATE, EDIT_EVENT, DELETE_EVENT, DELETE_USER_ACHIEVEMENT, EDIT_USER_ACHIEVEMENT, UPDATE_USER_ACHIEVEMENT, DELETE_USER_EXPERIENCE, EDIT_USER_EXPERIENCE, EDIT_USER_PROJECT, UPDATE_USER_SKILLS, UPDATE_USER_PROJECT, UPDATE_USER_EXPERIENCE, UPDATE_USER_CERTIFICATES, UPDATE_USER_BASIC_INFO, UPDATE_USER_INFO, ADD_BOOKMARK, DELETE_BOOKMARK, ADD_MEMBER, DELETE_MEMBER, UPDATE_EVENT, UPDATE_RECRUITED, LIKE_ACTIVITY, COMMENT_ACTIVITY, UNLIKE_ACTIVITY, UPDATE_USER_PHOTO, INTERNSHIP_APPLY, UPDATE_RESUME_DETAILS, UPDATE_RESUME_LINK } from '../actionTypes';
 
 
 
@@ -565,3 +565,48 @@ export function internshipedit(internship, userId) {
         })
     }
 }
+
+
+// Update Resume details
+export function updateResume(resume) {
+    return {
+        type: UPDATE_RESUME_DETAILS,
+        resume
+    }
+}
+
+export function updateResumeDetails(userId, resume) {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            return apiCall("put", '/resume/updatedetails', { id: userId, resume })
+                .then(() => {
+                    dispatch(updateResume(resume));
+                    resolve("Updated");
+                })
+                .catch(err => reject(err));
+        })
+    }
+}
+
+//Update Resume Link
+
+export function updateResume2(resumeLink) {
+    return {
+        type: UPDATE_RESUME_LINK,
+        resumeLink
+    }
+}
+
+export function updateResumeLink(userId, resumeLink) {
+    return dispatch => {
+        return new Promise((resolve, reject) => {
+            return apiCall("put", '/resume/updatelink', { id: userId, resumeLink })
+                .then(() => {
+                    dispatch(updateResume2(resumeLink));
+                    resolve("Updated");
+                })
+                .catch(err => reject(err));
+        })
+    }
+}
+

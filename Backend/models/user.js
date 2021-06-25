@@ -55,9 +55,37 @@ const userScehma = new mongoose.Schema({
 			ref: 'Interaction'
 		}
 	],
-	resume: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'File'
+	resume: String,
+	resumeDetails: {
+		address: String,
+		phoneNumber: String,
+		email: String,
+		careerObjectives: String,
+		futureProspects: String,
+		educationDetails: {
+			graduation: {
+				college: String,
+				startYear: String,
+				endYear: String,
+				degree: String,
+				stream: String,
+				performance: String
+			},
+			twelth: {
+				school: String,
+				yearOfCompletion: String,
+				board: String,
+				stream: String,
+				performance: String
+			},
+			tenth: {
+				school: String,
+				yearOfCompletion: String,
+				board: String,
+				stream: String,
+				performance: String
+			}
+		}
 	},
 	internshipsOffered: [
 		{

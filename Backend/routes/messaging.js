@@ -49,7 +49,7 @@ router.put('/new/:id', async (req, res, next) => {
 })
 
 router.put('/interactions', (req, res, next) => {
-                db.User.findById(req.body.uid, 'interactions').populate({ path: 'interactions', populate: [{ path: 'otherUser', select: 'fname lname photo _id email' }, { path: 'conversation', select: 'updatedAt _id' }] })
+    db.User.findById(req.body.uid, 'interactions').populate({ path: 'interactions', populate: [{ path: 'otherUser', select: 'fname lname photo _id email' }, { path: 'conversation', select: 'updatedAt _id' }] })
         .then(async (user) => {
             for (let i = 0; i < user.interactions.length; i++) {
                 user.interactions[i].unreadmessages = await db.Message.find({ conversationId: user.interactions[i].conversation, author: user.interactions[i].otherUser._id, isRead: false }).count()
@@ -125,6 +125,5 @@ router.post('/applicants', async (req, res, next) => {
         }
     })
 })
-router.get
 
 module.exports = router

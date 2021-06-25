@@ -88,7 +88,7 @@ class Project extends Component {
                   <br></br>
                   <h6>{e.description}</h6>
                   <a href={e.link} target="_blank" rel="noreferrer">
-                    see project
+                    See Project
                   </a>
                 </p>
               </div>

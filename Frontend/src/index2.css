@@ -65,13 +65,13 @@
 
 
 .page-heading {
-position: relative;
-padding: 30px 40px;
-margin: -25px -20px 25px;
-border-left: 30px solid #ffca3d;
-border-right: 30px solid #ffca3d;
-border-top: 11px solid  #ffca3d;
-background-color: #020b53;
+	position: relative;
+	padding: 30px 40px;
+	margin: -25px -20px 25px;
+	border-left: 30px solid #ffca3d;
+	border-right: 30px solid #ffca3d;
+	border-top: 11px solid  #ffca3d;
+	background-color: #020b53;
 }
 .tab-content{
 	max-height: 800px;
@@ -204,16 +204,24 @@ margin-right: 9px;
 	width:70px;
 	height:70px;
 	bottom:40px;
-  right: 40px;
-  margin-top: 170px;
-  margin-left:100px;
+  	right: 40px;
+  	margin-top: 170px;
+  	margin-left:100px;
 	background-color: #020C53;
-  border-radius:50px;
-  border: 0px;
-  outline:0px;
+  	border: 0px;
+  	outline:0px;
 	text-align:center;
-  z-index: 2;
-  display: inline-block;
+  	z-index: 2;
+  	display: inline-block;
+}
+
+
+#resumeBtn{
+	right:5px !important;
+	margin-right:"5px";
+	position: absolute;
+	color:#020b53;
+	background-color: #FFCA3D;
 }
 .edit-but:focus{
   outline:0px;
@@ -221,6 +229,23 @@ margin-right: 9px;
 .edit-but .fa-edit{
   color:#FFCA3D;
   scale: 2;
+}
+@media screen and (max-width:900px) {
+	.edit-but{
+		right: 0px;
+		margin-left:0px;
+	}
+	#resumeBtn{
+		position: static;
+		margin:10px auto;
+		right:140px !important;
+		top:220px;
+	}
+	.mw150{
+		min-height: 180px;
+		height: 90%;
+		max-height: 190px;
+	}
 }
 
 .confirmdiv{
@@ -250,44 +275,44 @@ margin-right: 9px;
   margin-top: 0px !important;
 } */
 
-#experience .experience-ele{
+.experience-ele{
   padding: 10px;
   margin: 10px;
   border: 1.5px solid #bdbdbdd2;
   border-left: 10px solid #020b53;
 }
-#experience .experience-ele h4{
+.experience-ele h4{
   border-radius: 5px;
   display: inline-block;
   padding: 3px 6px;
   font-size: 14px;
   margin-bottom: 0 !important;
 } 
-#experience .experience-ele div{
+.experience-ele div{
 	margin-left: 8px;
 }
-#experience .project-ele h4{
+.project-ele h4{
   width: 100%;
 }
-#experience .events-ele h4{
+.events-ele h4{
 	width: 100%;
   }
-#experience .experience-ele h5{
+.experience-ele h5{
   margin:0px;
   margin-left: 8px;
   padding:0px;
   font-weight: 350;
 }
-#experience .experience-ele h6{
+.experience-ele h6{
   word-break: break-all;
 }
-#experience .experience-ele p{
+.experience-ele p{
   margin-left: 8px;
 }
-#experience .experience-ele sub{
+.experience-ele sub{
   padding: 4px;
 }
-#experience  .deleteproj{
+ .deleteproj{
   float:right;
   font-size: 20px;
   cursor: pointer;
@@ -297,7 +322,7 @@ margin-right: 9px;
 	font-size: 20px;
 	cursor: pointer;
   }
-#experience .experience-add{
+.experience-add{
   margin:10px 0;
   color: #020b53;
   background-color: #020b53;
@@ -324,6 +349,10 @@ margin-right: 9px;
 	cursor: pointer;
 	float:right !important;
 }
+.lead{
+	word-break: break-all;
+	max-width: 90%;
+}
 
 @media screen and (max-width:900px){
 	.mw150{
@@ -344,6 +373,7 @@ margin-right: 9px;
 		font-size: 15px;
 	}
 }
+
 
 .imageUploadForm .uploadImageBtn {
 
@@ -715,4 +745,42 @@ margin-right: 9px;
 	align-items: center;
 }
 
+
+/************** Resume Builder********** */
+#resumeBuilder{
+	padding: 10px;
+}
+#resumeBuilder .education h5{
+	display: inline-block;
+	font-size: 14px;
+	margin-bottom: 0 !important;
+}
+#resumeBuilder .headerResume{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+#resumeBuilder .headerResume .name{
+	font-size: 50px;
+	font-weight: 700;
+}
+
+
+#resumeBuilder .resumeTopic{
+	font-weight: 700;
+	color: #2079c7;
+	font-size: 18px;
+	padding-bottom: 7px;
+	padding-top: 10px;
+}
+#resumeBuilder .experience-ele{
+	margin: 10px;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom:7px ;
+}
+#resumeBuilder .experience-ele h5{
+	font-weight: 600;
+}
 

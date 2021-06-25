@@ -17,9 +17,10 @@ import Bookmarks from '../compenents/Bookmarks'
 import Chat from '../containers/chat/Chat'
 import '../index2.css'
 import jwtDecode from 'jwt-decode'
-import { internshipApply } from '../store/actions/user'
+import { internshipApply, updateResumeDetails } from '../store/actions/user'
 import Messaging from '../containers/chat/Messaging'
 import ContactList from '../containers/chat/ConversationList'
+import ResumeBuilder from './Profile/ResumeBuilder';
 
 class Main extends React.Component {
     constructor(props) {
@@ -96,6 +97,8 @@ class Main extends React.Component {
                     <Route exact path="/verify-email/:token" render={props => <EmailVerificaton {...props} />} />
                     <Route exact path="/profile/:id" render={props => <Profile key={props.match.params.id} {...props} currentUser={currentUser} />} />
                     <Route exact path="/bookmarks" render={props => <Bookmarks {...props} currentUser={currentUser} />} />
+                    <Route exact path="/resume" render={props => <ResumeBuilder {...props} user={currentUser.user} updateResumeDetails={this.props.updateResumeDetails} />} />
+
                     <Route path="*" render={props => <NotFound {...props} />} />
                 </Switch>
             </div>
@@ -109,4 +112,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default withRouter(connect(mapStateToProps, { authUser, setCurrentUser, updateRefresh, logout, internshipApply })(Main));
+export default withRouter(connect(mapStateToProps, { authUser, setCurrentUser, updateRefresh, logout, internshipApply, updateResumeDetails })(Main));

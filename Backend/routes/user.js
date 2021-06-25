@@ -569,4 +569,21 @@ router.get('/getUsersPosts/:userId', async (req, res, next) => {
     // })
 })
 
+// Update Resume details
+router.put('/resume/updatedetails', (req, res, next) => {
+    db.User.findByIdAndUpdate(req.body.id, { resumeDetails: req.body.resume })
+        .then(async (result) => {
+            res.send('Resume Updated')
+        }).catch((err) => {
+            next(err)
+        });
+})
+router.put('/resume/updatelink', (req, res, next) => {
+    db.User.findByIdAndUpdate(req.body.id, { resume: req.body.resumeLink })
+        .then(async (result) => {
+            res.send('Resume Updated')
+        }).catch((err) => {
+            next(err)
+        });
+})
 module.exports = router;

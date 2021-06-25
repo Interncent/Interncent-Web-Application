@@ -15,9 +15,6 @@ class SingleApplication extends Component {
             start: true
         }
 
-        this.createPDF = () => {
-
-        }
         this.exportPDF = () => {
             this.application.save();
         }

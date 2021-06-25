@@ -145,7 +145,7 @@ class Basic extends Component {
                 to="#achievement"
                 onClick={this.handleSwitch}
               >
-                Achievement
+                Achievements
               </Nav.Link>
             </Nav.Item>
 

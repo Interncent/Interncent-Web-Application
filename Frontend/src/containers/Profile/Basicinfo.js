@@ -1,11 +1,12 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import { connect } from 'react-redux'
-import { updatebasicinfo, updateUserPhoto } from '../../store/actions/user'
+import { updatebasicinfo, updateUserPhoto, updateResumeLink } from '../../store/actions/user'
 import { Spinner } from 'react-bootstrap'
 import 'react-image-crop/dist/ReactCrop.css';
 import ReactCrop from 'react-image-crop';
 import { base64StringtoFile, image64toCanvasRef, extractImageFileExtensionFromBase64 } from './ImageCropUtils';
+import { Link } from 'react-router-dom'
 const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg';
 const acceptedFileTypesArray = acceptedFileTypes.split(',').map(item => item.trim());
 
@@ -15,6 +16,7 @@ class Basic extends React.Component {
     this.state = {
       show: false,
       show2: false,
+      show3: false,
       userdata: {
         fname: this.props.user.fname,
         lname: this.props.user.lname,
@@ -32,7 +34,8 @@ class Basic extends React.Component {
       cropped: false,
       startedCropping: false,
       imgSrc: null,
-      error: null
+      error: null,
+      resume: this.props.user.resume
     };
     this.fileLabel = React.createRef();
     this.imagePreviewCanvas = React.createRef();
@@ -47,6 +50,12 @@ class Basic extends React.Component {
     };
     this.handleClose2 = (e) => {
       this.setState({ show2: false });
+    };
+    this.handleshow3 = (e) => {
+      this.setState({ show3: true });
+    };
+    this.handleClose3 = (e) => {
+      this.setState({ show3: false });
     };
     this.handleSubmit = (e) => {
       e.preventDefault();
@@ -74,6 +83,21 @@ class Basic extends React.Component {
       userdata[e.target.name] = e.target.value;
       this.setState({ userdata });
     };
+
+    // Handle Resume Upload
+    this.handleResume = (e) => {
+      e.preventDefault()
+      this.props.updateResumeLink(this.props.user._id, this.state.resume)
+        .then((result) => {
+          this.handleClose3()
+        }).catch((err) => {
+          console.log(err)
+        });
+    }
+
+    this.handleChangeResume = e => {
+      this.setState({ resume: e.target.value })
+    }
 
     this.handleImageUpload = async (e) => {
       e.preventDefault();
@@ -244,6 +268,12 @@ class Basic extends React.Component {
               {this.props.user.fname + " " + this.props.user.lname}
               <small> - {this.props.user.role}</small>
             </h2>
+
+            {this.props.owner ?
+              <button className="ui button" id="resumeBtn" onClick={this.handleshow3}>Resume</button>
+              :
+              <Link className="ui button" id="resumeBtn" to={'/createchat/' + this.props.user._id}>Message</Link>
+            }
             <p className="lead">{this.props.user.bio}</p>
             {this.props.user.socialHandles !== {} &&
               <div className="media-links">
@@ -342,7 +372,7 @@ class Basic extends React.Component {
                   <div className="field">
                     <label>Bio</label>
                     <textarea
-                      maxlength="200"
+                      maxlength="150"
                       rows="2"
                       required
                       placeholder="What do you want to talk about?"
@@ -413,6 +443,37 @@ class Basic extends React.Component {
             </Modal.Body>
           </Modal>
 
+          {/* Resume LInk Modal */}
+          <Modal show={this.state.show3} onHide={this.handleClose3} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Update Resume Link</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form onSubmit={this.handleResume} className="ui form">
+                <div className="field">
+                  <label>Resume Link (Upload your Resume in a Google Drive and paste the Public Link here)</label>
+
+                  <div className="ui left icon input">
+                    <input
+                      name="resume"
+                      required
+                      onChange={this.handleChangeResume}
+                      type="text"
+                      value={this.state.resume}
+                    ></input>
+                    <i className="copy icon"></i>
+                  </div>
+
+                  <div style={{ textAlign: 'center', marginTop: '10px' }}>
+                    <button type="submit" className="ui button">Upload</button>
+                    <Link className="ui button" to="/resume">Create Resume</Link>
+                  </div>
+                </div>
+
+              </form>
+            </Modal.Body>
+          </Modal>
+
         </div>
       </div>
     );
@@ -424,5 +485,5 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, { updatebasicinfo, updateUserPhoto })(Basic);
+export default connect(mapStateToProps, { updatebasicinfo, updateUserPhoto, updateResumeLink })(Basic);
 
