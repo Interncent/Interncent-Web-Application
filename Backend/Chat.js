@@ -19,12 +19,18 @@ var imageFilter = function (req, file, cb) {
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter });
 
+var onlineprofile={}
+var onlineprofilerev={}
 
 function chat(io) {
     console.log('socket started')
     io.on('connection', (socket) => {
         console.log('new client connected');
         socket.emit('yo', null);
+        socket.on("statusonline",({uid})=>{
+            onlineprofile[uid]=socket;
+            onlineprofilerev[socket.id]=uid
+        })
         socket.on('join-room-justsocket', ({ rid, uid }) => {
             socket.join(rid)
         })
@@ -42,7 +48,7 @@ function chat(io) {
                                     var i          // updating unreadmessages of interactions
                                     for (i = 0; i < result.interactions.length; i++) {
                                         if (result.interactions[i].conversation._id.equals(rid)) {
-                                            console.log('Hello')
+                                            await db.Message.updateMany({ conversationId: result.interactions[i].conversation._id, author: result.interactions[i].otherUser._id, isRead: false }, {$set: {isRead: true}})
                                             continue // coz will read all messages
                                         }
                                         result.interactions[i].unreadmessages = await db.Message.find({ conversationId: result.interactions[i].conversation._id, author: result.interactions[i].otherUser._id, isRead: false }).count()
@@ -87,6 +93,11 @@ function chat(io) {
                                 let otherUser = await db.User.findById(data.otherUser, 'interactions')
                                 let interaction = await db.Interaction.create({ otherUser: data.uid, conversation: data.rid })
                                 otherUser.interactions.push(interaction)
+                                if (data.otherUser in onlineprofile) {
+                                    console.log("emiting socket event to create interaction")
+                                    onlineprofile[data.otherUser].emit("newinteraction",interaction) // interaction isnt populated fix this
+                                    onlineprofile[data.otherUser].join(data.rid)
+                                }
                                 await otherUser.save()
                             } catch (error) {
                                 console.log(error)
@@ -136,7 +147,10 @@ function chat(io) {
                     console.log(err)
                 })
         });
-
+        socket.on("disconnect",()=>{
+            delete onlineprofile[onlineprofilerev[socket.id]]
+            delete onlineprofilerev[socket.id]
+        })
     });
 }
 module.exports = chat
