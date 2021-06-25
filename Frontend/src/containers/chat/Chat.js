@@ -49,14 +49,14 @@ class ChatApp extends React.Component {
         console.log("connected to server");
         socket.emit("statusonline", { uid: this.props.currentUser.user._id })
       });
-      socket.on("newinteraction",(inter)=>{
-        let intercopy=this.state.interactions
+      socket.on("newinteraction", (inter) => {
+        let intercopy = this.state.interactions
         intercopy.unshift(inter)
         console.log(intercopy)
-        this.setState({ ...this.state ,interactions: intercopy})
-    })
+        this.setState({ ...this.state, interactions: intercopy })
+      })
       socket.on('new-messr', async m => { // need to set isread message true by sending event fix this
-        var interactionsCopy=this.state.interactions
+        var interactionsCopy = this.state.interactions
         // Online Ordering
         if (m.conversationId !== this.state.interactions[0].conversation._id) {
           console.log('True******')
@@ -77,6 +77,7 @@ class ChatApp extends React.Component {
 
         if (m.conversationId === this.props.match.params.id) {
           if (m.author == this.state.otherUser._id) {
+            socket.emit('seen-message', { mid: m._id, rid: this.props.match.params.id })
             m.author = this.state.otherUser
           }
           else {
@@ -84,7 +85,7 @@ class ChatApp extends React.Component {
           }
           let tilln = this.state.messages
           tilln.push(m)
-          this.setState({ messages: tilln ,interactions: interactionsCopy})
+          this.setState({ messages: tilln, interactions: interactionsCopy })
         }
         else {
           var i
@@ -94,8 +95,20 @@ class ChatApp extends React.Component {
               break
             }
           }
-          this.setState({ ...this.state ,interactions: interactionsCopy})
+          this.setState({ ...this.state, interactions: interactionsCopy })
         }
+      })
+
+
+      socket.on('message-is-seen', mid => {
+        console.log('Seen message')
+        let mess = this.state.messages.slice().map((m) => {
+          if (m._id === mid) {
+            m.isRead = true
+          }
+          return m
+        })
+        this.setState({ messages: mess })
       })
 
       socket.on('get-rmess', ({ conv, interactions, otherUser }) => {
@@ -228,7 +241,7 @@ function MessagesHistory(props) {
     return (
       <div className={"message " + (item.author._id === props.uid ? "me" : "")} key={item.id}>
         <div className="message-body">
-          <h5 style={{ margin: "0px" }}>{item.author.fname + " " + item.author.lname}</h5>
+          <h5 style={{ margin: "0px" }}>{item.author.fname + " " + item.author.lname} {item.isRead ? "Read" : ""}</h5>
           <div>{parser(item.text)}</div>
         </div>
       </div>

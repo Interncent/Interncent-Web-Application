@@ -19,17 +19,17 @@ var imageFilter = function (req, file, cb) {
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter });
 
-var onlineprofile={}
-var onlineprofilerev={}
+var onlineprofile = {}
+var onlineprofilerev = {}
 
 function chat(io) {
     console.log('socket started')
     io.on('connection', (socket) => {
         console.log('new client connected');
         socket.emit('yo', null);
-        socket.on("statusonline",({uid})=>{
-            onlineprofile[uid]=socket;
-            onlineprofilerev[socket.id]=uid
+        socket.on("statusonline", ({ uid }) => {
+            onlineprofile[uid] = socket;
+            onlineprofilerev[socket.id] = uid
         })
         socket.on('join-room-justsocket', ({ rid, uid }) => {
             socket.join(rid)
@@ -48,7 +48,6 @@ function chat(io) {
                                     var i          // updating unreadmessages of interactions
                                     for (i = 0; i < result.interactions.length; i++) {
                                         if (result.interactions[i].conversation._id.equals(rid)) {
-                                            await db.Message.updateMany({ conversationId: result.interactions[i].conversation._id, author: result.interactions[i].otherUser._id, isRead: false }, {$set: {isRead: true}})
                                             continue // coz will read all messages
                                         }
                                         result.interactions[i].unreadmessages = await db.Message.find({ conversationId: result.interactions[i].conversation._id, author: result.interactions[i].otherUser._id, isRead: false }).count()
@@ -92,11 +91,13 @@ function chat(io) {
                             try {
                                 let otherUser = await db.User.findById(data.otherUser, 'interactions')
                                 let interaction = await db.Interaction.create({ otherUser: data.uid, conversation: data.rid })
+                                let currentUser = await db.User.findById(data.uid, '_id fname lname emial photo')
+                                interaction.otherUser = currentUser
                                 otherUser.interactions.push(interaction)
                                 if (data.otherUser in onlineprofile) {
                                     console.log("emiting socket event to create interaction")
-                                    onlineprofile[data.otherUser].emit("newinteraction",interaction) // interaction isnt populated fix this
-                                    onlineprofile[data.otherUser].join(data.rid)
+                                    onlineprofile[data.otherUser].emit("newinteraction", interaction)
+                                    onlineprofile[data.otherUser].join(data.rid) //Not Joining Room
                                 }
                                 await otherUser.save()
                             } catch (error) {
@@ -127,6 +128,18 @@ function chat(io) {
             socket.broadcast.to(rid).emit('show-not-typing', null)
         })
 
+        // When message is seen
+        socket.on('seen-message', ({mid, rid}) => {
+            db.Message.findByIdAndUpdate(mid, { isRead: true })
+                .then((result) => {
+                    console.log(rid)
+                    console.log('*****Reading msg')
+                    socket.broadcast.to(rid).emit('message-is-seen', mid)
+                }).catch((err) => {
+                    console.log(err)
+                });
+        })
+
         socket.on('disconnectchat', (rid, uid) => {
             console.log('disconnected', rid, uid)
             db.Conversation.findById(rid)
@@ -147,7 +160,7 @@ function chat(io) {
                     console.log(err)
                 })
         });
-        socket.on("disconnect",()=>{
+        socket.on("disconnect", () => {
             delete onlineprofile[onlineprofilerev[socket.id]]
             delete onlineprofilerev[socket.id]
         })
