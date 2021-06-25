@@ -47,8 +47,9 @@ class ChatApp extends React.Component {
 
       socket.on("yo", () => {
         console.log("connected to server");
+        socket.emit("statusonline", { uid: this.props.currentUser.user._id })
       });
-
+      
       socket.on('new-messr', async m => {
         var interactionsCopy=this.state.interactions
         // Online Ordering

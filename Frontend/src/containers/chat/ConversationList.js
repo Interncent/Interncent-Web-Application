@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { apiCall } from '../../services/api'
 import MessagesSVG from '../../images/MessagesSVG'
 
+const SERVER = "http://localhost:3002";
+var socketstore = null;
 
 class ChatApp extends React.Component {
     constructor(props) {
@@ -28,8 +30,13 @@ class ChatApp extends React.Component {
 
                 socket.on("yo", () => {
                     console.log("connected to server");
+                    socket.emit("statusonline", { uid: this.props.currentUser.user._id })
                 });
-
+                socket.on("newinteraction",(inter)=>{
+                    let intercopy=this.state.interactions
+                    intercopy.unshift(inter)
+                    this.setState({ ...this.state ,interactions: intercopy})
+                })
                 socket.on('new-messr', async m => {
                     var interactionsCopy=this.state.interactions
                     // Online Ordering

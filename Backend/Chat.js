@@ -20,12 +20,17 @@ var imageFilter = function (req, file, cb) {
 var upload = multer({ storage: storage, fileFilter: imageFilter });
 
 var onlineprofile={}
+var onlineprofilerev={}
 
 function chat(io) {
     console.log('socket started')
     io.on('connection', (socket) => {
         console.log('new client connected');
         socket.emit('yo', null);
+        socket.on("statusonline",({uid})=>{
+            onlineprofile[uid]=socket;
+            onlineprofilerev[socket.id]=uid
+        })
         socket.on('join-room-justsocket', ({ rid, uid }) => {
             db.User.findById(uid, 'interactions').populate({ path: 'interactions', populate: { path: 'otherUser', select: 'fname lname photo _id email' } })
                 .then((result) => {
@@ -98,6 +103,9 @@ function chat(io) {
                                 let otherUser = await db.User.findById(data.otherUser, 'interactions')
                                 let interaction = await db.Interaction.create({ otherUser: data.uid, conversation: data.rid })
                                 otherUser.interactions.push(interaction)
+                                if (data.otherUser in onlineprofile) {
+                                    onlineprofile[data.otherUser].emit("newinteraction",interaction)
+                                }
                                 await otherUser.save()
                             } catch (error) {
                                 console.log(error)
@@ -147,7 +155,10 @@ function chat(io) {
                     console.log(err)
                 })
         });
-
+        socket.on("disconnect",()=>{
+            delete onlineprofile[onlineprofilerev[socket.id]]
+            delete onlineprofilerev[socket.id]
+        })
     });
 }
 module.exports = chat
