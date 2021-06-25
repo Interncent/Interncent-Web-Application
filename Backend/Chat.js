@@ -58,7 +58,7 @@ function chat(io) {
                                     var i          // updating unreadmessages of interactions
                                     for (i = 0; i < result.interactions.length; i++) {
                                         if (result.interactions[i].conversation._id.equals(rid)) {
-                                            console.log('Hello')
+                                            await db.Message.updateMany({ conversationId: result.interactions[i].conversation._id, author: result.interactions[i].otherUser._id, isRead: false }, {$set: {isRead: true}})
                                             continue // coz will read all messages
                                         }
                                         result.interactions[i].unreadmessages = await db.Message.find({ conversationId: result.interactions[i].conversation._id, author: result.interactions[i].otherUser._id, isRead: false }).count()
@@ -104,7 +104,9 @@ function chat(io) {
                                 let interaction = await db.Interaction.create({ otherUser: data.uid, conversation: data.rid })
                                 otherUser.interactions.push(interaction)
                                 if (data.otherUser in onlineprofile) {
-                                    onlineprofile[data.otherUser].emit("newinteraction",interaction)
+                                    console.log("emiting socket event to create interaction")
+                                    onlineprofile[data.otherUser].emit("newinteraction",interaction) // interaction isnt populated fix this
+                                    onlineprofile[data.otherUser].join(data.rid)
                                 }
                                 await otherUser.save()
                             } catch (error) {
