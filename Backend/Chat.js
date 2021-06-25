@@ -19,6 +19,7 @@ var imageFilter = function (req, file, cb) {
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter });
 
+var onlineprofile={}
 
 function chat(io) {
     console.log('socket started')
