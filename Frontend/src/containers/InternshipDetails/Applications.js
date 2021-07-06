@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import ReactExport from "react-export-excel";
 import SendEmail from './SendEmail'
 import SendMessage from './SendMessage'
+import RecruitApplicants from './RecruitApplicants'
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -19,10 +20,13 @@ class Applications extends Component {
             searchedApplications: [],
             show: false,
             show2: false,
+            show3: false,
             ques1: "Why should you be hired for this role?",
             ques2: "",
             emails: [],
-            emailObj: {}
+            emailObj: {},
+            alreadyRecruited: [],
+            recruitedArray: []
         }
 
         this.getQueryandFilter = async (query) => {
@@ -48,6 +52,9 @@ class Applications extends Component {
         this.handleClose2 = () => {
             this.setState({ show2: false })
         }
+        this.handleClose3 = () => {
+            this.setState({ show3: false })
+        }
 
         this.handleMessaging = () => {
             var emailObj = {}
@@ -59,6 +66,21 @@ class Applications extends Component {
             })
             console.log(allEmails)
             this.setState({ emails: allEmails, emailObj, show2: true })
+        }
+
+        this.handleRecruitment = () => {
+            var emailObj = {}
+            var allEmails = []
+            var recruitedArray = []
+            this.state.alreadyRecruited.forEach(al => {
+                recruitedArray.push({ text: al.applicantId.email })
+            });
+            this.state.applications.forEach(a => {
+                emailObj[a.applicantId.email] = a.applicantId._id
+                allEmails.push({ text: a.applicantId.email })
+            })
+
+            this.setState({ emails: allEmails, emailObj, show3: true, recruitedArray })
         }
 
         this.donwloadApplications = () => {
@@ -82,6 +104,13 @@ class Applications extends Component {
         apiCall('get', '/internship/applications/' + internshipId, '')
             .then(({ applications, duration }) => {
                 this.setState({ applications, ques2: `Are you avaiable for ${duration} month(s), starting immediately? If not, what is the time period you are avaiable for and the earliest date you can start this internhsip on?` })
+            }).catch((err) => {
+                console.log(err)
+            });
+        apiCall('get', '/internship/recruited/' + internshipId, '')
+            .then((result) => {
+                console.log(result)
+                this.setState({ alreadyRecruited: result })
             }).catch((err) => {
                 console.log(err)
             });
@@ -118,6 +147,11 @@ class Applications extends Component {
                             {/* Message ALL Applicants */}
                             <button className="mailAppl ui small button" onClick={this.handleMessaging}>Message Applicants</button>
                             <SendMessage show={this.state.show2} onHide={this.handleClose2} emails={this.state.emails} emailObj={this.state.emailObj} userId={this.props.currentUser.user._id}></SendMessage>
+
+                            {/*Rescruit Applicants */}
+                            <button className="mailAppl ui small button" onClick={this.handleRecruitment}>Select Applicants</button>
+                            <RecruitApplicants show={this.state.show3} recruited={this.state.recruitedArray} onHide={this.handleClose3} emails={this.state.emails} emailObj={this.state.emailObj} userId={this.props.currentUser.user._id} internshipId={this.props.match.params.id} title={this.state.title} category={this.state.category} ></RecruitApplicants>
+
 
 
 

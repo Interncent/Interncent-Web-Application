@@ -21,6 +21,8 @@ import { internshipApply, updateResumeDetails } from '../store/actions/user'
 import Messaging from '../containers/chat/Messaging'
 import ContactList from '../containers/chat/ConversationList'
 import ResumeBuilder from './Profile/ResumeBuilder';
+import PasswordResetEmail from './PasswordReset/EmailSend'
+import PasswordChange from './PasswordReset/PasswordChange';
 
 class Main extends React.Component {
     constructor(props) {
@@ -98,6 +100,9 @@ class Main extends React.Component {
                     <Route exact path="/profile/:id" render={props => <Profile key={props.match.params.id} {...props} currentUser={currentUser} />} />
                     <Route exact path="/bookmarks" render={props => <Bookmarks {...props} currentUser={currentUser} />} />
                     <Route exact path="/resume" render={props => <ResumeBuilder {...props} user={currentUser.user} updateResumeDetails={this.props.updateResumeDetails} />} />
+                    <Route exact path="/password-reset" render={props => <PasswordResetEmail {...props} />}></Route>
+                    <Route exact path="/password-reset/:token" render={props => <PasswordChange {...props} />}></Route>
+
 
                     <Route path="*" render={props => <NotFound {...props} />} />
                 </Switch>

@@ -188,6 +188,7 @@ const userScehma = new mongoose.Schema({
 			ref: 'CouncilMember',
 		}
 	],
+	passwordResetToken: String,
 	passedOut: String,
 	workingAt: String,
 	position: String

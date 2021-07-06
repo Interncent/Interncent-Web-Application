@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../models');
 const skillJSON = require('../data binder/skills.json');
 const mailer = require('../handlers/mailer');
+const { text } = require('body-parser');
 
 // Search Internships
 
@@ -293,22 +294,7 @@ router.post('/apply', (req, res, next) => {
 });
 
 
-// View Applications for an Internship
-router.get('/applications/:id', (req, res, next) => {
-    db.InternshipDetails.findById(req.params.id, 'applications duration').populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email photo _id dept year rollNo' } }).exec()
-        .then((internship) => {
-            if (!internship) {
-                return next({
-                    status: 404,
-                    message: 'Internship Not Found'
-                })
-            }
-            return res.send({ applications: internship.applications, duration: internship.duration })
-        }).catch((err) => {
-            next(err)
-        });
 
-})
 
 // Change State of Application
 router.put('/application/:id', (req, res, next) => {
@@ -321,7 +307,7 @@ router.put('/application/:id', (req, res, next) => {
 })
 
 router.get('/applications/:id', (req, res, next) => {
-    db.InternshipDetails.findById(req.params.id, 'applications duration').populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email photo _id dept year rollNo' } }).exec()
+    db.InternshipDetails.findById(req.params.id, 'applications duration').populate({ path: 'applications', populate: { path: 'applicantId', select: 'fname lname email photo _id dept year rollNo resume' } }).exec()
         .then((internship) => {
             if (!internship) {
                 return next({
@@ -329,6 +315,7 @@ router.get('/applications/:id', (req, res, next) => {
                     message: 'Internship Not Found'
                 })
             }
+            console.log(internship)
             return res.send({ applications: internship.applications, duration: internship.duration })
         }).catch((err) => {
             next(err)
@@ -340,7 +327,7 @@ router.get('/applications/:id', (req, res, next) => {
 
 // View Particular Application
 router.get('/viewapplication/:id', (req, res, next) => {
-    db.Application.findById(req.params.id).populate({ path: 'applicantId', select: 'fname lname email photo _id' }).populate({ path: 'internshipId', select: 'faculty duration title _id', populate: { path: 'faculty', select: 'fname lname email photo _id' } }).exec()
+    db.Application.findById(req.params.id).populate({ path: 'applicantId', select: 'fname lname email photo _id resume' }).populate({ path: 'internshipId', select: 'faculty duration title _id', populate: { path: 'faculty', select: 'fname lname email photo _id' } }).exec()
         .then((application) => {
             res.send(application)
         }).catch((err) => {
@@ -425,21 +412,44 @@ router.post('/mailapplicants', (req, res, next) => {
 // });
 
 router.put('/recruited/:id', async (req, res, next) => {
-    db.Application.findByIdAndUpdate({ internshipId: req.body.internshipId }, { state: 'Not Selected' })
+    db.Application.updateMany({ internshipId: req.params.internshipId }, { state: 'Not Selected' })
         .then(() => {
+            var error_2 = null
+            console.log(req.body.applications)
             req.body.applications.forEach(async app => {
                 try {
-                    let application = await db.Application.findById(app)
+                    let application = await db.Application.findOne({ applicantId: app })
                     application.state = 'Selected'
                     await application.save()
+                    let internship = await db.InternshipDetails.findById(req.params.id, 'faculty title category').populate('faculty', 'fname lname')
+                    var mailBody = {
+                        to: req.body.emailArray,
+                        subject: `Regarding ${internship.title} (${internship.category}) by ${internship.faculty.fname} ${internship.faculty.lname}`,
+                        text: 'Congrats You Have been selected for this internship. Contact the empoloyeer of this internships for further instructions.'
+                    }
+                    // console.log(mailBody)
+                    mailer(mailBody)
                 } catch (error) {
-                    next(err)
+                    console.log("Error1:" + error)
+                    error_2 = error
                 }
             })
-            res.send('Recruited')
+            if (error_2 !== null) {
+                return next(error_2)
+            }
+            return res.send('Recruited')
         }).catch((err) => {
-            next(err)
+            console.log("Error2: " + error)
+            return next(err)
         });
 })
 
+router.get('/recruited/:id', (req, res, next) => {
+    db.Application.find({ internshipId: req.params.id, state: 'Selected' }, 'applicantId').populate('applicantId', 'email _id')
+        .then((result) => {
+            res.send(result)
+        }).catch((err) => {
+
+        });
+})
 module.exports = router;

@@ -83,7 +83,7 @@ class SingleApplication extends Component {
                                 <div style={{ fontWeight: '600' }}>{this.state.application.applicantId.fname + " " + this.state.application.applicantId.lname}</div>
                                 <div className='apllicationBtns'>
                                     <button className='ui button' style={{ marginLeft: '5px' }}>
-                                        <a style={{ color: 'black' }} href={"/profile/" + this.state.application.applicantId.email.split('@')[0]} target="_blank" rel="noreferrer">Resume</a>
+                                        <a style={{ color: 'black' }} href={this.state.application.applicantId.resume} target="_blank" rel="noreferrer">Resume</a>
                                     </button>
                                     <button className='ui button' style={{ marginLeft: '5px' }}>
                                         <Link style={{ color: 'black' }} to={"/profile/" + this.state.application.applicantId.email.split('@')[0]}>Profile</Link>
@@ -114,7 +114,7 @@ class SingleApplication extends Component {
 
                     </div>
                 </PDFExport>
-                <center><button className="ui button red" style={{marginTop:'10px'}} onClick={this.exportPDF} >Download Application</button></center>
+                <center><button className="ui button red" style={{ marginTop: '10px' }} onClick={this.exportPDF} >Download Application</button></center>
 
                 <PageFooter></PageFooter>
 

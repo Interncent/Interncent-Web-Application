@@ -20,7 +20,6 @@ var imageFilter = function (req, file, cb) {
 var upload = multer({ storage: storage, fileFilter: imageFilter });
 
 var onlineprofile = {}
-var onlineprofilerev = {}
 
 function chat(io) {
     console.log('socket started')
@@ -29,9 +28,9 @@ function chat(io) {
         socket.emit('yo', null);
         socket.on("statusonline", ({ uid }) => {
             onlineprofile[uid] = socket;
-            onlineprofilerev[socket.id] = uid
+            socket.userId = uid
         })
-        socket.on('join-room-justsocket', ({ rid, uid }) => {
+        socket.on('join-room-justsocket', (rid) => {
             socket.join(rid)
         })
         socket.on('join-room', ({ rid, uid }) => {
@@ -92,14 +91,27 @@ function chat(io) {
                                 let otherUser = await db.User.findById(data.otherUser, 'interactions')
                                 let interaction = await db.Interaction.create({ otherUser: data.uid, conversation: data.rid })
                                 let currentUser = await db.User.findById(data.uid, '_id fname lname emial photo')
-                                interaction.otherUser = currentUser
                                 otherUser.interactions.push(interaction)
+                                await otherUser.save()
+                                interactionCopy = { _id: interaction._id, otherUser: currentUser }
+                                interactionCopy.conversation = { _id: a._id, updatedAt: a.updatedAt }
+                                console.log(interactionCopy)
+
                                 if (data.otherUser in onlineprofile) {
                                     console.log("emiting socket event to create interaction")
-                                    onlineprofile[data.otherUser].emit("newinteraction", interaction)
-                                    onlineprofile[data.otherUser].join(data.rid) //Not Joining Room
+
+                                    try {
+                                        console.log(typeof (onlineprofile[data.otherUser].join))
+                                        await onlineprofile[data.otherUser].join(data.rid) //Not Joining Room
+                                        onlineprofile[data.otherUser].emit("newinteraction", interactionCopy)
+
+                                        console.log("Othe User Joined********************")
+                                    } catch (error) {
+                                        console.log('New Interaction error:' + error)
+                                    }
+
                                 }
-                                await otherUser.save()
+
                             } catch (error) {
                                 console.log(error)
                             }
@@ -112,7 +124,14 @@ function chat(io) {
                         console.log(err)
                     })
 
+                const clients = io.sockets.adapter.rooms.get(data.rid);
+                for (const clientId of clients) {
 
+                    //this is the socket of each client in the room.
+                    const clientSocket = io.sockets.sockets.get(clientId);
+                    console.log(clientSocket.userId + "**************")
+
+                }
                 io.to(data.rid).emit('new-messr', m)
 
 
@@ -129,7 +148,7 @@ function chat(io) {
         })
 
         // When message is seen
-        socket.on('seen-message', ({mid, rid}) => {
+        socket.on('seen-message', ({ mid, rid }) => {
             db.Message.findByIdAndUpdate(mid, { isRead: true })
                 .then((result) => {
                     console.log(rid)
@@ -148,6 +167,7 @@ function chat(io) {
                         await db.User.findById(uid, 'interactions').populate('interactions')
                             .then(async (result) => {
                                 let index = result.interactions.findIndex(i => a._id.equals(i.conversation))
+                                await db.Interaction.findByIdAndRemove(result.interactions[index]._id)
                                 await result.interactions.splice(index, 1)
                                 await result.save()
                                 await a.remove()
@@ -161,8 +181,7 @@ function chat(io) {
                 })
         });
         socket.on("disconnect", () => {
-            delete onlineprofile[onlineprofilerev[socket.id]]
-            delete onlineprofilerev[socket.id]
+            delete onlineprofile[socket.userId]
         })
     });
 }

@@ -10,8 +10,6 @@ import Internshipform from '../Homepage/Internshipform'
 import { Link } from 'react-router-dom';
 
 
-
-
 class InternshipDetail extends Component {
   constructor(props) {
     super(props);

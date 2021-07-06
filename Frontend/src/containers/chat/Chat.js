@@ -50,10 +50,12 @@ class ChatApp extends React.Component {
         socket.emit("statusonline", { uid: this.props.currentUser.user._id })
       });
       socket.on("newinteraction", (inter) => {
+        console.log(inter)
         let intercopy = this.state.interactions
         intercopy.unshift(inter)
         console.log(intercopy)
         this.setState({ ...this.state, interactions: intercopy })
+        socket.emit('join-room-justsocket', inter.conversation._id)
       })
       socket.on('new-messr', async m => { // need to set isread message true by sending event fix this
         var interactionsCopy = this.state.interactions
