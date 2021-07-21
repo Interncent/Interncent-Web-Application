@@ -1,4 +1,4 @@
-KJSCE Connect
+College Connect
 Backend Server- https://kjsce-connect-backend.herokuapp.com
 
 Frontend Server - https://kjsceconnect.herokuapp.com/
