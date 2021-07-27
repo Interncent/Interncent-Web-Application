@@ -7,8 +7,12 @@ import 'react-image-crop/dist/ReactCrop.css';
 import ReactCrop from 'react-image-crop';
 import { base64StringtoFile, image64toCanvasRef, extractImageFileExtensionFromBase64 } from './ImageCropUtils';
 import { Link } from 'react-router-dom'
+import LinkedInPage from './linkedin'
+
 const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg';
 const acceptedFileTypesArray = acceptedFileTypes.split(',').map(item => item.trim());
+
+
 
 class Basic extends React.Component {
   constructor(props) {
@@ -269,8 +273,9 @@ class Basic extends React.Component {
               <small> - {this.props.user.role}</small>
             </h2>
 
-            {this.props.owner ?
+            {this.props.owner ?<span>
               <button className="ui button" id="resumeBtn" onClick={this.handleshow3}>Resume</button>
+              <LinkedInPage></LinkedInPage></span>
               :
               <Link className="ui button" id="resumeBtn" to={'/createchat/' + this.props.user._id}>Message</Link>
             }

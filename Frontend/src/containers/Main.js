@@ -23,7 +23,7 @@ import ContactList from '../containers/chat/ConversationList'
 import ResumeBuilder from './Profile/ResumeBuilder';
 import PasswordResetEmail from './PasswordReset/EmailSend'
 import PasswordChange from './PasswordReset/PasswordChange';
-
+import { LinkedInPopUp } from 'react-linkedin-login-oauth2';
 class Main extends React.Component {
     constructor(props) {
         super(props)
@@ -92,7 +92,7 @@ class Main extends React.Component {
                     <Route exact path="/internship/applications/:id" render={props => <Applications key={props.match.params.id} {...props} currentUser={currentUser} />} />
                     <Route exact path="/internship/:id" render={props => <IntershipDetail internshipApply={this.props.internshipApply} key={props.match.params.id} {...props} currentUser={currentUser} />} />
                     <Route exact path="/viewapplication/:id" render={props => <SingleApplication key={props.match.params.id} {...props} currentUser={currentUser} />} />
-
+                    <Route exact path="/linkedin" component={LinkedInPopUp} />
                     <Route exact path="/community" render={props => <Community {...props} currentUser={currentUser} />} />
                     <Route exact path="/post/:id" render={props => <Post key={props.match.params.id} {...props} currentUser={currentUser} />} />
                     <Route exact path="/hashtag/:id" render={props => <Hashtag key={props.match.params.id} {...props} currentUser={currentUser} />} />
