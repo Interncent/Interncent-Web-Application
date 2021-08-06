@@ -582,19 +582,19 @@ sub{
 }
 /* **************** End card ***************/
 
-/* **************Page Footer************** */
-footer{
+/* **************Page #Footer************** */
+#footer{
   background-color: #020C53;
   margin-top: 50px;
   padding: 10px;
 }
-footer h4{
+#footer h4{
   color: #FFCA3D ;
 }
-footer a{
+#footer a{
   color: #FFCA3D;
 }
-footer .icon-lg{
+#footer .icon-lg{
   float: right;
   font-size: 80px;
   padding: 10px;
@@ -604,7 +604,7 @@ footer .icon-lg{
       font-size: 50px;
   }
 }
-footer .btn{
+#footer .btn{
   background-color: #FFCA3D;
   color: #020C53;
 }
@@ -1296,7 +1296,7 @@ body {
 #postalone{
   margin-top: 65px;
 }
-#heightforfooter{
+#heightfor#footer{
   min-height: 400px;
 }
  /* **********Internship Details************* */

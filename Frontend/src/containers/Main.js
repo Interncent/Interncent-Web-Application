@@ -23,6 +23,7 @@ import ContactList from '../containers/chat/ConversationList'
 import ResumeBuilder from './Profile/ResumeBuilder';
 import PasswordResetEmail from './PasswordReset/EmailSend'
 import PasswordChange from './PasswordReset/PasswordChange';
+import IntroductionPage from '../compenents/IntroductionPage'
 
 class Main extends React.Component {
     constructor(props) {
@@ -101,6 +102,8 @@ class Main extends React.Component {
                     <Route exact path="/bookmarks" render={props => <Bookmarks {...props} currentUser={currentUser} />} />
                     <Route exact path="/resume" render={props => <ResumeBuilder {...props} user={currentUser.user} updateResumeDetails={this.props.updateResumeDetails} />} />
                     <Route exact path="/password-reset" render={props => <PasswordResetEmail {...props} />}></Route>
+                    <Route exact path="/welcome" render={props => <IntroductionPage {...props} />}></Route>
+
                     <Route exact path="/password-reset/:token" render={props => <PasswordChange {...props} />}></Route>
 
 

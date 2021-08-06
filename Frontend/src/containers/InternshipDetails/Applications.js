@@ -103,7 +103,7 @@ class Applications extends Component {
         const internshipId = this.props.match.params.id
         apiCall('get', '/internship/applications/' + internshipId, '')
             .then(({ applications, duration }) => {
-                this.setState({ applications, ques2: `Are you avaiable for ${duration} month(s), starting immediately? If not, what is the time period you are avaiable for and the earliest date you can start this internhsip on?` })
+                this.setState({ applications, ques2: `Are you available for ${duration} month(s), starting immediately? If not, what is the time period you are available for and the earliest date you can start this internship on?` })
             }).catch((err) => {
                 console.log(err)
             });

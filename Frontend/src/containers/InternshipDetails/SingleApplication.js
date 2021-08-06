@@ -107,7 +107,7 @@ class SingleApplication extends Component {
 
                                 <br></br>
 
-                                <strong>Q2.Are you avaiable for {this.state.application.internshipId.duration} month(s), starting immediately? If not, what is the time period you are avaiable for and the earliest date you can start this internhsip on?</strong>
+                                <strong>Q2.Are you available for {this.state.application.internshipId.duration} month(s), starting immediately? If not, what is the time period you are available for and the earliest date you can start this internship on?</strong>
                                 <div><b>Ans. </b> {this.state.application.answers[1]}</div>
                             </div>
                         </div>

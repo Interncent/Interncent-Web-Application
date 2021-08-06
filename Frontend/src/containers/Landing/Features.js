@@ -9,7 +9,7 @@ const Features = (props) => {
                     KJSCE Connect provides you with an extensive platform where faculty of your college can float internships and you can enroll in them based on your skills.
                 </li>
                 <li className="featuresItem">
-                    Once you are enrolled in an internhsip, an Internhsip tab is created which is accessible by the faculty of our internship and it can be used for prompting your progeress in the internship and by faculty for giving remarks on your progress.
+                    Once you are enrolled in an internship, an internship tab is created which is accessible by the faculty of our internship and it can be used for prompting your progeress in the internship and by faculty for giving remarks on your progress.
                     <i className="fas fa-users rightIcon"></i>
                 </li>
 

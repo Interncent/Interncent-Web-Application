@@ -31,7 +31,16 @@ const internshipDetailsSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  category: ''
+  category: String,
+  questions: [
+    {
+      ques: String,
+      type: String,
+      correctAns: String,
+      points: String,
+      options: [String]
+    }
+  ]
 });
 
 module.exports = mongoose.model('InternshipDetails', internshipDetailsSchema);

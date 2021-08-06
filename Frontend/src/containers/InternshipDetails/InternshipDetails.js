@@ -63,7 +63,7 @@ class InternshipDetail extends Component {
                   if (this.state.user._id === data.faculty._id) {
                     this.setState({ owner: true })
                   }
-                  await this.setState({ details: data, recommlist: recomm, exists: true, start: false, ques2: `Are you avaiable for ${data.duration} month(s), starting immediately? If not, what is the time period you are avaiable for and the earliest date you can start this internhsip on?` });
+                  await this.setState({ details: data, recommlist: recomm, exists: true, start: false, ques2: `Are you available for ${data.duration} month(s), starting immediately? If not, what is the time period you are available for and the earliest date you can start this internship on?` });
 
                   console.log(this.state);
                 }).catch(
