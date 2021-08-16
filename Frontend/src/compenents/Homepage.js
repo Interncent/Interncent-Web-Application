@@ -18,14 +18,14 @@ const Homepage = (props) => {
                     <Carousel.Item>
                         <img
                             className="d-block"
-                            src="https://www.eurashe.eu/wp-content/uploads/2018/08/Visual.png"
+                            src="https://d8it4huxumps7.cloudfront.net/uploads/images/60d09656e1b9b_1.png?d=1920x418"
                             alt="First slide"
                         />
                     </Carousel.Item>
                     <Carousel.Item>
                         <img
                             className="d-block"
-                            src="https://lms-kjsce.somaiya.edu/pluginfile.php/1/theme_essential/slide2image/1604898978/eng_banner_2%20%282%29.jpg"
+                            src="https://d8it4huxumps7.cloudfront.net/uploads/images/60d09656e1b9b_1.png?d=1920x418"
                             alt="Second slide"
                         />
 
@@ -37,7 +37,7 @@ const Homepage = (props) => {
                     <Carousel.Item>
                         <img
                             className="d-block"
-                            src="https://lms-kjsce.somaiya.edu/pluginfile.php/1/theme_essential/slide4image/1604898978/Principal%20Mam.jpg"
+                            src="https://d8it4huxumps7.cloudfront.net/uploads/images/60d09656e1b9b_1.png?d=1920x418"
                             alt="Third slide"
                         />
                     </Carousel.Item>

@@ -586,4 +586,17 @@ router.put('/resume/updatelink', (req, res, next) => {
             next(err)
         });
 })
+
+// *******************Advanced User Search**********************//
+router.post('/advusersearch/:role', (req, res, next)=>{
+    switch(req.params.role){
+        case 'student':{
+            // Parameters(dept, year, skills)
+            const {dept, year, skills}=req.body.query
+            db.User.find({})
+        }
+    }
+})
+
+
 module.exports = router;

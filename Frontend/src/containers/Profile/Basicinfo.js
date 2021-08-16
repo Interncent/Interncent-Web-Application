@@ -268,14 +268,15 @@ class Basic extends React.Component {
             </Modal>
           </div>
           <div className="media-body va-m">
-            <h2 className="media-heading">
+            <div className="media-heading">
               {this.props.user.fname + " " + this.props.user.lname}
               <small> - {this.props.user.role}</small>
-            </h2>
+            </div>
 
             {this.props.owner ?<span>
               <button className="ui button" id="resumeBtn" onClick={this.handleshow3}>Resume</button>
-              <LinkedInPage></LinkedInPage></span>
+              {/* <LinkedInPage></LinkedInPage> */}
+              </span>
               :
               <Link className="ui button" id="resumeBtn" to={'/createchat/' + this.props.user._id}>Message</Link>
             }

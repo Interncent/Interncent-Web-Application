@@ -18,6 +18,10 @@ const userScehma = new mongoose.Schema({
 		type: String,
 
 	},
+	college: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'College'
+	},
 	dept: String,
 	role: String,
 	year: String,

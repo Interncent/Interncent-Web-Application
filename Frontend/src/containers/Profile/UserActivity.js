@@ -112,7 +112,7 @@ class Basic extends Component {
         break;
     }
     return (
-      <div className="col-md-8">
+      <div className="col-md-8" id="profiletabs">
         <div className="tab-block">
           <Nav variant="tabs">
             <Nav.Item>

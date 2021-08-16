@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import logo from '../../images/logo.png';
+import logo from '../../images/logo2.png';
 import { MContext } from '../../services/Provider'
 import { connect } from 'react-redux';
 import { logout } from '../../store/actions/auth'
@@ -81,7 +81,7 @@ class Navbar extends Component {
         }
         return (
             <div>
-                <nav className="navbar navbar-expand-lg fixed-top">
+                <nav className="navbar navbar-expand-lg fixed-top bg-white blur shadow-lg">
                     <div className="container">
                         <Link className="navbar-brand" to="/home">
                             <img src={logo} alt="logo" className="logo" />

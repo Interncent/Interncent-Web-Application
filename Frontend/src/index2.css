@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+:root{
+  --blue-color: #4299e1;
+  --black-color: #4d4d4d;
+  --mat-black:#171717;
+  --orange-color: #fea801
+
+}
+
 #userProfile{
     min-height: 800px;
 }
@@ -44,7 +53,7 @@
   bottom: 5em;
   color: black;
   text-align: center;
-  background-color: #FFCA3D;
+  background-color: var(--orange-color);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   cursor: pointer;
@@ -56,7 +65,7 @@
   min-width: 170px;
   height: 90%;
   width: 97%;
-  border: #FFCA3D 1.5px solid;
+  border: var(--orange-color) 1.5px solid;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   width: 100%;
@@ -68,11 +77,11 @@
 	position: relative;
 	padding: 30px 40px;
 	margin: -25px -20px 25px;
-	border-left: 30px solid #ffca3d;
-	border-right: 30px solid #ffca3d;
-	border-top: 11px solid  #ffca3d;
-	background-color: #020b53;
+	background-color: #17171779;
+	border-radius: 5px;
+	background: url(https://media-exp1.licdn.com/dms/image/C4D16AQEqlmcr3SO8ZA/profile-displaybackgroundimage-shrink_350_1400/0/1627233755755?e=1633564800&v=beta&t=_3woSb2JYH_fYUMBsE1oPKVlGM7YojaLOcABR-3NxN4) no-repeat center center / cover ;
 }
+
 .tab-content{
 	max-height: 800px;
 	height: 90%;
@@ -116,16 +125,19 @@ border-radius: 3px;
 	max-height: 800px;
 	height: 90%;
 }
+#profile #profiletabs .nav-item .active{
+	background-color: orange;
+}
 
 .panel .tagsskill{
-  background-color: #020b53;
+  border:2px solid var(--orange-color);
   border-radius: 10px;
   display: inline-block;
   padding: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
   margin: 5px;
-  color: #ffca3d;
+  color: var(--mat-black);
   font-weight: 450;
 }
 
@@ -146,7 +158,7 @@ color: #020c53;
 font-size: 15px;
 font-weight: 500;
 padding: 0 8px;
-background: #ffca3d;
+background: var(--orange-color);
 border: 1px solid #e2e2e2;
 border-top-right-radius: 3px;
 border-top-left-radius: 3px;
@@ -184,9 +196,15 @@ float: none !important;
 padding-right: 10px;
 }
 .media-heading {
-color: rgba(255, 255, 255, 0.884);
-margin-top: 0;
-margin-bottom: 5px;
+	color: var(--black-color);
+	margin-top: 0;
+	margin-bottom: 8px;
+	background-color: white;
+	padding: 5px;
+	border-radius: 5px;
+	display: inline-block;
+	font-size: 23px;
+	font-weight: 500;
 }
 .media-links ul{
 display: flex;
@@ -207,12 +225,14 @@ margin-right: 9px;
   	right: 40px;
   	margin-top: 170px;
   	margin-left:100px;
-	background-color: #020C53;
+	background-color: orange;
   	border: 0px;
+	border-radius: 50%;	  
   	outline:0px;
 	text-align:center;
   	z-index: 2;
   	display: inline-block;
+	  color: var(--mat-black);
 }
 
 
@@ -220,15 +240,15 @@ margin-right: 9px;
 	right:5px !important;
 	margin-right:"5px";
 	position: absolute;
-	color:#020b53;
-	background-color: #FFCA3D;
+	color:var(--mat-black);
+	background-color: var(--orange-color);
 }
 .edit-but:focus{
   outline:0px;
 }
 .edit-but .fa-edit{
-  color:#FFCA3D;
-  scale: 2;
+  color: var(--mat-black);
+  transform: scale(1.3);
 }
 @media screen and (max-width:900px) {
 	.edit-but{
@@ -279,7 +299,7 @@ margin-right: 9px;
   padding: 10px;
   margin: 10px;
   border: 1.5px solid #bdbdbdd2;
-  border-left: 10px solid #020b53;
+  border-left: 10px solid var(--black-color);
 }
 .experience-ele h4{
   border-radius: 5px;
@@ -350,8 +370,14 @@ margin-right: 9px;
 	float:right !important;
 }
 .lead{
+	border-radius: 5px;
+	padding: 4px;
 	word-break: break-all;
 	max-width: 90%;
+	background-color: white;
+	color: var(--mat-black);
+	font-size: 16px;
+	
 }
 
 @media screen and (max-width:900px){
@@ -488,14 +514,15 @@ margin-right: 9px;
 	padding: 10px 12px;
 	text-align: center;
 	vertical-align: middle;
+	background-color: white !important;
 }
 
-.bar1,
-.bar2,
-.bar3 {
-	width: 15px;
+.openbtn .bar1,
+.openbtn .bar2,
+.openbtn .bar3 {
+	width: 17px;
 	height: 2px;
-	background-color: white;
+	background-color: var(--mat-black);
 	margin: 2px 0;
 	transition: 0.4s;
 }
@@ -521,7 +548,7 @@ margin-right: 9px;
 	top: 0;
 	right: 0;
 	bottom: 0;
-	background-color:rgb(51, 51, 51);
+	background-color:var(--mat-black);
 	overflow: hidden;
 	transition: 0.4s cubic-bezier(0.5, 0.6, 0.7, 0.8);
 	white-space: nowrap !important;
