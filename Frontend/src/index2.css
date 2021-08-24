@@ -3,8 +3,12 @@
   --blue-color: #4299e1;
   --black-color: #4d4d4d;
   --mat-black:#171717;
-  --orange-color: #fea801
+  --orange-color: #fea801;
+  --box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
+}
+body{
+	background: white;
 }
 
 #userProfile{
@@ -19,7 +23,7 @@
 /* *********** end MyInternships******************* */
 
 /**************** Profile *************************/
- 
+
 .fs35 {
   font-size: 35px !important;
 
@@ -73,25 +77,214 @@
 }
 
 
+
+/* Page Heading (basic info) */
 .page-heading {
 	position: relative;
 	padding: 30px 40px;
 	margin: -25px -20px 25px;
-	background-color: #17171779;
 	border-radius: 5px;
-	background: url(https://media-exp1.licdn.com/dms/image/C4D16AQEqlmcr3SO8ZA/profile-displaybackgroundimage-shrink_350_1400/0/1627233755755?e=1633564800&v=beta&t=_3woSb2JYH_fYUMBsE1oPKVlGM7YojaLOcABR-3NxN4) no-repeat center center / cover ;
+	box-shadow: var(--box-shadow)
 }
 
+#profile .main-box h3{
+	font-weight: 500;
+font-size: x-large;
+}
+#profile .main-box h4{
+	font-weight: 500;
+font-size: 14px;
+margin: 0;
+margin-bottom: 20px;
+}
+#profile .main-box .main-box
+{
+	max-width: 900px;
+	width: 100%;
+	height: 450px;
+	background-color: white;
+	margin: 0;
+	border-radius: 20px;
+  position: relative;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+#profile .main-box .input-file{
+	display:none;  
+  }
+  #profile .main-box .input-btn{
+	background-color: white;
+	color: #fff;
+	border: 1px solid #8c8c8c;
+	padding: 10px;
+	border-radius: 20px;
+	margin: 15px;
+  }
+  #profile .main-box .input-btn:hover{
+	background-color:#c9cccb;
+  }
+  #profile .main-box .pen-btn
+  {
+	background-color: white;
+	color: #fff;
+	border: none;
+	padding: 10px;
+	border-radius: 20px;
+	margin: 10px;
+	margin-top: -20px 
+  }
+#profile .main-box .upload
+{
+	position: absolute;
+	right: 0px;
+}
+#profile .main-box .pen-btn.upload{
+  right: 1%;
+  top: 52%;
+  font-size: 20px;
+}
+#profile .main-box .cover
+{
+	width: 100%;
+	height: 200px;
+	border-top-left-radius: 20px;
+border-top-right-radius: 20px;
+}
+
+#profile .main-box .main-content
+{
+	padding: 0px 25px;
+	color:rgba(0,0,0,0.9);
+	line-height: 10px;
+
+}
+#profile .main-box .dp
+{
+	height: 132px;
+width: 132px;
+border-radius: 50%;
+left: 4px;
+position: relative;
+top: 5px;
+background-color: white;
+padding: 5px;
+margin-top: -100px;
+margin-left: 22px;
+margin-bottom: -4px;
+}
+#profile .main-box .cam
+{
+	color:#0a66c2;
+  cursor:pointer;
+}
+#profile .main-box .pen{
+   color:rgba(0,0,0,0.6);
+   font-size:x-large;
+  cursor:pointer;
+}
+#profile .main-box .but
+{
+width: 107px;
+height: 32px;
+border-radius: 20px;
+outline: none;
+border: none;
+background: #0a66c2;
+color: white;
+font-size: large;
+text-align: center;
+margin-left: 20px;
+}
+#profile .main-box .but:hover{
+	background-color: #203e5d;
+}
+#profile .main-box .but1
+{
+
+	height: 35px;
+	border-radius: 20px;
+	outline: none;
+	border: 1px solid black;
+	background: transparent;
+	font-size: medium;
+	text-align: center;
+	color: rgba(0,0,0,0.6);
+	margin-left: 10px;
+	padding: 0px 20px;
+}
+#profile .main-box .clr
+{
+	color:rgba(0,0,0,0.6);
+}
+#profile .main-box .but1:hover{
+	border: 2px solid black;
+	background: #ddd;
+}
+#profile .main-box .box{
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: -23px;
+}
+#profile .main-box ul{
+	list-style: none;
+}
+#profile .main-box li{
+color: #0a66c2;
+font-weight: 600;
+}
+#profile .main-box .content
+{
+	display: flex;
+margin: 0;
+padding: 0;
+}
+#profile .main-box .icon
+{
+	height: 50px;
+	width:50px
+}
+#profile .main-box .align
+{
+	display: flex;
+}
+#profile .main-box .cmpy{
+font-size: 16px;
+font-family: inherit;
+color:black;
+}
+#profile .main-box span
+{
+	margin-right: 14px;
+margin-left: 10px;
+}
+#profile .main-box .current
+{
+	width: 34%;
+margin-left: 70px
+}
+#profile .main-box .clg
+{
+	position: relative;
+    top: 15px;
+}
+
+/* End Page Heading */
+
+#profile .coverPhoto{
+	min-height: 50%;
+	width: 100%;
+	display: block;
+
+}
 .tab-content{
 	max-height: 800px;
 	height: 90%;
 }
 
 .panel {
-position: relative;
-margin-bottom: 27px;
-background-color: #ffffff;
-border-radius: 3px;
+	position: relative;
+	margin-bottom: 27px;
+	background-color: #ffffff;
+	border-radius: 3px;
 }
 #profile{
 	margin-top: 78px;
@@ -150,18 +343,19 @@ border: 1px solid #e2e2e2;
 	margin-bottom: 4px !important;
 }
 .panel-heading {
-position: relative;
-height: 52px;
-line-height: 49px;
-letter-spacing: 0.2px;
-color: #020c53;
-font-size: 15px;
-font-weight: 500;
-padding: 0 8px;
-background: var(--orange-color);
-border: 1px solid #e2e2e2;
-border-top-right-radius: 3px;
-border-top-left-radius: 3px;
+	position: relative;
+	height: 52px;
+	line-height: 49px;
+	letter-spacing: 0.2px;
+	font-size: 15px;
+	font-weight: 500;
+	padding: 0 8px;
+	border: 1px solid #e2e2e2;
+	background-color: var(--black-color);
+	box-shadow: var(--box-shadow);
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	color: var(--orange-color);
 }
 
 .panel-icon {
@@ -567,9 +761,8 @@ margin-right: 9px;
 	background-color: #020b53;
 	border: 0;
 }
+/******************* Profile End *********************/
 
-
-/* Profile */
 .sidebar .sidebar-header {
 	margin-top: 60px;
 	padding: 15px;
@@ -880,3 +1073,4 @@ margin-right: 9px;
 	width: 80%;
 
 }
+
