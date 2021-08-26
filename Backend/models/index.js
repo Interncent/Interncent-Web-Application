@@ -36,5 +36,7 @@ module.exports.Event = require('./events');
 module.exports.Achievement = require('./achievement');
 module.exports.Hashtag = require('./hashtag');
 module.exports.Interaction = require('./interaction');
+module.exports.EventRegistration = require('./eventRegistration');
+
 
 module.exports.HiddenData = require('./hiddenData');

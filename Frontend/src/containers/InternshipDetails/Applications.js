@@ -158,30 +158,47 @@ class Applications extends Component {
                         </div>
                     </center>
                     <div className='applications'>
-                        {
-                            content.map(app => {
-                                return (
-                                    <div className="singleApplication">
-                                        <img src={app.applicantId.photo} alt='applicant'></img>
-                                        <div ><Link style={{ fontWeight: '600' }} to={"/profile/" + app.applicantId.email.split('@')[0]}>{app.applicantId.fname + " " + app.applicantId.lname}</Link></div>
-                                        <div className='apllicationBtns'>
-                                            <button className='ui button'>
-                                                <a href={'/createchat/' + app.applicantId._id} style={{ color: 'black' }} target="_blank" rel="noreferrer" >Message</a>
-                                            </button>
-                                            <button className='ui button' onClick={() => this.handleShowSingle(app.applicantId.email)}>
-                                                Send Mail
-                                            </button>
+                        <div className="ui cards">
+                            {
+                                content.map(app => {
+                                    return (
+                                        // <div className="singleApplication">
+                                        //     <img src={app.applicantId.photo} alt='applicant'></img>
+                                        //     <div ><Link style={{ fontWeight: '600' }} to={"/profile/" + app.applicantId.email.split('@')[0]}>{app.applicantId.fname + " " + app.applicantId.lname}</Link></div>
+                                        //     <div className='apllicationBtns'>
+                                        //         <button className='ui button'>
+                                        //             <a href={'/createchat/' + app.applicantId._id} style={{ color: 'black' }} target="_blank" rel="noreferrer" >Message</a>
+                                        //         </button>
+                                        //         <button className='ui button' onClick={() => this.handleShowSingle(app.applicantId.email)}>
+                                        //             Send Mail
+                                        //         </button>
 
-                                            <button className='ui button' style={{ marginLeft: '5px' }} >
-                                                <a href={'/viewapplication/' + app._id} style={{ color: 'black' }} target="_blank" rel="noreferrer" >View Application</a>
-                                            </button>
+                                        //         <button className='ui button' style={{ marginLeft: '5px' }} >
+                                        //             <a href={'/viewapplication/' + app._id} style={{ color: 'black' }} target="_blank" rel="noreferrer" >View Application</a>
+                                        //         </button>
+                                        //     </div>
+
+                                        // </div>
+                                        <div className="card">
+                                            <div className="content">
+                                                <img className="right floated mini ui image" src={app.applicantId.photo} alt="applicant" />
+                                                <Link className="header" to={"/profile/" + app.applicantId.email.split('@')[0]}>{app.applicantId.fname + " " + app.applicantId.lname}</Link>
+                                                <div className="meta">
+                                                    I - IT
+                                                </div>
+                                            </div>
+                                            <div className="extra content">
+                                                <div className="ui two buttons">
+                                                    <div className="ui basic green button">Resume</div>
+                                                    <div className="ui basic red button">Message</div>
+                                                </div>
+                                            </div>
                                         </div>
+                                    )
+                                })
 
-                                    </div>
-                                )
-                            })
-
-                        }
+                            }
+                        </div>
 
                     </div>
                 </div>
@@ -193,3 +210,24 @@ class Applications extends Component {
 }
 
 export default Applications
+
+{/* <div className="card">
+                                            <div className="content">
+                                                <img className="right floated mini ui image" src={app.applicantId.photo} alt="applicant" />
+                                                <div className="header" >
+                                                    <Link style={{ fontWeight: '600' }} to={"/profile/" + app.applicantId.email.split('@')[0]}>{app.applicantId.fname + " " + app.applicantId.lname}</Link>
+                                                </div>
+                                                <div className="meta">
+                                                    Friends of Veronika
+                                                </div>
+                                                <div className="description">
+                                                    Elliot requested permission to view your contact details
+                                                </div>
+                                            </div>
+                                            <div className="extra content">
+                                                <div className="ui two buttons">
+                                                    <div className="ui basic green button">Approve</div>
+                                                    <div className="ui basic red button">Decline</div>
+                                                </div>
+                                            </div>
+                                        </div> */}

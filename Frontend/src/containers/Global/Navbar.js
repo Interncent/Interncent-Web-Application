@@ -136,12 +136,13 @@ class Navbar extends Component {
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/messaging"><i className="fas fa-envelope mr-1"></i>Messaging</Link>
                                 </li>
-                                {this.state.isAuthenticated &&
 
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/bookmarks"><i className="fas fa-bookmark mr-1"></i>Bookmarks</Link>
-                                    </li>
-                                }
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/bookmarks"><i className="fas fa-bookmark mr-1"></i>Bookmarks</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/events"><i className="fas fa-calendar-day mr-1"></i>Events</Link>
+                                </li>
                             </ul>
 
                             {rightContent()}
