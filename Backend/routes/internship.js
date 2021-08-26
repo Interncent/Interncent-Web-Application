@@ -14,13 +14,21 @@ function escapeRegex(text) {
 router.get('/search/all', async (req, res, next) => {
     try {
         var recentDate = new Date();
-        let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate } }).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
+        let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate } }).limit(16).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
         res.status(200).send(internships);
     } catch (err) {
         next(err);
     }
 });
-
+router.get('/search/nextall/:curId', async (req, res, next) => {
+    try {
+        var recentDate = new Date();
+        let internships = await db.InternshipDetails.find({_id: {$gt: req.params.curId}, applyBy: { $gte: recentDate } }).sort({_id: 1 }).limit(16).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
+        res.status(200).send(internships);
+    } catch (err) {
+        next(err);
+    }
+});
 router.get('/search/title/:query', async (req, res, next) => {
     try {
         var regex = new RegExp(escapeRegex(req.params.query), 'gi');
