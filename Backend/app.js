@@ -45,12 +45,15 @@ const communityRoutes = require('./routes/community.js');
 const internshipRoutes = require('./routes/internship')
 const userRoutes = require('./routes/user');
 const messageRoutes = require('./routes/messaging')
+const eventRoutes = require('./routes/events')
+
 const refreshRoute = require('./routes/resfresh')
 
 // Incuding Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/:secureId/community', loginRequired, ensureCorrectUser, communityRoutes);
 app.use('/api/:secureId/internship', loginRequired, ensureCorrectUser, internshipRoutes);
+app.use('/api/:secureId/events', loginRequired, ensureCorrectUser, internshipRoutes);
 app.use('/api/:secureId', loginRequired, ensureCorrectUser, userRoutes)
 app.use(refreshRoute)
 

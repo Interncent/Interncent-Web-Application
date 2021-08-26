@@ -930,9 +930,9 @@ margin-right: 9px;
 	margin: 10px auto;
 }
 #applications .mailAppl{
-	margin: 0 5px;
-	color: #FFCA3D;
-	background-color: #020C53;
+	margin: 10px;
+	color: var(--black-color);
+	background-color: var(--orange-color);
 }
 #applications .impButtons{
 	margin-top: 20px !important;

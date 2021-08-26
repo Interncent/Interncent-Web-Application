@@ -1,5 +1,10 @@
 const moongoose = require('mongoose');
 const eventSchema = new moongoose.Schema({
+    college: String,
+    organiser: {
+        type: moongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     title: String,
     venue: String,
     startTime: String,
@@ -7,7 +12,16 @@ const eventSchema = new moongoose.Schema({
     date: {
         type: Date
     },
+    category: String,
     link: String,
-    description:String
+    photo: String,
+    description: String,
+    applyBy: Date,
+    registrations: [
+        {
+            type: moongoose.Schema.Types.ObjectId, 
+            ref:'EventRegistration'
+        }
+    ]
 })
 module.exports = moongoose.model('Event', eventSchema);

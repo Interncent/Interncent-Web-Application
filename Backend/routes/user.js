@@ -363,6 +363,7 @@ router.delete('/council/deleteMember/:userId/:memberId', (req, res, next) => {
         });
 })
 
+// Add an Event
 router.post('/council/addEvent/:userId', (req, res, nex) => {
     db.User.findById(req.params.userId)
         .then(async (user) => {
@@ -587,13 +588,39 @@ router.put('/resume/updatelink', (req, res, next) => {
         });
 })
 
-// *******************Advanced User Search**********************//
-router.post('/advusersearch/:role', (req, res, next)=>{
-    switch(req.params.role){
-        case 'student':{
+// *******************Advanced User Search (Premium Feature)**********************//
+router.post('/advusersearch', (req, res, next) => {
+    switch (req.body.role) {
+        case 'student': {
             // Parameters(dept, year, skills)
-            const {dept, year, skills}=req.body.query
-            db.User.find({})
+            const { dept, year, skills } = req.body.query
+            db.User.find({ dept, year, skills: { $all: skills } })
+                .then((result) => {
+                    res.send(result)
+                }).catch((err) => {
+                    next(err)
+                });
+        }
+
+        case 'faculty': {
+            // Parameters(dept, designation)
+            const { dept, position } = req.body.query
+            db.User.find({ dept, position })
+                .then((result) => {
+                    res.send(result)
+                }).catch((err) => {
+                    next(err)
+                });
+        }
+
+        case 'alumni': {
+            const { dept, passedOut, workingAt } = req.body.query
+            db.User.find({ dept, passedOut, workingAt })
+                .then((result) => {
+                    res.send(result)
+                }).catch((err) => {
+                    next(err)
+                });
         }
     }
 })

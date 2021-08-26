@@ -24,7 +24,8 @@ router.get('/search/all', async (req, res, next) => {
 router.get('/search/title/:query', async (req, res, next) => {
     try {
         var regex = new RegExp(escapeRegex(req.params.query), 'gi');
-        let internships = await db.InternshipDetails.find({ title: regex, applyBy: { $gte: recentDate } }).populate('faculty').exec();
+        var recentDate = new Date();
+        let internships = await db.InternshipDetails.find({ title: regex, applyBy: { $gte: recentDate } }).populate('faculty', 'fname lname email photo').exec();
         res.status(200).send(internships);
     } catch (err) {
         next(err);
@@ -48,18 +49,18 @@ router.post('/search/filter', async (req, res, next) => {
         try {
             if (type.length === 1) {
                 if (skills.length == 0) {
-                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, type: type[0] }).populate('faculty').exec();
+                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, type: type[0] }).populate('faculty', 'fname lname email photo').exec();
                     return res.status(200).send(internships);
                 } else {
-                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, skillsRequired: { $all: skills }, type: type[0] }).populate('faculty').exec();
+                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, skillsRequired: { $all: skills }, type: type[0] }).populate('faculty', 'fname lname email photo').exec();
                     return res.status(200).send(internships);
                 }
             } else {
                 if (skills.length === 0) {
-                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, title: query, duration: { $gte: min, $lte: max } }).populate('faculty').exec();
+                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, title: query, duration: { $gte: min, $lte: max } }).populate('faculty', 'fname lname email photo').exec();
                     return res.status(200).send(internships);
                 } else {
-                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, title: query, skillsRequired: { $all: skills }, duration: { $gte: min, $lte: max } }).populate('faculty').exec();
+                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, title: query, skillsRequired: { $all: skills }, duration: { $gte: min, $lte: max } }).populate('faculty', 'fname lname email photo').exec();
                     return res.status(200).send(internships);
                 }
             }
@@ -136,7 +137,7 @@ router.get('/skillSuggestion/:skill', (req, res, next) => {
 
 // Get Internship Details
 router.get('/details/:id', (req, res, next) => {
-    db.InternshipDetails.findById(req.params.id).populate('faculty', 'fname lname email _id photo').populate({ path: 'applications', select: 'applicantId' })
+    db.InternshipDetails.findById(req.params.id).populate('faculty', 'fname lname email _id photo')
         .exec((err, internship) => {
             if (!internship) {
                 return res.status(404).send({});
