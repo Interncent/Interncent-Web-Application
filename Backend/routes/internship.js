@@ -4,7 +4,7 @@ const db = require('../models');
 const skillJSON = require('../data binder/skills.json');
 const mailer = require('../handlers/mailer');
 const { text } = require('body-parser');
-
+ 
 // Search Internships
 
 function escapeRegex(text) {
