@@ -1,8 +1,11 @@
-import React, { Component,useEffect } from "react";
+import React, { Component } from "react";
 import Internship from "./Intership";
 import { MContext } from "../../services/Provider";
 import Loading from "../../images/Loading";
 import NoResults from "../../images/NoResults";
+
+
+import { InView } from "react-intersection-observer";
 
 class InternshipList extends Component {
   constructor(props) {
@@ -12,30 +15,35 @@ class InternshipList extends Component {
       start: true,
       query: "",
     };
-    this.observer=null
-    this.cc=null
-    this.ref = React.createRef()
+    // this.observer=null
+    // this.cc=null
+    // this.ref = null
   }
   
   componentDidMount(){
     document.documentElement.scrollTop = '0';
-    this.observer = new IntersectionObserver(
-      ([entry]) => {
-        console.log("aya yaha")
-        if (entry.isIntersecting) this.cc.getnewinternships()
-      }
-    )
-    if (this.ref.current) this.observer.observe(this.ref.current)
+    
+    // this.observer = new IntersectionObserver(
+    //   ([entry]) => {
+    //     console.log("aya yaha")
+    //     if (entry.isIntersecting) this.cc.getnewinternships()
+    //   },{
+    //     threshold: 0,
+    //     rootMargin: "-200px 1500px -200px 1500px",
+    // }
+    // )
+    // if (this.ref.current) this.observer.observe(this.ref.current)
   }
-  componentWillUnmount() {
-    if (this.ref.current) this.observer.disconnect()
-  }
+  // componentWillUnmount() {
+  //   if (this.ref.current) this.observer.unobserve(this.ref.current)
+  // }
   render() {
     return (
       <div className="homeSection">
         <MContext.Consumer>
           {(context) => {
-            this.cc=context
+            // this.ref = React.createRef()
+            // this.cc=context
             if (context.state.list.length !== 0) {
               return (
                 <div id="intershiplist">
@@ -50,7 +58,12 @@ class InternshipList extends Component {
                       );
                     })}
                   </div>
-                  {context.state.thereismore && <div ref={this.ref}><Loading className="loading-wheel" /></div>}
+                  {context.state.thereismore && <InView onChange={(iv,e)=>{if (iv) context.getnewinternships()}}>
+                {({ inView, ref, entry }) => (
+                <div ref={ref}><Loading className="loading-wheel" /></div>
+                )}
+                </InView>
+              }
                 </div>
               );
             } else if (context.state.start) {
