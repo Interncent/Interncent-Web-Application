@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,useEffect } from "react";
 import Internship from "./Intership";
 import { MContext } from "../../services/Provider";
 import Loading from "../../images/Loading";
@@ -12,15 +12,29 @@ class InternshipList extends Component {
       start: true,
       query: "",
     };
+    this.observer=null
+    this.cc=null
+    this.ref = React.createRef()
   }
+  
   componentDidMount(){
     document.documentElement.scrollTop = '0';
+    this.observer = new IntersectionObserver(
+      ([entry]) => {
+        console.log("aya yaha")
+        if (entry.isIntersecting) this.cc.getnewinternships()}
+    )
+    if (this.ref.current) this.observer.observe(this.ref.current)
+  }
+  componentWillUnmount() {
+    if (this.ref.current) this.observer.disconnect()
   }
   render() {
     return (
       <div className="homeSection">
         <MContext.Consumer>
           {(context) => {
+            this.cc=context
             if (context.state.list.length !== 0) {
               return (
                 <div id="intershiplist">
@@ -35,6 +49,7 @@ class InternshipList extends Component {
                       );
                     })}
                   </div>
+                  {context.state.thereismore && <div ref={this.ref}><Loading className="loading-wheel" /></div>}
                 </div>
               );
             } else if (context.state.start) {
