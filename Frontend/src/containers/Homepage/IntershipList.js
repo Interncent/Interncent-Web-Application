@@ -22,7 +22,8 @@ class InternshipList extends Component {
     this.observer = new IntersectionObserver(
       ([entry]) => {
         console.log("aya yaha")
-        if (entry.isIntersecting) this.cc.getnewinternships()}
+        if (entry.isIntersecting) this.cc.getnewinternships()
+      }
     )
     if (this.ref.current) this.observer.observe(this.ref.current)
   }
