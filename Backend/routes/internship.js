@@ -5,7 +5,7 @@ const skillJSON = require('../data binder/skills.json');
 const mailer = require('../handlers/mailer');
 const { text } = require('body-parser');
  
-// Search Internships
+// Search Internships 
 
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
