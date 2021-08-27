@@ -4,10 +4,11 @@
   --black-color: #4d4d4d;
   --mat-black:#171717;
   --orange-color: #fea801;
+  --warm-gray:#f5f5f5;
 }
 body{
   font-family: 'Open Sans', sans-serif;
-  background-color: white;
+  background:white!important;
 }
 
 
@@ -15,11 +16,6 @@ body{
   margin:0;
   box-sizing: border-box;
   padding:0;
-}
-body{
-  background-color: white;
-  padding: 0 !important;
-  overflow-y: scroll !important;
 }
 
 /* Color Pallete
@@ -42,7 +38,7 @@ style 2--
   padding:0;
   /* box-shadow: ; */
   user-select: none;
-  z-index: 5;
+  z-index: 10;
 }
 .navbar .nav-item{
   margin: 10px 10px;
@@ -362,7 +358,6 @@ style 2--
   animation: leftShift 0.4s forwards;
 }
 /* ***************************-Home page******************* */
-
 .homePage .carousel-home .carousel .carousel-item img{
   object-fit: cover;
 }
@@ -529,7 +524,7 @@ sub{
   box-sizing: content-box;
   animation-name: fadeIn;
   animation-duration: 1s;
-
+  background-color: white;
 }
 .template .top{
   text-align: start;
@@ -578,6 +573,7 @@ sub{
 }
 .card{
   border:none;
+  background-color: transparent;
 }
 .template:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
@@ -753,6 +749,7 @@ body{
 }
 #internshipdetail .recommendations .template{
    margin: 10px;
+   background-color: var(--warm-gray);
 }
 #internshipdetail .recommendations .template .top{
    display: flex !important;

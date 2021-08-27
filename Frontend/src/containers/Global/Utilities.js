@@ -3,9 +3,9 @@ import Modal from 'react-bootstrap/Modal'
 import Internshipform from '../Homepage/Internshipform'
 import FilterForm from '../Homepage/FilterForm'
 
+// Internship Create
 export function InternshipCreate(props) {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
@@ -24,6 +24,7 @@ export function InternshipCreate(props) {
 }
 
 
+// Internship Filter
 export function FilterInternships() {
   const [show, setShow] = useState(false);
 
@@ -45,3 +46,5 @@ export function FilterInternships() {
     </div>
   )
 }
+
+// Event Create

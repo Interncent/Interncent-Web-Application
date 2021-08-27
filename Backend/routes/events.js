@@ -4,8 +4,8 @@ const db = require('../models');
 
 
 // Get all Events
-router.get('/events', (req, res, next) => {
-    db.Event.find()
+router.get('/getall', (req, res, next) => {
+    db.Event.find().populate('organiser', 'fname lname email photo').exec()
         .then((events) => {
             res.send(events)
         }).catch((err) => {
@@ -14,7 +14,7 @@ router.get('/events', (req, res, next) => {
 })
 
 // Filter Events by Title
-router.get('/events/title/:query', async (req, res, next) => {
+router.get('/title/:query', async (req, res, next) => {
     try {
         var regex = new RegExp(escapeRegex(req.params.query), 'gi');
         var recentDate = new Date();
@@ -27,7 +27,7 @@ router.get('/events/title/:query', async (req, res, next) => {
 
 // Filter Events by college, council, category
 // Category- competetion, culture & entertainment, seminar, webinar,workshop, social work 
-router.post('/events/filter', async (req, res, next) => {
+router.post('/filter', async (req, res, next) => {
     console.log(req.body);
     try {
         var query = new RegExp(escapeRegex(req.body.query), 'gi');
@@ -49,7 +49,7 @@ router.post('/events/filter', async (req, res, next) => {
 
 
 // Add an Event
-router.post('/events', (req, res, nex) => {
+router.post('', (req, res, nex) => {
     db.User.findById(req.body.userId)
         .then(async (user) => {
             if (!user) {
@@ -79,7 +79,7 @@ router.post('/events', (req, res, nex) => {
 })
 
 // get Individual Event
-router.get('/events/specific/:id', (req, res, next) => {
+router.get('/specific/:id', (req, res, next) => {
     db.Event.findById(req.params.id).populate('organiser', 'fname lname email photo')
         .then((result) => {
             res.send('events')
@@ -89,7 +89,7 @@ router.get('/events/specific/:id', (req, res, next) => {
 })
 
 // Register for Event
-router.post('/events/register/:id', (req, res, next) => {
+router.post('/register/:id', (req, res, next) => {
     db.Event.findById(req.params.id)
         .then((event) => {
             if (!event) {

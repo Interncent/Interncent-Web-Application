@@ -53,7 +53,7 @@ const refreshRoute = require('./routes/resfresh')
 app.use('/api/auth', authRoutes);
 app.use('/api/:secureId/community', loginRequired, ensureCorrectUser, communityRoutes);
 app.use('/api/:secureId/internship', loginRequired, ensureCorrectUser, internshipRoutes);
-app.use('/api/:secureId/events', loginRequired, ensureCorrectUser, internshipRoutes);
+app.use('/api/:secureId/events', eventRoutes);
 app.use('/api/:secureId', loginRequired, ensureCorrectUser, userRoutes)
 app.use(refreshRoute)
 

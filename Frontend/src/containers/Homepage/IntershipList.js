@@ -15,28 +15,13 @@ class InternshipList extends Component {
       start: true,
       query: "",
     };
-    // this.observer=null
-    // this.cc=null
-    // this.ref = null
+   
   }
   
   componentDidMount(){
     document.documentElement.scrollTop = '0';
-    
-    // this.observer = new IntersectionObserver(
-    //   ([entry]) => {
-    //     console.log("aya yaha")
-    //     if (entry.isIntersecting) this.cc.getnewinternships()
-    //   },{
-    //     threshold: 0,
-    //     rootMargin: "-200px 1500px -200px 1500px",
-    // }
-    // )
-    // if (this.ref.current) this.observer.observe(this.ref.current)
   }
-  // componentWillUnmount() {
-  //   if (this.ref.current) this.observer.unobserve(this.ref.current)
-  // }
+ 
   render() {
     return (
       <div className="homeSection">

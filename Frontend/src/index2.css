@@ -7,9 +7,6 @@
   --box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
 }
-body{
-	background: white;
-}
 
 #userProfile{
     min-height: 800px;
@@ -1071,6 +1068,52 @@ margin-right: 9px;
 	box-sizing: border-box !important;
 	border: 1.5px solid gray;
 	width: 80%;
-
 }
 
+/********************* Events******************** */
+#eventsCouncils{
+	margin-top: 48.75px;
+}
+/*** Events List ***/
+
+@keyframes fadeIn {
+	from {
+	   opacity: 0;
+	}
+	to {
+	   opacity: 100;
+	}
+ }
+ 
+#eventsList{
+  max-width: 1400px;
+  margin: 40px auto;
+  animation: fadeIn;
+  min-height: 400px;
+}
+#eventsList .card{
+	margin: 15px;
+}
+#eventsList .cards{
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+/*** Carousel***/
+#eventsCouncils .carousel-home .carousel .carousel-item img{
+	object-fit: cover;
+}
+
+#eventsCouncils .d-block{
+	height: 400px;
+	width: 100%;
+	margin:auto;
+}
+
+#eventsCouncils .carousel{
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	animation: fadeIn forwards 1s;
+}

@@ -123,6 +123,17 @@ class Navbar extends Component {
                                     this.props.onPage === "applications" &&
                                     <input onChange={(e) => (this.props.getQuery(e.target.value))} type="search" placeholder="Search Applicants" className="form-control mr-sm-2"></input>
                                 }
+
+                                {this.props.onPage === "events" &&
+                                    <MContext.Consumer>
+                                        {
+                                            context => (
+                                                <div><input onKeyUp={e => { if (e.which === 13) { context.filter() } }} onChange={(e) => context.setMessage(e.target.value)} className="form-control mr-sm-2" type="search" placeholder="Search Events" aria-label="Search" name="internshipSerach" />
+                                                </div>
+                                            )
+                                        }
+                                    </MContext.Consumer>
+                                }
                             </div>
                             <ul className="navbar-nav mr-auto">
                                 <li className="nav-item active">

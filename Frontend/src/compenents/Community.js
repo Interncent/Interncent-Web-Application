@@ -41,7 +41,7 @@ class Application extends React.Component {
 
   render() {
     return (
-      <div className="wrapper">
+      <div className="wrapper" style={{ background: '#f5f5f5' }} >
         <Navbar
           isMobile={this.state.isMobile}
           {...this.props}
@@ -228,8 +228,8 @@ class PostCreate extends React.Component {
                   {this.state.status === "uploading" ?
                     <button className="ui button confirm" style={{ display: 'inline-flex', alignItems: 'center' }}>
                       <Spinner animation="border" variant="warning" className="mr-2" ></Spinner>
-                  Uploading
-                </button>
+                      Uploading
+                    </button>
                     :
                     <button className="medium ui button confirm">Post</button>
                   }
@@ -340,7 +340,7 @@ export class PostWall extends React.Component {
             user={this.props.loggedin.user}
           />
         )}
-        { content}
+        {content}
       </div >
     );
   }
@@ -361,9 +361,9 @@ export class Post extends React.Component {
     this.id = options._id;
     this.content = options.content;
     if (!props.isprofile) {
-      this.authordata = {...options.author}
+      this.authordata = { ...options.author }
     } else {
-      this.authordata = {...this.props.userprofile}
+      this.authordata = { ...this.props.userprofile }
     }
     this.img = options.image;
     this.likeHandler = this.likeHandler.bind(this);
@@ -402,7 +402,7 @@ export class Post extends React.Component {
           });
           var activity = {
             created: date,
-            post: { ...this.props.options, author: this.authordata},
+            post: { ...this.props.options, author: this.authordata },
           };
           console.log(this.props.userprofile, activity);
           this.props.updateLikeActivity(activity);
@@ -451,7 +451,7 @@ export class Post extends React.Component {
       };
       var activity = {
         created: newComment.created,
-        post: {...this.props.options,author: this.authordata}
+        post: { ...this.props.options, author: this.authordata }
       };
       this.props.updateCommentActivity(activity);
       this.state.comments.push(newComment);
@@ -487,7 +487,7 @@ export class Post extends React.Component {
             userAvatar={this.authordata.photo}
             date={this.props.options.created}
             email={this.authordata.email}
-            username={this.authordata.fname+' '+this.authordata.lname}
+            username={this.authordata.fname + ' ' + this.authordata.lname}
           />
           <div className="post-content">
             <p>{this.content.split('').map((c) => {
