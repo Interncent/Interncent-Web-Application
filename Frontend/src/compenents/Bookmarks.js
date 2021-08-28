@@ -44,7 +44,7 @@ class Bookmarks extends Component {
                         <Loading className="loading-wheel" />
                     </div>
                 }
-                {this.state.bookmarks.length === 0 &&
+                {this.state.bookmarks.length === 0 && !this.state.start &&
                     <NoBookmarks />
                 }
                 {

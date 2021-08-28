@@ -41,7 +41,7 @@ class Application extends React.Component {
 
   render() {
     return (
-      <div className="wrapper" style={{ background: '#f5f5f5' }} >
+      <div className="wrapper" style={{ background: '#f5f5f5' }} id="community" >
         <Navbar
           isMobile={this.state.isMobile}
           {...this.props}

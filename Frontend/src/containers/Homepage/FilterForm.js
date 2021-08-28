@@ -17,13 +17,18 @@ class FilterForm extends Component {
                 { text: "C++" },
                 { text: "React Native" },
             ],
+            category: [
+                { text: "Internship" },
+                { text: "Research" },
+                { text: "Recruitment" },
+                { text: "Volunteer" }
+            ],
 
             error: ''
         };
         this.handleSkills = this.handleSkills.bind(this);
         this.multiselectRef = React.createRef();
     }
-
     async handleSkills() {
         await this.setState({ error: '' })
         const skillInput = document.querySelector(".searchBox");
@@ -41,6 +46,17 @@ class FilterForm extends Component {
             <MContext.Consumer>
                 {(context) => (
                     <div className="filterForm">
+                        <label className="labelFilter">By Category</label>
+                        <Multiselect
+                            onSelect={(e) => context.changeCategory(e)}
+                            onRemove={(e) => context.changeCategory(e)}
+                            options={this.state.category} // Options to display in the dropdown
+                            selectedValues={context.state.category} // Preselected value to persist in dropdown
+                            displayValue="text" // Property name to display in the dropdown options
+                            onSearch={this.handleSkills}
+                            ref={this.multiselectRef}
+                        />
+
                         <label className="labelFilter">By Skills</label>
                         <Multiselect
                             onSelect={(e) => context.changeskills(e)}
@@ -48,7 +64,6 @@ class FilterForm extends Component {
                             options={this.state.skills} // Options to display in the dropdown
                             selectedValues={context.state.skills} // Preselected value to persist in dropdown
                             displayValue="text" // Property name to display in the dropdown options
-                            onSearch={this.handleSkills}
                             ref={this.multiselectRef}
                         />
                         <div className="intType">
@@ -70,6 +85,14 @@ class FilterForm extends Component {
                             onChange={value => context.valchange({ value: value })}
                             // onChangeComplete={value => console.log(value)}
                             value={context.state.value} />
+
+
+                        <label className="labelFilter">Stipend (in Rs)</label>
+                        <InputRange
+                            maxValue={50000}
+                            minValue={0}
+                            onChange={value => context.stipendValChnage({ value })}
+                            value={context.state.stipendValue} />
                         <div className="button-holder">
                             <button type="button" className="btn btn-default" onClick={() => {
                                 context.reset()

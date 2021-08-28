@@ -1,41 +1,38 @@
 import React, { Component } from "react";
 import { apiCall } from "./api";
-export const MContext = React.createContext(); //exporting context object
+export const MContextEvents = React.createContext(); //exporting context object
 
 export class MyProvider extends Component {
     state = {
         query: "",
         list: [],
-        // start: true,
-        // external: true,
         thereismore: false,
-        // value: {
-        //     min: 0,
-        //     max: 12,
-        // },
+        category: [
+            { text: "Competetion" },
+            { text: "Workshop" },
+            { text: "Culture & Entertainment" },
+            { text: "Seminar" },
+            { text: "Webinar" },
+            { text: "Social Work" },
+        ],
+        start: true
     };
     componentDidMount() {
         this.showAll();
     }
 
     dofilter() {
-        var skillArray = [];
-        this.state.skills.forEach((skill) => {
-            skillArray.push(skill["text"]);
+        var categoryArray = [];
+        this.state.category.forEach((category) => {
+            categoryArray.push(category["text"]);
         });
-        let type = [];
-        if (this.state.home) type.push("Work from Home");
-        if (this.state.external) type.push("External");
         let obj = {
-            type: type,
-            min: this.state.value.min,
-            max: this.state.value.max,
-            skills: skillArray,
+            category: categoryArray,
             query: this.state.query,
         };
         apiCall("post", "/events/filter", obj)
-            .then((internships) => {
-                return this.setState({ ...this.state, list: internships });
+            .then((events) => {
+                return this.setState({ ...this.state, list: events });
             })
             .catch((e) => console.log(e));
     }
@@ -57,21 +54,12 @@ export class MyProvider extends Component {
     }
     render() {
         return (
-            <MContext.Provider
+            <MContextEvents.Provider
                 value={{
-                    // changeskills: (e) => {
-                    //     this.setState({ ...this.state, skills: e });
-                    // },
-                    // valchange: (v) => {
-                    //     this.setState({ ...this.state, value: v.value });
-                    // },
+                    changeCategory: (e) => {
+                        this.setState({ ...this.state, category: e });
+                    },
                     state: this.state,
-                    // toggleHome: (e) => {
-                    //     this.setState({ ...this.state, home: !this.state.home });
-                    // },
-                    // toggleExternal: (e) => {
-                    //     this.setState({ ...this.state, external: !this.state.external });
-                    // },
                     setMessage: (value) =>
                         this.setState({
                             ...this.state,
@@ -98,13 +86,14 @@ export class MyProvider extends Component {
                     // },
                     reset: async () => {
                         await this.setState({
-                            home: true,
-                            external: true,
-                            value: {
-                                min: 0,
-                                max: 12,
-                            },
-                            skills: [],
+                            category: [
+                                { text: "Competetion" },
+                                { text: "Workshop" },
+                                { text: "Culture & Entertainment" },
+                                { text: "Seminar" },
+                                { text: "Webinar" },
+                                { text: "Social Work" },
+                            ]
                         });
                         this.dofilter()
                     },
@@ -114,7 +103,7 @@ export class MyProvider extends Component {
                 }}
             >
                 {this.props.children}
-            </MContext.Provider>
+            </MContextEvents.Provider>
         );
     }
 }

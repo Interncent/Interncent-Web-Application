@@ -681,7 +681,7 @@ margin-right: 9px;
   padding: 0 20px;
   margin: 0 auto;
   animation: fadeIn;
-  min-height: 500px;
+  min-height: 100vh;
 }
 
 /* ****************************Sidebar**************************** */

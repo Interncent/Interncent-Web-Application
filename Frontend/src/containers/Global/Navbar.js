@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import logo from '../../images/logo2.png';
 import { MContext } from '../../services/Provider'
+import { MContextEvents } from '../../services/EventsProvider'
+
 import { connect } from 'react-redux';
 import { logout } from '../../store/actions/auth'
 import UserSearch from '../Search/UserSearch'
@@ -125,14 +127,14 @@ class Navbar extends Component {
                                 }
 
                                 {this.props.onPage === "events" &&
-                                    <MContext.Consumer>
+                                    <MContextEvents.Consumer>
                                         {
                                             context => (
                                                 <div><input onKeyUp={e => { if (e.which === 13) { context.filter() } }} onChange={(e) => context.setMessage(e.target.value)} className="form-control mr-sm-2" type="search" placeholder="Search Events" aria-label="Search" name="internshipSerach" />
                                                 </div>
                                             )
                                         }
-                                    </MContext.Consumer>
+                                    </MContextEvents.Consumer>
                                 }
                             </div>
                             <ul className="navbar-nav mr-auto">

@@ -16,7 +16,17 @@ export class MyProvider extends Component {
       min: 0,
       max: 12,
     },
+    stipendValue: {
+      min: 0,
+      max: 50000,
+    },
     skills: [],
+    category: [
+      { text: "Internship" },
+      { text: "Research" },
+      { text: "Recruitment" },
+      { text: "Volunteer" }
+    ]
   };
   componentDidMount() {
 
@@ -32,6 +42,10 @@ export class MyProvider extends Component {
     this.state.skills.forEach((skill) => {
       skillArray.push(skill["text"]);
     });
+    var categoryArray = [];
+    this.state.category.forEach((category) => {
+      categoryArray.push(category["text"]);
+    });
     let type = [];
     if (this.state.home) type.push("Work from Home");
     if (this.state.external) type.push("External");
@@ -40,6 +54,7 @@ export class MyProvider extends Component {
       min: this.state.value.min,
       max: this.state.value.max,
       skills: skillArray,
+      category: categoryArray,
       query: this.state.query,
     };
     apiCall("post", "/internship/search/filter", obj)
@@ -71,8 +86,14 @@ export class MyProvider extends Component {
           changeskills: (e) => {
             this.setState({ ...this.state, skills: e });
           },
+          changeCategory: (e) => {
+            this.setState({ ...this.state, category: e });
+          },
           valchange: (v) => {
             this.setState({ ...this.state, value: v.value });
+          },
+          stipendValChnage: (v) => {
+            this.setState({ ...this.state, stipendValue: v.value });
           },
           state: this.state,
           toggleHome: (e) => {
@@ -114,6 +135,12 @@ export class MyProvider extends Component {
                 max: 12,
               },
               skills: [],
+              category: [
+                { text: "Internship" },
+                { text: "Research" },
+                { text: "Recruitment" },
+                { text: "Volunteer" }
+              ]
             });
             this.dofilter()
           },

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Event from "./Event";
-import { MContext } from "../../services/EventsProvider";
+import { MContextEvents } from "../../services/EventsProvider";
 import Loading from "../../images/Loading";
 import NoResults from "../../images/NoResults";
 
@@ -24,7 +24,7 @@ class EventsList extends Component {
 
     render() {
         return (
-            <MContext.Consumer>
+            <MContextEvents.Consumer>
                 {(context) => {
                     if (context.state.list.length !== 0) {
                         return (
@@ -60,9 +60,9 @@ class EventsList extends Component {
                         return <NoResults></NoResults>;
                     }
                 }}
-            </MContext.Consumer>
+            </MContextEvents.Consumer>
         );
     }
 }
-Event.contextType = MContext;
+Event.contextType = MContextEvents;
 export default EventsList;

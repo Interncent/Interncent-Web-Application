@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Internshipform from '../Homepage/Internshipform'
 import FilterForm from '../Homepage/FilterForm'
+import EventFilterForm from '../Events/FilterForm'
 
 // Internship Create
 export function InternshipCreate(props) {
@@ -48,3 +49,26 @@ export function FilterInternships() {
 }
 
 // Event Create
+
+
+// Event Filter
+export function FilterEvents() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  return (
+    <div>
+      <div id="top-bar">
+        <button type="button" className="btn btn-default btn-circle btn-lg" onClick={handleShow}>
+          <i className="fa fa-filter"></i>
+        </button>
+      </div>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Filter Events</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><EventFilterForm onHide={handleClose} ></EventFilterForm></Modal.Body>
+      </Modal>
+    </div>
+  )
+}

@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
 
 // Get all Events
 router.get('/getall', (req, res, next) => {
@@ -31,10 +34,10 @@ router.post('/filter', async (req, res, next) => {
     console.log(req.body);
     try {
         var query = new RegExp(escapeRegex(req.body.query), 'gi');
-        var { college, council, category } = req.body;
+        var { category } = req.body;
         var recentDate = new Date();
         try {
-            let events = await db.Event.find({ applyBy: { $gte: recentDate }, title: query, category, council, college }).populate('organiser', 'fname lname email photo').exec();
+            let events = await db.Event.find({ applyBy: { $gte: recentDate }, title: query, category: { $in: category }}).populate('organiser', 'fname lname email photo').exec();
             return res.status(200).send(events);
         } catch (err) {
             console.log(err);

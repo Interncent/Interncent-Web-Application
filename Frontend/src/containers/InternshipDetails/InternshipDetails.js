@@ -23,7 +23,7 @@ class InternshipDetail extends Component {
       owner: false,
       show2: false,
       show3: false,
-      role: "Student",
+      role: "",
       error: '',
       ques1: "Why should you be hired for this role?",
       ques2: "",
@@ -60,7 +60,7 @@ class InternshipDetail extends Component {
                   if (new Date(data.applyBy) < new Date()) {
                     await this.setState({ passed: true });
                   }
-                  if (this.state.user._id === data.faculty._id) {
+                  if (this.state.user.email === data.faculty.email) {
                     this.setState({ owner: true })
                   }
                   await this.setState({ details: data, recommlist: recomm, exists: true, start: false, ques2: `Are you available for ${data.duration} month(s), starting immediately? If not, what is the time period you are available for and the earliest date you can start this internship on?` });
@@ -119,7 +119,7 @@ class InternshipDetail extends Component {
                       <h1>{this.state.details.title}</h1>
                       <div className="floatingclass"><div>
                         <div className="category">{this.state.details.category}</div>
-                        {this.owner && (
+                        {this.state.owner && (
                           <span
                             className="deleteproj"
                             onClick={this.handleShow3}
@@ -184,7 +184,7 @@ class InternshipDetail extends Component {
                       }
                     </h3>
 
-                    {this.state.user.role === "Student" && (this.state.details.faculty._id !== this.state.user._id) &&
+                    {this.state.user.role === "Student" && (!this.state.owner) &&
                       <div>
                         {!this.state.applied && !this.state.passed &&
                           <div>

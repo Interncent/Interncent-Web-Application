@@ -195,7 +195,11 @@ const userScehma = new mongoose.Schema({
 	passwordResetToken: String,
 	passedOut: String,
 	workingAt: String,
-	position: String
+	position: String,
+	eventRegistrations: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Event'
+	}
 
 
 

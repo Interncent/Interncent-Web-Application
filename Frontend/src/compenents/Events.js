@@ -5,6 +5,8 @@ import PageFooter from '../containers/Global/PageFooter'
 import EventsList from '../containers/Events/EventsList'
 import { MyProvider } from '../services/EventsProvider'
 import { Carousel } from 'react-bootstrap'
+import { FilterEvents } from '../containers/Global/Utilities'
+
 
 
 class Events extends Component {
@@ -59,9 +61,11 @@ class Events extends Component {
                 </div>
                 <MyProvider>
                     <Navbar history={this.props.history} onPage="events"></Navbar>
+                    <FilterEvents></FilterEvents>
                     <EventsList></EventsList>
-                    <PageFooter></PageFooter>
                 </MyProvider>
+                <PageFooter></PageFooter>
+
             </div>
         )
     }

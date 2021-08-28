@@ -16,7 +16,7 @@ function Icon() {
         cy="50"
         r="35"
         fill="none"
-        stroke="#ffca3d"
+        stroke="#fea801"
         strokeDasharray="164.93361431346415 56.97787143782138"
         strokeWidth="10"
       >
