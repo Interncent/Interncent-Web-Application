@@ -12,9 +12,10 @@ function escapeRegex(text) {
 }
 
 router.get('/search/all', async (req, res, next) => {
+    console.log(req.query.limit)
     try {
         var recentDate = new Date();
-        let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate } }).limit(16).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
+        let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate } }).limit(parseInt(req.query.limit)).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
         res.status(200).send(internships);
     } catch (err) {
         next(err);
@@ -23,7 +24,7 @@ router.get('/search/all', async (req, res, next) => {
 router.get('/search/nextall/:curId', async (req, res, next) => {
     try {
         var recentDate = new Date();
-        let internships = await db.InternshipDetails.find({_id: {$gt: req.params.curId}, applyBy: { $gte: recentDate } }).sort({_id: 1 }).limit(16).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
+        let internships = await db.InternshipDetails.find({_id: {$gt: req.params.curId}, applyBy: { $gte: recentDate } }).sort({_id: 1 }).limit(parseInt(req.query.limit)).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
         res.status(200).send(internships);
     } catch (err) {
         next(err);

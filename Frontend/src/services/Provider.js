@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { apiCall } from "../services/api";
-export const MContext = React.createContext(); //exporting context object
+export const MContext = React.createContext();
 
 export class MyProvider extends Component {
+  INTERSHIPS_LIMIT=12
   state = {
     query: "",
-    // observer:null,
     list: [],
     start: true,
     home: true,
     external: true,
     thereismore: false,
-    // onseennew:React.createRef(),
     value: {
       min: 0,
       max: 12,
@@ -19,14 +18,8 @@ export class MyProvider extends Component {
     skills: [],
   };
   componentDidMount() {
-
-    // this.state.observer = new IntersectionObserver(this.getnewinternships, { root: null, rootMargin: "0px", threshold:1.0})
-    // if (this.state.onseennew.current) this.state.observer.observe(this.state.onseennew.current)
     this.showAll();
   }
-  // componentWillUnmount() {
-  //   if(this.state.onseennew.current) this.state.observer.unobserve(this.state.onseennew.current)
-  // }
   dofilter() {
     var skillArray = [];
     this.state.skills.forEach((skill) => {
@@ -50,18 +43,17 @@ export class MyProvider extends Component {
   }
   showAll() {
     let url = "/internship/search/all";
-    apiCall("get", url, "")
+    apiCall("get", url, {params:{limit:this.INTERSHIPS_LIMIT}})
       .then((internships) => {
         return this.setState({
           ...this.state,
           list: internships,
-          thereismore: (internships.length === 16),
+          thereismore: (internships.length === this.INTERSHIPS_LIMIT),
           start: false,
         });
       })
       .catch((err) => {
         console.log(err);
-        // return this.setState({ ...this.state });
       });
   }
   render() {
@@ -87,16 +79,16 @@ export class MyProvider extends Component {
               query: value,
             }),
           getnewinternships: () => {
-            console.log("visible" + this.state.list[this.state.list.length - 1]._id)
+            // console.log("visible" + this.state.list[this.state.list.length - 1]._id)
             let url = "/internship/search/nextall/" + this.state.list[this.state.list.length - 1]._id;
-            apiCall("get", url, "")
+            apiCall("get", url, {params:{limit:this.INTERSHIPS_LIMIT}})
               .then((internships) => {
                 let li = this.state.list
 
                 return this.setState({
                   ...this.state,
                   list: li.concat(internships),
-                  thereismore: (internships.length === 16),
+                  thereismore: (internships.length === this.INTERSHIPS_LIMIT),
                   start: false,
                 });
               })
