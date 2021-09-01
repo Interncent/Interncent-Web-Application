@@ -39,34 +39,33 @@ class InternshipDetail extends Component {
 
     componentWillMount() {
         document.documentElement.scrollTop = '0';
-        return apiCall('get', '/specific/' + this.props.match.params.id, '')
-            .then(
-                async (data) => {
-                    console.log(data)
-                    if (Object.keys(data).length !== 0) {
-
-                        if (this.state.user.eventRegistrations.findIndex(reg => reg === this.props.match.params.id) !== -1) {
-                            await this.setState({ registered: true })
-                        }
-                        if (new Date(data.applyBy) < new Date()) {
-                            await this.setState({ passed: true });
-                        }
-                        if (this.state.user.email === data.organiser.email) {
-                            this.setState({ owner: true })
-                        }
-                        await this.setState({ details: data, exists: true, start: false });
-
-                        console.log(this.state);
-
-                        return
-                    } else {
-                        await this.setState({ exists: false, start: false })
+        return apiCall('get', '/events/specific/' + this.props.match.params.id, '')
+            .then(async (data) => {
+                console.log(data)
+                if (Object.keys(data).length !== 0) {
+                    if (this.state.user.eventRegistrations && this.state.user.eventRegistrations.findIndex(reg => reg === this.props.match.params.id) !== -1) {
+                        await this.setState({ registered: true })
                     }
+                    if (new Date(data.applyBy) < new Date()) {
+                        await this.setState({ passed: true });
+                    }
+                    if (this.state.user.email === data.organiser.email) {
+                        this.setState({ owner: true })
+                    }
+                    await this.setState({ details: data, exists: true, start: false });
 
+                    console.log(this.state);
+
+                    return
+                } else {
+                    await this.setState({ exists: false, start: false })
                 }
+
+            }
 
             ).catch(
                 (e) => {
+                    console.log(e)
                     this.setState({ exist: false, start: false })
                 }
             )
@@ -149,7 +148,7 @@ class InternshipDetail extends Component {
 
                                         <h3>Prizes</h3>
                                         <p>{this.state.details.perks}</p>
-                        
+
 
                                         <h3>
                                             {this.state.owner &&
@@ -159,42 +158,32 @@ class InternshipDetail extends Component {
                                             }
                                         </h3>
 
-                                        {this.state.user.role === "Student" && (!this.state.owner) &&
+                                        {this.state.user.role === "Faculty" && (!this.state.owner) &&
                                             <div>
                                                 {!this.state.registered && !this.state.passed &&
                                                     <div>
                                                         <div className="applynow">
                                                             <button type="button" className="btn btn-lg btn-default" onClick={this.handleShow2}>
-                                                                Apply Now
+                                                                Register
                                                             </button>
                                                         </div>
                                                         <Modal show={this.state.show2} onHide={this.handleClose2} centered backdrop="static">
                                                             <Modal.Header closeButton>
-                                                                <Modal.Title>Application</Modal.Title>
+                                                                <Modal.Title>Registration Form</Modal.Title>
                                                             </Modal.Header>
                                                             <Modal.Body>
                                                                 <form id="applyForm" className="ui form" onSubmit={this.handleApply}>
                                                                     <div className="field">
-                                                                        <label>{this.state.ques1}</label>
-                                                                        <textarea
-                                                                            maxlength="200"
-                                                                            rows="3"
-                                                                            required
-                                                                            name="ans1"
-                                                                            value={this.state.ans1}
-                                                                            onChange={this.handleChange}
-                                                                        ></textarea>
+                                                                        <label>Full Name</label>
+                                                                        <input name="name" type="text" onChange={this.handleChange} />
                                                                     </div>
                                                                     <div className="field">
-                                                                        <label>{this.state.ques2}</label>
-                                                                        <textarea
-                                                                            maxlength="200"
-                                                                            rows="2"
-                                                                            required
-                                                                            name="ans2"
-                                                                            value={this.state.ans2}
-                                                                            onChange={this.handleChange}
-                                                                        ></textarea>
+                                                                        <label>College</label>
+                                                                        <input name="college" type="text" onChange={this.handleChange} />
+                                                                    </div>
+                                                                    <div className="field">
+                                                                        <label>College</label>
+                                                                        <input type="text" onChange={this.handleChange} />
                                                                     </div>
                                                                     <div style={{ textAlign: 'center' }}>
                                                                         <button className="ui small button" >

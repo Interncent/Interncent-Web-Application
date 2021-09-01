@@ -85,7 +85,7 @@ router.post('', (req, res, nex) => {
 router.get('/specific/:id', (req, res, next) => {
     db.Event.findById(req.params.id).populate('organiser', 'fname lname email photo')
         .then((result) => {
-            res.send('events')
+            res.send(result)
         }).catch((err) => {
             next(err)
         });

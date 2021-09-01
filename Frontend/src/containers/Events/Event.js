@@ -3,32 +3,30 @@ import { Link } from "react-router-dom";
 
 function Event(props) {
     return (
-        <Link to={`/event/`}>
-            <div className="card">
-                <div className="image">
+        <div className="card">
+            <div className="image">
 
-                    <img src={props.photo} alt="event" />
+                <img src={props.photo} alt="event" />
+            </div>
+            <div className="content">
+                <div className="header">{props.title}</div>
+                <div className="meta">
+                    <Link>{props.organiser.fname}</Link>
                 </div>
-                <div className="content">
-                    <div className="header">{props.title}</div>
-                    <div className="meta">
-                        <Link>{props.organiser.fname}</Link>
-                    </div>
-                    <div className="description">
-                        {props.description.substring(100)}...<Link>Read More</Link>
-                    </div>
-                </div>
-                <div className="extra content">
-                    <span className="right floated">
-                        Joined in 2013
-                    </span>
-                    <span>
-                        <i className="user icon"></i>
-                        {props.registrations.length} Registered
-                    </span>
+                <div className="description">
+                    {props.description.substring(100)}...<Link>Read More</Link>
                 </div>
             </div>
-        </Link>
+            <div className="extra content">
+                <span className="right floated">
+                    Joined in 2013
+                </span>
+                <span>
+                    <i className="user icon"></i>
+                    {props.registrations.length} Registered
+                </span>
+            </div>
+        </div>
     )
 }
 

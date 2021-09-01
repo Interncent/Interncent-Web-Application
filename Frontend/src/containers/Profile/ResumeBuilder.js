@@ -95,7 +95,7 @@ class ResumeBuilder extends Component {
     render() {
         const { twelth, tenth, graduation } = this.state.educationDetails
         return (
-            <div id="resumeBuilder">
+            <div id="resumeBuilder" className="container">
                 <Navbar history={this.props.history}></Navbar>
                 <form className="ui form" onSubmit={this.handleSubmit} style={{ marginTop: '80px' }}>
 
