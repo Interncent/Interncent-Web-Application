@@ -12,9 +12,10 @@ function escapeRegex(text) {
 }
 
 router.get('/search/all', async (req, res, next) => {
+    console.log(req.query.limit)
     try {
         var recentDate = new Date();
-        let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate } }).limit(16).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
+        let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate } }).limit(parseInt(req.query.limit)).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
         res.status(200).send(internships);
     } catch (err) {
         next(err);
@@ -23,30 +24,30 @@ router.get('/search/all', async (req, res, next) => {
 router.get('/search/nextall/:curId', async (req, res, next) => {
     try {
         var recentDate = new Date();
-        let internships = await db.InternshipDetails.find({_id: {$gt: req.params.curId}, applyBy: { $gte: recentDate } }).sort({_id: 1 }).limit(16).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
+        let internships = await db.InternshipDetails.find({_id: {$gt: req.params.curId}, applyBy: { $gte: recentDate } }).sort({_id: 1 }).limit(parseInt(req.query.limit)).populate({ path: 'faculty', select: 'fname lname photo email _id' }).exec();
         res.status(200).send(internships);
     } catch (err) {
         next(err);
     }
 });
-router.get('/search/title/:query', async (req, res, next) => {
-    try {
-        var regex = new RegExp(escapeRegex(req.params.query), 'gi');
-        var recentDate = new Date();
-        let internships = await db.InternshipDetails.find({ title: regex, applyBy: { $gte: recentDate } }).populate('faculty', 'fname lname email photo').exec();
-        res.status(200).send(internships);
-    } catch (err) {
-        next(err);
-    }
+// router.get('/search/title/:query', async (req, res, next) => {
+//     try {
+//         var regex = new RegExp(escapeRegex(req.params.query), 'gi');
+//         var recentDate = new Date();
+//         let internships = await db.InternshipDetails.find({ title: regex, applyBy: { $gte: recentDate } }).populate('faculty', 'fname lname email photo').exec();
+//         res.status(200).send(internships);
+//     } catch (err) {
+//         next(err);
+//     }
 
-});
+// }); // not being used
 
 
 router.post('/search/filter', async (req, res, next) => {
     console.log(req.body);
     try {
         var query = new RegExp(escapeRegex(req.body.query), 'gi');
-        var { min, max, skills, type } = req.body;
+        var { min, max, skills, type,limit } = req.body;
         min = parseInt(min);
         max = parseInt(max);
         var recentDate = new Date();
@@ -57,18 +58,22 @@ router.post('/search/filter', async (req, res, next) => {
         try {
             if (type.length === 1) {
                 if (skills.length == 0) {
-                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, type: type[0] }).populate('faculty', 'fname lname email photo').exec();
+                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, type: type[0] }
+                        ).limit(parseInt(limit)).populate('faculty', 'fname lname email photo').exec();
                     return res.status(200).send(internships);
                 } else {
-                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, skillsRequired: { $all: skills }, type: type[0] }).populate('faculty', 'fname lname email photo').exec();
+                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, skillsRequired: { $all: skills }, type: type[0] }
+                        ).limit(parseInt(limit)).populate('faculty', 'fname lname email photo').exec();
                     return res.status(200).send(internships);
                 }
             } else {
                 if (skills.length === 0) {
-                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, title: query, duration: { $gte: min, $lte: max } }).populate('faculty', 'fname lname email photo').exec();
+                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, title: query, duration: { $gte: min, $lte: max } }
+                        ).limit(parseInt(limit)).populate('faculty', 'fname lname email photo').exec();
                     return res.status(200).send(internships);
                 } else {
-                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, title: query, skillsRequired: { $all: skills }, duration: { $gte: min, $lte: max } }).populate('faculty', 'fname lname email photo').exec();
+                    let internships = await db.InternshipDetails.find({ applyBy: { $gte: recentDate }, title: query, skillsRequired: { $all: skills }, duration: { $gte: min, $lte: max } }
+                        ).limit(parseInt(limit)).populate('faculty', 'fname lname email photo').exec();
                     return res.status(200).send(internships);
                 }
             }
@@ -83,7 +88,50 @@ router.post('/search/filter', async (req, res, next) => {
 
 });
 
+router.post('/search/nextfilter/:curId', async (req, res, next) => {
+    console.log(req.body);
+    try {
+        var query = new RegExp(escapeRegex(req.body.query), 'gi');
+        var { min, max, skills, type,limit } = req.body;
+        min = parseInt(min);
+        max = parseInt(max);
+        var recentDate = new Date();
+        skills = skills.map(skill => {
+            return new RegExp(escapeRegex(skill), 'gi');
+        });
 
+        try {
+            if (type.length === 1) {
+                if (skills.length == 0) {
+                    let internships = await db.InternshipDetails.find({ _id: {$gt: req.params.curId},applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, type: type[0] }
+                        ).sort({_id: 1 }).limit(parseInt(limit)).populate('faculty', 'fname lname email photo').exec();
+                    return res.status(200).send(internships);
+                } else {
+                    let internships = await db.InternshipDetails.find({ _id: {$gt: req.params.curId},applyBy: { $gte: recentDate }, duration: { $gte: min, $lte: max }, title: query, skillsRequired: { $all: skills }, type: type[0] }
+                        ).sort({_id: 1 }).limit(parseInt(limit)).populate('faculty', 'fname lname email photo').exec();
+                    return res.status(200).send(internships);
+                }
+            } else {
+                if (skills.length === 0) {
+                    let internships = await db.InternshipDetails.find({ _id: {$gt: req.params.curId},applyBy: { $gte: recentDate }, title: query, duration: { $gte: min, $lte: max } }
+                        ).sort({_id: 1 }).limit(parseInt(limit)).populate('faculty', 'fname lname email photo').exec();
+                    return res.status(200).send(internships);
+                } else {
+                    let internships = await db.InternshipDetails.find({ _id: {$gt: req.params.curId},applyBy: { $gte: recentDate }, title: query, skillsRequired: { $all: skills }, duration: { $gte: min, $lte: max } }
+                        ).sort({_id: 1 }).limit(parseInt(limit)).populate('faculty', 'fname lname email photo').exec();
+                    return res.status(200).send(internships);
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            return next(err);
+        }
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+
+});
 
 router.get('/search/skills', async (req, res, next) => {
     var skills = req.query.skills.split(',');

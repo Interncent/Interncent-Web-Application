@@ -105,7 +105,7 @@ class FilterForm extends Component {
                                     return await this.setState({ error: 'Select atleast one type.' })
                                 } else {
                                     await this.setState({ error: '' })
-                                    context.filter()
+                                    context.filter("filter")
                                     this.props.onHide();
                                 }
                             }}>

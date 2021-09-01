@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { apiCall } from "../services/api";
-export const MContext = React.createContext(); //exporting context object
+export const MContext = React.createContext();
 
 export class MyProvider extends Component {
+  INTERSHIPS_LIMIT=12
   state = {
     query: "",
-    // observer:null,
     list: [],
+    filternext:false,
+    querynext:false,
     start: true,
     home: true,
     external: true,
     thereismore: false,
-    // onseennew:React.createRef(),
     value: {
       min: 0,
       max: 12,
@@ -29,15 +30,9 @@ export class MyProvider extends Component {
     ]
   };
   componentDidMount() {
-
-    // this.state.observer = new IntersectionObserver(this.getnewinternships, { root: null, rootMargin: "0px", threshold:1.0})
-    // if (this.state.onseennew.current) this.state.observer.observe(this.state.onseennew.current)
     this.showAll();
   }
-  // componentWillUnmount() {
-  //   if(this.state.onseennew.current) this.state.observer.unobserve(this.state.onseennew.current)
-  // }
-  dofilter() {
+  dofilter(fromwhere) {
     var skillArray = [];
     this.state.skills.forEach((skill) => {
       skillArray.push(skill["text"]);
@@ -56,27 +51,29 @@ export class MyProvider extends Component {
       skills: skillArray,
       category: categoryArray,
       query: this.state.query,
+      limit:this.INTERSHIPS_LIMIT,
     };
+    let ff= fromwhere==="filter"
+    let qq= (fromwhere==="query" &&  this.state.query!=='')
     apiCall("post", "/internship/search/filter", obj)
       .then((internships) => {
-        return this.setState({ ...this.state, list: internships });
+        return this.setState({ ...this.state, list: internships,filternext:ff,querynext:qq });
       })
       .catch((e) => console.log(e));
   }
   showAll() {
     let url = "/internship/search/all";
-    apiCall("get", url, "")
+    apiCall("get", url, {params:{limit:this.INTERSHIPS_LIMIT}})
       .then((internships) => {
         return this.setState({
           ...this.state,
           list: internships,
-          thereismore: (internships.length === 16),
+          thereismore: (internships.length === this.INTERSHIPS_LIMIT),
           start: false,
         });
       })
       .catch((err) => {
         console.log(err);
-        // return this.setState({ ...this.state });
       });
   }
   render() {
@@ -109,25 +106,61 @@ export class MyProvider extends Component {
             }),
           getnewinternships: () => {
             console.log("visible" + this.state.list[this.state.list.length - 1]._id)
-            let url = "/internship/search/nextall/" + this.state.list[this.state.list.length - 1]._id;
-            apiCall("get", url, "")
-              .then((internships) => {
-                let li = this.state.list
-
-                return this.setState({
-                  ...this.state,
-                  list: li.concat(internships),
-                  thereismore: (internships.length === 16),
-                  start: false,
-                });
-              })
-              .catch((err) => {
-                console.log(err);
-                // return this.setState({ ...this.state });
+            if (this.state.filternext || this.state.querynext){ // needs to be updated
+              var skillArray = [];
+              this.state.skills.forEach((skill) => {
+                skillArray.push(skill["text"]);
               });
+              let type = [];
+              if (this.state.home) type.push("Work from Home");
+              if (this.state.external) type.push("External");
+              let obj = {
+                type: type,
+                min: this.state.value.min,
+                max: this.state.value.max,
+                skills: skillArray,
+                query: this.state.query,
+                limit:this.INTERSHIPS_LIMIT,
+              };
+              let url = "/internship/search/nextfilter/" + this.state.list[this.state.list.length - 1]._id;
+              apiCall("post", url, obj)
+                .then((internships) => {
+                  let li = this.state.list
+
+                  return this.setState({
+                    ...this.state,
+                    list: li.concat(internships),
+                    thereismore: (internships.length === this.INTERSHIPS_LIMIT),
+                    start: false,
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                  // return this.setState({ ...this.state });
+                });
+            }
+            else{
+              let url = "/internship/search/nextall/" + this.state.list[this.state.list.length - 1]._id;
+              apiCall("get", url, {params:{limit:this.INTERSHIPS_LIMIT}})
+                .then((internships) => {
+                  let li = this.state.list
+
+                  return this.setState({
+                    ...this.state,
+                    list: li.concat(internships),
+                    thereismore: (internships.length === this.INTERSHIPS_LIMIT),
+                    start: false,
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                  // return this.setState({ ...this.state });
+                });
+              }
           },
           reset: async () => {
             await this.setState({
+              filternext:false,
               home: true,
               external: true,
               value: {
@@ -144,8 +177,8 @@ export class MyProvider extends Component {
             });
             this.dofilter()
           },
-          filter: () => {
-            this.dofilter()
+          filter: (a) => {
+            this.dofilter(a)
           },
         }}
       >
