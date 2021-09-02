@@ -305,6 +305,7 @@ export function deleteMember(memberId, userId) {
         })
     }
 }
+
 function addEv(event) {
     return {
         type: UPDATE_EVENT,
@@ -315,7 +316,7 @@ function addEv(event) {
 export function addEvent(event, userId) {
     return dispatch => {
         return new Promise((res, rej) => {
-            return apiCall('post', '/council/addEvent/' + userId, event)
+            return apiCall('post', '/events', event)
                 .then((newEvent) => {
                     dispatch(addEv(newEvent));
                     res();
@@ -325,16 +326,18 @@ export function addEvent(event, userId) {
         })
     }
 }
+
 function userEventDelete(eventId) {
     return {
         type: DELETE_EVENT,
         eventId
     }
 }
+
 export function deleteEvent(eventId, id) {
     return dispatch => {
         return new Promise((res, rej) => {
-            return apiCall('delete', '/council/deleteEvent/' + id + '/' + eventId)
+            return apiCall('delete', '/events')
                 .then(() => {
                     dispatch(userEventDelete(eventId));
                     res();
@@ -344,17 +347,18 @@ export function deleteEvent(eventId, id) {
         })
     }
 }
-function usereventedit(event) {
 
+function usereventedit(event) {
     return {
         type: EDIT_EVENT,
         event
     }
 }
+
 export function editEvent(event) {
     return dispatch => {
         return new Promise((res, rej) => {
-            return apiCall('put', '/council/editEvent', event)
+            return apiCall('put', '/events', event)
                 .then(() => {
                     dispatch(usereventedit(event.event));
                     res();

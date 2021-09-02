@@ -22,7 +22,16 @@ class InternshipDetail extends Component {
             show3: false,
             role: "",
             error: '',
-            passed: false
+            passed: false,
+            regDisabled: false,
+
+            // registration form
+            name: this.props.currentUser.user.fname + " " + this.props.currentUser.user.lname,
+            year: this.props.currentUser.user.year,
+            dept: this.props.currentUser.user.dept,
+            email: this.props.currentUser.user.email,
+            contactNumber: "",
+            college: ""
         };
         this.contentDisplay = this.contentDisplay.bind(this);
         this.handleClose2 = () => this.setState({ show2: false });
@@ -30,6 +39,8 @@ class InternshipDetail extends Component {
         this.handleClose3 = () => this.setState({ show3: false });
         this.handleShow3 = () => this.setState({ show3: true });
         this.handleApply = this.handleApply.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+
         this.edited = (i) => {
             this.setState({ details: i, show3: false })
         }
@@ -39,6 +50,9 @@ class InternshipDetail extends Component {
 
     componentWillMount() {
         document.documentElement.scrollTop = '0';
+        if (Object.keys(this.state.user).length !== 0) {
+            this.setState({ regDisabled: true })
+        }
         return apiCall('get', '/events/specific/' + this.props.match.params.id, '')
             .then(async (data) => {
                 console.log(data)
@@ -70,6 +84,10 @@ class InternshipDetail extends Component {
                 }
             )
 
+    }
+
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     // For Applying in a Internship
@@ -130,24 +148,38 @@ class InternshipDetail extends Component {
                                         <div id="iconinfo" className="flex-container">
                                             <div className="flex-item">
                                                 <h4>
-                                                    <i className="fa fa-clock mr-1"></i>Duration
-                                                </h4><p>{this.state.details.duration} months</p>
+                                                    <i className="fa fa-map-marker-alt mr-1"></i>Venue
+                                                </h4><span>{this.state.details.venue}</span>
                                             </div>
                                             <div className="flex-item">
                                                 <h4>
-                                                    <i className="fa fa-home mr-1"></i>Type
-                                                </h4><p> {this.state.details.type}</p>
+                                                    <i className="fas fa-clock mr-1"></i>Time
+                                                </h4><span> {this.state.details.startTime}-{this.state.details.endTime}</span>
+                                            </div>
+
+                                            <div className="flex-item">
+                                                <h4>
+                                                    <i className="fas fa-calendar mr-1"></i>Event Date
+                                                </h4><span> {(new Date(this.state.details.date)).toDateString()}</span>
                                             </div>
 
                                             <div className="flex-item"><h4>
                                                 <i className="fa fa-hourglass mr-2"></i>Apply by
-                                            </h4><p>{(new Date(this.state.details.applyBy)).toDateString()}</p></div>
-                                        </div><hr></hr>
+                                            </h4><span>{(new Date(this.state.details.applyBy)).toDateString()}</span></div>
+
+
+                                        </div>
+                                        <hr></hr>
+
+
                                         <h3>About the Event</h3>
                                         <p>{this.state.details.description}</p>
 
                                         <h3>Prizes</h3>
                                         <p>{this.state.details.perks}</p>
+
+                                        <h3>External Link</h3>
+                                        <a style={{ fontSize: '18px' }} href={this.state.details.link} >{this.state.details.link}</a>
 
 
                                         <h3>
@@ -175,16 +207,30 @@ class InternshipDetail extends Component {
                                                                 <form id="applyForm" className="ui form" onSubmit={this.handleApply}>
                                                                     <div className="field">
                                                                         <label>Full Name</label>
-                                                                        <input name="name" type="text" onChange={this.handleChange} />
+                                                                        <input name="name" value={this.state.name} disabled={this.state.regDisabled} type="text" onChange={this.handleChange} required />
                                                                     </div>
                                                                     <div className="field">
                                                                         <label>College</label>
-                                                                        <input name="college" type="text" onChange={this.handleChange} />
+                                                                        <input name="college" value={this.state.college} disabled={this.state.regDisabled} type="text" onChange={this.handleChange} required />
                                                                     </div>
                                                                     <div className="field">
-                                                                        <label>College</label>
-                                                                        <input type="text" onChange={this.handleChange} />
+                                                                        <label>Department</label>
+                                                                        <input name="dept" type="text" value={this.state.dept} disabled={this.state.regDisabled} onChange={this.handleChange} required />
                                                                     </div>
+
+                                                                    <div className="field">
+                                                                        <label>Year</label>
+                                                                        <input name="year" type="text" value={this.state.year} disabled={this.state.regDisabled} onChange={this.handleChange} required />
+                                                                    </div>
+                                                                    <div className="field">
+                                                                        <label>Email</label>
+                                                                        <input name="email" value={this.state.email} disabled={this.state.regDisabled} type="text" onChange={this.handleChange} required />
+                                                                    </div>
+                                                                    <div className="field">
+                                                                        <label>Contact Number</label>
+                                                                        <input name="contactNumber" value={this.state.contactNumber} type="text" onChange={this.handleChange} required />
+                                                                    </div>
+
                                                                     <div style={{ textAlign: 'center' }}>
                                                                         <button className="ui small button" >
                                                                             Register

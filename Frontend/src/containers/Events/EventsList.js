@@ -35,6 +35,7 @@ class EventsList extends Component {
                                             <Event
                                                 key={event._id}
                                                 {...event}
+                                                history={this.props.history}
                                             ></Event>
                                         );
                                     })}

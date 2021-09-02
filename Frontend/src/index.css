@@ -692,6 +692,8 @@ body{
   #internshipdetail .col-12{
     padding:0;
   }
+
+  
 }
 #internshipdetail .applynow{
   text-align: center;
@@ -700,10 +702,20 @@ body{
 #internshipdetail .flex-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: center;
 }
 
 #internshipdetail .flex-item {
-  flex: 33%;
+  flex: 25%;
+}
+
+@media only screen and (max-width:750px){
+  #internshipdetail .flex-item {
+    flex: 50%;
+    margin-top: 10px;
+  }
+  
 }
 
 #internshipdetail .provider{

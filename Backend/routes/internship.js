@@ -249,7 +249,6 @@ router.delete('/details/:intId/:userId', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-
 });
 
 // Bookmarks

@@ -81,18 +81,20 @@
 	padding: 30px 40px;
 	margin: -25px -20px 25px;
 	border-radius: 5px;
-	box-shadow: var(--box-shadow)
+	box-shadow: var(--box-shadow);
+	background: var(--black-color);
+	color: white;
 }
 
 #profile .main-box h3{
 	font-weight: 500;
-font-size: x-large;
+	font-size: x-large;
 }
 #profile .main-box h4{
 	font-weight: 500;
-font-size: 14px;
-margin: 0;
-margin-bottom: 20px;
+	font-size: 14px;
+	margin: 0;
+	margin-bottom: 20px;
 }
 #profile .main-box .main-box
 {
@@ -102,8 +104,8 @@ margin-bottom: 20px;
 	background-color: white;
 	margin: 0;
 	border-radius: 20px;
-  position: relative;
-  border: 1px solid rgba(0,0,0,0.08);
+	position: relative;
+	border: 1px solid rgba(0,0,0,0.08);
 }
 #profile .main-box .input-file{
 	display:none;  
@@ -387,10 +389,9 @@ float: none !important;
 padding-right: 10px;
 }
 .media-heading {
-	color: var(--black-color);
+	color: white;
 	margin-top: 0;
 	margin-bottom: 8px;
-	background-color: white;
 	padding: 5px;
 	border-radius: 5px;
 	display: inline-block;
@@ -565,8 +566,7 @@ margin-right: 9px;
 	padding: 4px;
 	word-break: break-all;
 	max-width: 90%;
-	background-color: white;
-	color: var(--mat-black);
+	color: white;
 	font-size: 16px;
 	
 }
@@ -948,7 +948,7 @@ margin-right: 9px;
 /* ****Single Application*** */
 
 #singleApplication{
-	max-width: 900px;
+	max-width: 1000px;
 	margin: 0 auto;
 	margin-top: 10px;
 	width: 90%;

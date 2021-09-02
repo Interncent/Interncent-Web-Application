@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Event(props) {
     return (
-        <div className="card">
+        <div className="card" onClick={()=>props.history.push(`/event/${props._id}`)}>
             <div className="image">
 
                 <img src={props.photo} alt="event" />

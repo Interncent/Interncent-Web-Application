@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal'
 import Internshipform from '../Homepage/Internshipform'
 import FilterForm from '../Homepage/FilterForm'
 import EventFilterForm from '../Events/FilterForm'
+import EventForm from '../Events/EventForm'
 
 // Internship Create
 export function InternshipCreate(props) {
@@ -16,7 +17,7 @@ export function InternshipCreate(props) {
       </button>
       <Modal size="lg" show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Fill internship Details</Modal.Title>
+          <Modal.Title>Fill Internship Details</Modal.Title>
         </Modal.Header>
         <Modal.Body><Internshipform {...props}></Internshipform></Modal.Body>
       </Modal>
@@ -49,6 +50,24 @@ export function FilterInternships() {
 }
 
 // Event Create
+export function EventCreate(props) {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  return (
+    <div>
+      <button onClick={handleShow} className="float-bx">
+        <i className="fa fa-plus"></i>
+      </button>
+      <Modal size="lg" show={show} onHide={handleClose} backdrop="static">
+        <Modal.Header closeButton>
+          <Modal.Title>Fill Event Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><EventForm {...props}></EventForm></Modal.Body>
+      </Modal>
+    </div>
+  )
+}
 
 
 // Event Filter
@@ -72,3 +91,4 @@ export function FilterEvents() {
     </div>
   )
 }
+

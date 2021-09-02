@@ -19,9 +19,10 @@ const eventSchema = new moongoose.Schema({
     applyBy: Date,
     registrations: [
         {
-            type: moongoose.Schema.Types.ObjectId, 
-            ref:'EventRegistration'
+            type: moongoose.Schema.Types.ObjectId,
+            ref: 'EventRegistration'
         }
-    ]
+    ],
+    prizes: []
 })
 module.exports = moongoose.model('Event', eventSchema);

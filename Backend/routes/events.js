@@ -37,7 +37,7 @@ router.post('/filter', async (req, res, next) => {
         var { category } = req.body;
         var recentDate = new Date();
         try {
-            let events = await db.Event.find({ applyBy: { $gte: recentDate }, title: query, category: { $in: category }}).populate('organiser', 'fname lname email photo').exec();
+            let events = await db.Event.find({ applyBy: { $gte: recentDate }, title: query, category: { $in: category } }).populate('organiser', 'fname lname email photo').exec();
             return res.status(200).send(events);
         } catch (err) {
             console.log(err);
@@ -52,7 +52,7 @@ router.post('/filter', async (req, res, next) => {
 
 
 // Add an Event
-router.post('', (req, res, nex) => {
+router.post('/events', (req, res, nex) => {
     db.User.findById(req.body.userId)
         .then(async (user) => {
             if (!user) {
@@ -81,7 +81,51 @@ router.post('', (req, res, nex) => {
         });
 })
 
-// get Individual Event
+// Delete Individual event
+router.delete('/events', async (req, res, next) => {
+    try {
+        let user = await db.User.findById(req.body.userId);
+        let event = await db.Event.findById(req.body.eventId);
+        if (user._id.equals(event.organiser) && events) {
+            user.events = user.events.filter((i) => event._id !== i);
+            await event.remove();
+            await user.save();
+            return res.status(200).send("deleted")
+        } else {
+            next({
+                status: 403,
+                message: 'Permission denied to perfrom the action.'
+            })
+        }
+
+    } catch (error) {
+        next(error);
+    }
+
+});
+
+// Edit Individual Event
+router.put('/events', async (req, res, next) => {
+    try {
+        let user = await db.User.findById(req.body.id);
+        let event = await db.Event.findById(req.body.data._id);
+        if (user._id.equals(event.organiser) && event) {
+            await event.update(req.body.data);
+            await event.save();
+            return res.status(200).send("edited")
+        } else {
+            next({
+                status: 403,
+                message: 'Permission denied to perfrom the action.'
+            })
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+// Find Individual Event
 router.get('/specific/:id', (req, res, next) => {
     db.Event.findById(req.params.id).populate('organiser', 'fname lname email photo')
         .then((result) => {
@@ -90,6 +134,7 @@ router.get('/specific/:id', (req, res, next) => {
             next(err)
         });
 })
+
 
 // Register for Event
 router.post('/register/:id', (req, res, next) => {
