@@ -33,7 +33,9 @@ class Basic extends Component {
 
 
   handleSwitch(e) {
-    if (e.target.name === 'posts' && this.props.owner) this.props.updateposts();
+    if (e.target.name === 'posts' && this.props.owner){
+      this.props.updateposts();
+    } 
     return this.setState({ content: e.target.name });
   }
   render() {
