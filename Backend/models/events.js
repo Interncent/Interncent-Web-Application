@@ -23,6 +23,6 @@ const eventSchema = new moongoose.Schema({
             ref: 'EventRegistration'
         }
     ],
-    prizes: []
+    openToAll: Boolean
 })
 module.exports = moongoose.model('Event', eventSchema);

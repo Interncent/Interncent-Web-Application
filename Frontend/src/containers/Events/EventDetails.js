@@ -190,7 +190,7 @@ class InternshipDetail extends Component {
                                             }
                                         </h3>
 
-                                        {this.state.user.role === "Faculty" && (!this.state.owner) &&
+                                        {this.state.user.role === "Student" && (!this.state.owner) &&
                                             <div>
                                                 {!this.state.registered && !this.state.passed &&
                                                     <div>

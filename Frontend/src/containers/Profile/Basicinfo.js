@@ -7,7 +7,6 @@ import 'react-image-crop/dist/ReactCrop.css';
 import ReactCrop from 'react-image-crop';
 import { base64StringtoFile, image64toCanvasRef, extractImageFileExtensionFromBase64 } from './ImageCropUtils';
 import { Link } from 'react-router-dom'
-import LinkedInPage from './linkedin'
 
 const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg';
 const acceptedFileTypesArray = acceptedFileTypes.split(',').map(item => item.trim());
@@ -157,7 +156,7 @@ class Basic extends React.Component {
             reader.readAsDataURL(selectedFile);
           } else {
             console.log(this.state.error);
-            await this.setState({ error: 'This File Type is not Alloed', imgSrc: null, imgSrcExs: null });
+            await this.setState({ error: 'This File Type is not Allowed', imgSrc: null, imgSrcExs: null });
             console.log(this.state.error);
           }
         } else {

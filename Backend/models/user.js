@@ -196,10 +196,10 @@ const userScehma = new mongoose.Schema({
 	passedOut: String,
 	workingAt: String,
 	position: String,
-	eventRegistrations: {
+	eventRegistrations: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Event'
-	}
+	}]
 
 
 

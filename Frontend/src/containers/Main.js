@@ -110,10 +110,7 @@ class Main extends React.Component {
                     <Route exact path="/resume" render={props => <ResumeBuilder {...props} user={currentUser.user} updateResumeDetails={this.props.updateResumeDetails} />} />
                     <Route exact path="/password-reset" render={props => <PasswordResetEmail {...props} />}></Route>
                     <Route exact path="/welcome" render={props => <IntroductionPage {...props} />}></Route>
-
                     <Route exact path="/password-reset/:token" render={props => <PasswordChange {...props} />}></Route>
-
-
                     <Route path="*" render={props => <NotFound {...props} />} />
                 </Switch>
             </div>
