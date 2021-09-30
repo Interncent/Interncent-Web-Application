@@ -8,8 +8,8 @@ import Testimonials from '../containers/IntroductionPage/Testimonials';
 import Newsletter from '../containers/IntroductionPage/Newsletter';
 import Footer from '../containers/IntroductionPage/Footer';
 
-import '../intro.css';
-import '../other.css'
+// import '../intro.css'
+// import '../other.css'
 
 
 function Home() {
@@ -18,6 +18,8 @@ function Home() {
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.6/tailwind.min.css"></link>
       <link rel="stylesheet" href="../other.css"></link>
       <link rel="stylesheet" href="../intro.css"></link>
+      
+
       {/*  Site header */}
       <Header />
 
