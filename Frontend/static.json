@@ -5,7 +5,7 @@
     },
     "proxies":{
         "/api": {
-            "origin": "https://kjsceconnect-backend.herokuapp.com/api"
+            "origin": "https://interncentapi.herokuapp.com/api"
         }
     }
 }

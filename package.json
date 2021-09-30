@@ -1,0 +1,9 @@
+{
+    "name": "Interncent",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+      "postinstall": "yarn --cwd Backend --production=false install",
+      "build": "yarn --cwd Backend serve"
+    }
+  }
