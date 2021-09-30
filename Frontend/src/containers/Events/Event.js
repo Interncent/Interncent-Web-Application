@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Event(props) {
+    console.log(props)
     return (
         <div className="card" onClick={()=>props.history.push(`/event/${props._id}`)}>
             <div className="image">
