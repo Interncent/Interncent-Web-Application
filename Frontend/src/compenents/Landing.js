@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../images/logo.png';
+import logo from '../images/logo2.png';
 import AuthForm from '../containers/Landing/AuthForm';
 import Featues from '../containers/Landing/Features'
 import AboutUs from '../containers/Landing/AboutUs'

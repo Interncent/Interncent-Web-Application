@@ -146,7 +146,7 @@ style 2--
 .sections .leftSection{
   width: 50%;
   flex: 50%;
-  background-color: #020C53;
+  background-color: var(--warm-gray);
   min-height: 100vh !important;
   display: flex;
   align-items: center;
@@ -161,18 +161,18 @@ style 2--
 .sections .rightSection{
   width: 50%;
   flex: 50%;
-  background-color: #FFCA3D;
+  background-color: var(--orange-color);
   /* height: 100% !important; */
 }
 .sections .rightSection .nav{
   padding: 20px;
 }
 .sections .rightSection .nav .nav-link{
-  color: black;
+  color: var(--mat-black);
   margin: 0 20px;
 }
 .sections .rightSection .carousel-control-prev-icon{
-  color: #020C53;
+  color: var(--warm-gray);
   left: 0;
   margin-left: 0;
 }
@@ -211,9 +211,9 @@ style 2--
 } */
 .sections .rightSection .content .authForm{
   top:50%;
-  border: #020C53 8px solid;  
+  border: var(--mat-black) 8px solid;  
   padding: 20px;
-  box-shadow: #020C53 1px 2px 2px ;
+  box-shadow: var(--mat-black) 1px 2px 2px ;
   animation: appear 0.6s forwards;
   margin: 0;
   margin: 30px 50px;
@@ -229,7 +229,7 @@ style 2--
   font-size: 32px;
   display: inline-block;
   padding:10px;
-  border-bottom: 3px solid black;
+  border-bottom: 3px solid var(--mat-black);
   margin-bottom: 30px;
   position: relative;
   left: 50% !important;
@@ -237,12 +237,12 @@ style 2--
   font-weight: 700;
 }
 .sections .rightSection .content .authForm select option{
-  background: #020C53;
-  color: #FFCA3D;
+  background: var(--mat-black);
+  color: var(--orange-color);
 }
 .sections .rightSection .content .authForm .button{
-  background-color: #020C53;
-  color: #FFCA3D;
+  background-color: var(--mat-black);
+  color: var(--orange-color);
   margin: 0 auto !important;
 }
 .sections .rightSection .content .authForm .submit{
@@ -256,11 +256,11 @@ style 2--
   margin:5px;
 }
 .sections .rightSection .content .authForm .login{
-  color: #020C53;
+  color: var(--mat-black);
   position: relative;
 } 
 .sections .rightSection .content .authForm .button:hover{
-  color: #ffcb3dda;
+  color: var(--orange-color);
 }
 .sections .rightSection .content .verification{
   padding: 20px;
@@ -270,14 +270,14 @@ style 2--
 /* *******************Login ************** */
 .sections .rightSection .content .loginForm{
   padding: 20px 45px;
-  border: #020C53 8px solid;  
-  box-shadow: #020C53 1px 2px 2px ;
+  border: var(--mat-black) 8px solid;  
+  box-shadow: var(--mat-black) 1px 2px 2px ;
   animation: appear 0.6s forwards;
   margin: 30px 50px;
 }
 .sections .rightSection .content .loginForm .button{
-  background-color: #020C53;
-  color: #FFCA3D;
+  background-color: var(--mat-black);
+  color: var(--orange-color);
   margin: 0 auto !important;
 }
 /* ******************Features************** */
