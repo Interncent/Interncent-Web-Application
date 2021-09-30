@@ -1,151 +1,97 @@
+// const { Certificate } = require('crypto');
+// const faker = require('faker');
 const db = require('./models/index');
 
-function randrange(minimum,maximum){
-    return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
-}
-
-function addDays(days) {
-    var result = new Date();
-    result.setDate(result.getDate() + days);
-    return result;
-}
 
 async function seedDB() {
-    // var ints = [
-    //     {
-    //         faculty: "6155bc052426181b3443d959",
-    //         title: 'Machine Learning',
-    //         skillsRequired: ['Python', 'R', 'Pandas',"Matplotlib"],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc052426181b3443d959",
-    //         title: 'Deep Learning',
-    //         skillsRequired: ['Python',"Keras","NumPy", 'Pandas'],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc052426181b3443d959",
-    //         title: 'Image Processing',
-    //         skillsRequired: ['Python', 'R', 'Pandas',"OpenCV","NumPy"],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc052426181b3443d959",
-    //         title: 'NLP development',
-    //         skillsRequired: ['Python', 'R', 'Pandas'],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc052426181b3443d959",
-    //         title: 'Python Development',
-    //         skillsRequired: ['Python', 'Pygame'],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc6f2426181b3443d95f",
-    //         title: 'Node Development',
-    //         skillsRequired: ['Javascript', 'Node.js'],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc6f2426181b3443d95f",
-    //         title: 'Graphic Designing',
-    //         skillsRequired: ['Blender', 'Photoshop', 'Figma'],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc6f2426181b3443d95f",
-    //         title: 'Flutter Development',
-    //         skillsRequired: ['Flutter',"Firebase"],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc6f2426181b3443d95f",
-    //         title: 'Full Stack Development',
-    //         skillsRequired: ['React.js', 'Javascript', 'MongoDB'],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     },
-    //     {
-    //         faculty: "6155bc6f2426181b3443d95f",
-    //         title: 'Game Development',
-    //         skillsRequired: ['C#', 'Blender'],
-    //         duration: Math.floor(Math.random() * 13) + 1,
-    //         applyBy: addDays(Math.floor(Math.random() * 40)+1),
-    //         numberOpenings: Math.floor(Math.random() * 10+1),
-    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
-    //         perks: 'Certificate',
-    //         type: ['External','Work from Home'][Math.floor(Math.random() * 2)]
-    //     }
-    // ];
-    // for (let i = 0; i < 7; i++) {
-    //     for (let i = 0; i < 10; i++) {
-    //         db.InternshipDetails.create(ints[i])
-    //             .then((internship) => console.log(internship))
-    //             .catch(err => console.log(err))
-    //     }
+
+    // data={
+    //     name:'python',
+    //     posts:['6005c3f662b5b0146419f686','6006d73dafda610c66141c40','60077ab8bfba5727e046fa62']
     // }
-    // data = {};
-    // for (let i = 0; i < 5; i++) {
+    // db.Hashtag.create(data)
+    // .then((internship) => console.log(internship))
+    //         .catch(err => console.log(err))
+    // for (let i = 0; i < 3; i++) {
     //     data = {
-    //         title: faker.lorem.words(3),
-    //         content: faker.lorem.lines(3),
-    //         image: 'https://lh3.googleusercontent.com/4xhPnTIwrmREmHVKhwAmTRovdrkhNEOneYsx9YQ8DAUyTpjIVemMn03MdZbDN1rk3MqLTUg5xcThfDjpgfPKHZZ1RY0=w640-h400-e365-rj-sc0x00ffffff',
-    //         author: "5ff05ad4c3b7a10a3c967062",
-    //         hashtags: faker.lorem.word(1)
+    //         faculty: "5fd78c0e0bccef3be8cc08ab",
+    //         title: 'Machine Learning',
+    //         skillsRequired: ['Python', 'R', 'Pandas'],
+    //         duration: Math.floor(Math.random() * 13),
+    //         applyBy: new Date('2021-12-30T22:58:32.786Z'),
+    //         numberOpenings: Math.floor(Math.random() * 3),
+    //         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque delectus tempore eos quibusdam, tenetur quas nihil asperiores molestiae ad sunt, dolore, minima blanditiis? Error unde sapiente, temporibus sit eius neque.",
+    //         perks: 'Certificate',
+    //         type: 'External'
     //     }
-    //     let user = await db.User.findById(data.author);
-    //     db.Post.create(data)
-    //         .then(async (newPost) => {
-    //             await user.posts.push(newPost);
-    //             await user.save();
-    //         })
+    //     db.InternshipDetails.create(data)
+    //         .then((internship) => console.log(internship))
     //         .catch(err => console.log(err))
     // }
+    // data = {
+    //     facultyEmails: ['vedant.nagani@somaiya.edu', 'huzaifa.k@somaiya.edu'],
+    //     councilEmails: ['dhruva.b@somaiya.edu'],
+    //     alumniEmails: ['vedantnagani@gmail.com']
+    // }
+    // db.HiddenData.create(data)
+    //     .then((result) => {
+    //         console.log('Added')
+    //     }).catch((err) => {
+    //         console.log(err);
+    //     });
+
+    // data = {
+    //     text: 'Hieee',
+    //     author: '600d75391095e4111c1f6967'
+    // }
+    // for (let i = 0; i < 1; i++) {
+
+    //     db.Message.create(data)
+    //         .then((result) => {
+    //             console.log('Added')
+    //         }).catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
+    // db.Conversation.create({})
+    //     .then((result) => {
+    //         result.messages.push('60bc9a7f9da5a22d6c44968f')
+    //         result.messages.push('60bca1b72583df2034d5fc73')
+    //         result.save()
+
+    //     }).catch((err) => {
+
+    //     });
+
+    // let user = await db.User.findById('60c4bcc82bf0ae1a4ca66e0e', 'interactions').populate({ path: 'interactions', populate: [{ path: 'otherUser', select: 'fname lname photo _id email' }, { path: 'conversation', select: 'updatedAt' }] })
+    // console.log(user)
+
+
+    // For Event Creation
+    // 60c5fdd76b1a5b37680fabdb
+    for (let i = 0; i < 20; i++) {
+        data = {
+            college: "KJSCE",
+            organiser: '60c5fdd76b1a5b37680fabdb',
+            title: "Flutter Workshop",
+            venue: "Mumbai",
+            startTime: '4',
+            endTime: '5',
+            date: new Date(),
+            category: "Workshop",
+            link: 'https://www.robocon.com',
+            photo: "https://i.ytimg.com/vi/k1VWULNNHa4/maxresdefault.jpg",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            applyBy: new Date('2021-09-17T00:00:00.000Z')
+        }
+        db.Event.create(data)
+            .then((result) => {
+                console.log('event Created')
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
 }
+
+
 module.exports = seedDB;
