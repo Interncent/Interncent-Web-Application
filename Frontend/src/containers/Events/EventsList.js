@@ -19,6 +19,7 @@ class EventsList extends Component {
     }
 
     componentDidMount() {
+        
         document.documentElement.scrollTop = '0';
     }
 
