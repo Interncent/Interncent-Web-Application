@@ -20,7 +20,6 @@ server.listen(process.env.PORT || 3002, process.env.IP, () => {
 })
 
 
-
 const errorHandler = require('./handlers/errorHandler');
 require('dotenv').config();
 
@@ -36,7 +35,7 @@ app.use(cors());
 require('./models/index');
 require('./Chat')(io);
 
-// require('./seedDB')();
+// require('./SeedDb')();
 
 
 // Routes
