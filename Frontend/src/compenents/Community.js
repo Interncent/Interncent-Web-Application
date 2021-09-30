@@ -593,6 +593,7 @@ class Comment extends React.Component {
   }
   render() {
     let val = this.state.data;
+    console.log(val)
     return (
       <div className="comment">
         <img alt="" src={val.author.photo} className="avatar-pro" />
@@ -604,7 +605,7 @@ class Comment extends React.Component {
             {val.author.fname + " " + val.author.lname}
           </Link>
           <div className="metadata">
-            <span className="date">Today at 5:42PM hardcoded</span>
+            <span className="date"> <Moment fromNow>{val.created}</Moment> </span>
           </div>
           <div className="text">{val.text}</div>
           <div className="actions">
