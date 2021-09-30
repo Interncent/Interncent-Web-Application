@@ -49,7 +49,7 @@ function Events(props) {
                 <FilterEvents></FilterEvents>
                 <EventsList history={props.history} ></EventsList>
             </MyProvider>
-            {"Faculty"=== props.currentUser.user.role && <EventCreate {...props} />}
+            {"Council"=== props.currentUser.user.role && <EventCreate {...props} />}
             <PageFooter></PageFooter>
 
         </div>

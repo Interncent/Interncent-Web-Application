@@ -11,6 +11,7 @@ router.get('/getall', (req, res, next) => {
     db.Event.find().populate('organiser', 'fname lname email photo').exec()
         .then((events) => {
             res.send(events)
+            console.log(events)
         }).catch((err) => {
             next(err)
         });
