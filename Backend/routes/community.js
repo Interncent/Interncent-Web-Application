@@ -24,7 +24,7 @@ var upload = multer({ storage: storage, fileFilter: imageFilter });
 
 // Getting Posts
 router.get('/posts/getAll', (req, res, next) => {
-    db.Post.find().sort({ 'created': -1 }).populate({ path: 'author', select: 'fname lname photo email' }).populate({ path: 'comments', populate: { path: 'author', select: 'fname lname email photo' } }).exec()
+    db.Post.find().sort({ 'created': -1 }).limit(parseInt(req.query.limit)).populate({ path: 'author', select: 'fname lname photo email' }).populate({ path: 'comments', populate: { path: 'author', select: 'fname lname email photo' } }).exec()
         .then(posts => {
             db.Hashtag.aggregate([
                 {
@@ -55,9 +55,8 @@ router.get('/posts/getAllWithHashtag/:id', (req, res, next) => {
         .catch(err => next(err));
 });
 
-router.get('/posts/getNext', (req, res, next) => {
-    let curId = req.query.curId;
-    db.Post.find({ _id: { $gt: curId } }).sort({ created: -1 }).limit(1).exec()
+router.get('/posts/getNext/:curId', (req, res, next) => { // migth get issue here
+    db.Post.find({ _id: { $gt: req.params.curId } }).sort({ _id: 1,created: -1 }).limit(parseInt(req.query.limit)).populate({ path: 'author', select: 'fname lname photo email' }).populate({ path: 'comments', populate: { path: 'author', select: 'fname lname email photo' } }).exec()
         .then(posts => {
             res.status(200).send(posts);
         })

@@ -30,6 +30,7 @@ class Profile extends Component {
         // if (typeof this.state.user.posts[0] === 'string' || this.state.user.posts[0] instanceof String){
         apiCall("get", "/getUsersPosts/" + this.props.currentUser.user._id, '').then((li) => {
           this.state.user.posts = li.posts
+          console.log(li.posts)
           this.setState({ ...this.state, startpost: false })
         })
           .catch((e) => console.log(e))
