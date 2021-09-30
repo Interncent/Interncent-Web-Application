@@ -23,6 +23,5 @@ Link to the Demo of Website: https://docs.google.com/document/d/1kGhe8f-42l0HEaX
 </ul>
 
 <!-- Bugs -->
--[]
-Questiona and Answers not coming in Excel
-Image Cropping
+- Questiona and Answers not coming in Excel
+- Image Cropping
