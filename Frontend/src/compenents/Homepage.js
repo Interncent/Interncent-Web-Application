@@ -18,14 +18,14 @@ const Homepage = (props) => {
                     <Carousel.Item>
                         <img
                             className="d-block"
-                            src="https://d8it4huxumps7.cloudfront.net/uploads/images/60d09656e1b9b_1.png?d=1920x418"
+                            src="https://cdn.vox-cdn.com/thumbor/48r488WD4DA-161DPQ3z1sqlJdo=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/59964229/acastro_180329_1777_amazon_0001.0.jpg"
                             alt="First slide"
                         />
                     </Carousel.Item>
                     <Carousel.Item>
                         <img
                             className="d-block"
-                            src="https://d8it4huxumps7.cloudfront.net/uploads/images/60d09656e1b9b_1.png?d=1920x418"
+                            src="https://cdn.vox-cdn.com/thumbor/48r488WD4DA-161DPQ3z1sqlJdo=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/59964229/acastro_180329_1777_amazon_0001.0.jpg"
                             alt="Second slide"
                         />
 
@@ -37,7 +37,7 @@ const Homepage = (props) => {
                     <Carousel.Item>
                         <img
                             className="d-block"
-                            src="https://d8it4huxumps7.cloudfront.net/uploads/images/60d09656e1b9b_1.png?d=1920x418"
+                            src="https://cdn.vox-cdn.com/thumbor/48r488WD4DA-161DPQ3z1sqlJdo=/0x0:3000x2000/1200x800/filters:focal(1260x760:1740x1240)/cdn.vox-cdn.com/uploads/chorus_image/image/59964229/acastro_180329_1777_amazon_0001.0.jpg"
                             alt="Third slide"
                         />
                     </Carousel.Item>
