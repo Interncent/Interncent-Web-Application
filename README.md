@@ -1,5 +1,4 @@
-College Connect
-Backend Server- https://kjsce-connect-backend.herokuapp.com
+Backend Server- https://interncentapi.herokuapp.com/
 
 Frontend Server - https://interncent.netlify.app/
 
