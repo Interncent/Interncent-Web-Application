@@ -1,7 +1,7 @@
 College Connect
 Backend Server- https://kjsce-connect-backend.herokuapp.com
 
-Frontend Server - https://kjsceconnect.herokuapp.com/
+Frontend Server - https://interncent.netlify.app/
 
 Login Credentials:
 
