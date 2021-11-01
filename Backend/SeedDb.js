@@ -69,28 +69,43 @@ async function seedDB() {
 
     // For Event Creation
     // 60c5fdd76b1a5b37680fabdb
-    for (let i = 0; i < 20; i++) {
-        data = {
-            college: "KJSCE",
-            organiser: '60c5fdd76b1a5b37680fabdb',
-            title: "Flutter Workshop",
-            venue: "Mumbai",
-            startTime: '4',
-            endTime: '5',
-            date: new Date(),
-            category: "Workshop",
-            link: 'https://www.robocon.com',
-            photo: "https://i.ytimg.com/vi/k1VWULNNHa4/maxresdefault.jpg",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            applyBy: new Date('2021-09-17T00:00:00.000Z')
-        }
-        db.Event.create(data)
-            .then((result) => {
-                console.log('event Created')
-            }).catch((err) => {
-                console.log(err);
-            });
-    }
+    // for (let i = 0; i < 20; i++) {
+    //     data = {
+    //         college: "KJSCE",
+    //         organiser: '60c5fdd76b1a5b37680fabdb',
+    //         title: "Flutter Workshop",
+    //         venue: "Mumbai",
+    //         startTime: '4',
+    //         endTime: '5',
+    //         date: new Date(),
+    //         category: "Workshop",
+    //         link: 'https://www.robocon.com',
+    //         photo: "https://i.ytimg.com/vi/k1VWULNNHa4/maxresdefault.jpg",
+    //         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    //         applyBy: new Date('2021-09-17T00:00:00.000Z')
+    //     }
+    //     db.Event.create(data)
+    //         .then((result) => {
+    //             console.log('event Created')
+    //         }).catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
+
+    // for (let i = 0; i < 50; i++) {
+    //         data = {
+    //             content: "Lorem ipsum dolor sit amet. Sed ducimus dolorem et facere quidem sit deleniti dolorem. Sed placeat fugiat vel dolor itaque ea eligendi illum et beatae architecto et accusantium possimus cum nihil repellendus nam voluptatem laudantium. Et beatae corrupti vel facere impedit aut omnis ipsam sit eveniet sunt.",
+    //             author: "6155bc052426181b3443d959",
+    //         }
+    //         db.Post.create(data)
+    //             .then((result) => {
+    //                 console.log('post Created')
+    //             }).catch((err) => {
+    //                 console.log(err);
+    //             });
+    //     }
+
+    
 }
 
 

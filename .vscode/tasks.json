@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "Backend/",
+			"problemMatcher": [],
+			"label": "npm: dev - Backend",
+			"detail": "node app.js"
+		},
+		{
+			"type": "npm",
+			"script": "start",
+			"path": "Frontend/",
+			"problemMatcher": [],
+			"label": "npm: start - Frontend",
+			"detail": "react-scripts start"
+		}
+	]
+}
