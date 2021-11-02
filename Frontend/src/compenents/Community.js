@@ -14,6 +14,9 @@ import { connect } from "react-redux";
 import Moment from "react-moment";
 import { Spinner } from 'react-bootstrap'
 
+import { InView } from "react-intersection-observer";
+import Loading from "../images/Loading";
+
 class Application extends React.Component {
   constructor(props) {
     super(props);
@@ -246,17 +249,37 @@ class PostCreate extends React.Component {
 class Feed extends React.Component {
   constructor(props) {
     super(props);
+    this.POSTS_LIMIT = 5
     this.state = {
       posts: [],
       start: true,
+      thereismore: false,
+      getnewposts: () => {
+          apiCall("get", "/community/posts/nextAll/"+this.state.posts[this.state.posts.length - 1]._id, {params:{limit:this.POSTS_LIMIT}})
+            .then((posts) => {
+              let li = this.state.posts
+              console.log(posts)
+
+              return this.setState({
+                ...this.state,
+                posts: li.concat(posts),
+                thereismore: (posts.length === this.POSTS_LIMIT),
+                start: false,
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              // return this.setState({ ...this.state });
+            });
+      },
       trending: [],
     };
   }
 
   componentWillMount() {
-    apiCall("get", "/community/posts/getAll", "")
+    apiCall("get", "/community/posts/getAll", {params:{limit:this.POSTS_LIMIT}})
       .then((data) => {
-        this.setState({ posts: data.posts, trending: data.trending, start: false });
+        this.setState({ posts: data.posts,thereismore: (data.posts.length === this.POSTS_LIMIT), trending: data.trending, start: false });
       })
       .catch((e) => {
         console.log("error");
@@ -341,6 +364,12 @@ export class PostWall extends React.Component {
           />
         )}
         {content}
+        {this.props.thereismore && <InView onChange={(iv,e)=>{if (iv) this.props.getnewposts()}}>
+                {({ inView, ref, entry }) => (
+                <div ref={ref}><Loading className="loading-wheel" /></div>
+                )}
+                </InView>
+              }
       </div >
     );
   }
@@ -477,7 +506,7 @@ export class Post extends React.Component {
   }
 
   render() {
-    console.log(this.content)
+    // console.log(this.content)
     this.tag = ''
     this.itstag = false
     return (

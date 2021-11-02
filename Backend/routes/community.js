@@ -46,6 +46,14 @@ router.get('/posts/getAll', (req, res, next) => {
         .catch(err => next(err));
 });
 
+router.get('/posts/nextAll/:curId', (req, res, next) => {
+    db.Post.find({_id: {$lt: req.params.curId}}).sort({ 'created': -1 }).limit(parseInt(req.query.limit)).populate({ path: 'author', select: 'fname lname photo email' }).populate({ path: 'comments', populate: { path: 'author', select: 'fname lname email photo' } }).exec()
+        .then(posts => {
+            res.status(200).send( posts );
+        })
+        .catch(err => next(err));
+});
+
 
 router.get('/posts/getAllWithHashtag/:id', (req, res, next) => {
     db.Hashtag.find({ name: req.params.id }).populate({ path: 'posts', populate: { path: 'author', select: 'fname lname email photo' } }).populate({ path: 'posts', populate: { path: 'comments', populate: { path: 'author', select: 'fname lname email photo' } } }).sort({ created: -1 }).exec()
